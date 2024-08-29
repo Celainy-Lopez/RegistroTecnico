@@ -1,0 +1,39 @@
+﻿@page "/Create"
+@page "/Create/{tecnicoId:int}"
+@inject TecnicoService tecnicosService
+@inject NavigationManager navigationManager
+@inject IJSRuntime jsRunTime
+@rendermode InteractiveServer
+
+<PageTitle>Registro de tecnicos</PageTitle>
+<EditForm Model="Tecnicos" OnInvalidSubmit="Guardar" FormName="tecnicosForm">
+    <DataAnnotationsValidator>
+        <div class="container">
+            <div class="card shadow-lg">
+                <div class="card-header">
+                    <h3>Crear tecnico</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @*tecnicoId*@
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">...</div>
+                    </div>
+                    @*Descripcion*@
+                    <div class="mb-3">...</div>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-primary" @onclick="() => Guardar()">
+                        <span> Crear <i class="bi bi-file-earmark" /></span>
+                    </button>
+                    <a href="/DetailTecnico" class="btn btn-secondary">
+                        <span>Volver a consulta</span><i class="bi bi-arrow-return-left"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+</EditForm>
+
+@code{
+    [Parameter]
+    public int? tecnicoId{ get; set; }
+}
