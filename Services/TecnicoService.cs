@@ -2,7 +2,6 @@
 using RegistroTecnico.Models;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace RegistroTecnico.Services
 {
@@ -34,14 +33,13 @@ namespace RegistroTecnico.Services
 
         public async Task<bool> Eliminar(int id)
         {
-            var tecnicos = await _context.Tecnicos.FirstOrDefaultAsync(c => c.tecnicoId == id);
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public async Task<Tecnicos> Buscar(int id)
-        {
-            return await _context.Tecnicos.AsNoTracking().
-                FirstOrDefaultAsync(c => c.tecnicoId == id);
+            var tecnico = await _context.Tecnicos.FirstOrDefaultAsync(c => c.tecnicoId == id);
+            if(tecnico != null)
+            {
+                _context.Tecnicos.Remove(tecnico);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            return false;
         }
 
         public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
@@ -50,5 +48,32 @@ namespace RegistroTecnico.Services
                 .Where(criterio)
                 .ToList();
         }
+
+        public async Task<Tecnicos?> BuscarNombres(string nombre)
+        {
+            return await _context.Tecnicos.AsNoTracking()
+                .FirstOrDefaultAsync(c=>c.nombreTecnico == nombre);
+        }
+
+        public async Task<Tecnicos?> Buscar (int id)
+        {
+            return await _context.Tecnicos
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.tecnicoId == id);
+        }
+
+        public async Task<bool> ValidarTecnico(string nombre)
+        {
+            return await _context.Tecnicos.AnyAsync(c => c.nombreTecnico == nombre);
+        }
+
+        public async Task<bool> Guardar(Tecnicos tecnico)
+        {
+            if (!await Existe(tecnico.tecnicoId))
+                return await Insertar(tecnico);
+            else
+                return await Modificar(tecnico);
+        }
+
     }
 }
