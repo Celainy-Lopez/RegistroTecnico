@@ -1,39 +1,55 @@
-﻿@page "/Create"
-@page "/Create/{tecnicoId:int}"
-@inject TecnicoService tecnicosService
-@inject NavigationManager navigationManager
-@inject IJSRuntime jsRunTime
-@rendermode InteractiveServer
+﻿@page "/Tecnicos/Create"
 
-<PageTitle>Registro de tecnicos</PageTitle>
-<EditForm Model="Tecnicos" OnInvalidSubmit="Guardar" FormName="tecnicosForm">
-    <DataAnnotationsValidator>
-        <div class="container">
-            <div class="card shadow-lg">
-                <div class="card-header">
-                    <h3>Crear tecnico</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        @*tecnicoId*@
-                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">...</div>
-                    </div>
-                    @*Descripcion*@
-                    <div class="mb-3">...</div>
-                </div>
-                <div class="card-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-primary" @onclick="() => Guardar()">
-                        <span> Crear <i class="bi bi-file-earmark" /></span>
-                    </button>
-                    <a href="/DetailTecnico" class="btn btn-secondary">
-                        <span>Volver a consulta</span><i class="bi bi-arrow-return-left"/>
-                    </a>
-                </div>
-            </div>
+@rendermode InteractiveServer
+@inject TecnicoService tecnicoService
+@inject NavigationManager navigation
+
+<PageTitle> Nuevo Técnico</PageTitle>
+<EditForm Model="tecnico" OnValidSubmit="Crear">
+    <DataAnnotationsValidator />
+    <div class="container"></div>
+    <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white text-center bi bi-person-add fs-1">
+            <h2>Agregar técnico</h2>
         </div>
+        <div class="card-body">
+            <label for="id" class="form-label">ID</label>
+            <InputNumber id="id" class="form-control" @bind-Value="tecnico.tecnicoId" readonly></InputNumber>
+
+            <label for="nombre" class="form-label">Nombre Técnico</label>
+            <InputText id="nombre" class="form-control" @bind-Value="tecnico.nombreTecnico"></InputText>
+            <ValidationMessage For="@(() => tecnico.nombreTecnico)"></ValidationMessage>
+
+            <label for="sueldoHora" class="form-label">Sueldo Hora</label>
+            <InputNumber id="sueldoHora" class="form-control" @bind-Value="tecnico.sueldoHora"></InputNumber>
+            <ValidationMessage For="@(() => tecnico.sueldoHora)"></ValidationMessage>
+        </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-secondary bi bi-box-arrow-in-left" @onclick="Volver"> </button>
+            <button type="submit" class="btn btn-danger bi bi-person-fill-down "></button>
+        </div>
+    </div>
 </EditForm>
 
-@code{
-    [Parameter]
-    public int? tecnicoId{ get; set; }
+@code {
+    public Tecnicos tecnico { get; set; } = new Tecnicos();
+
+    public async Task Crear()
+    {
+
+        if (!await tecnicoService.Existe(tecnico.tecnicoId))
+        {
+            await tecnicoService.Insertar(tecnico);
+            tecnico = new Tecnicos();
+            navigation.NavigateTo("/Tecnicos/Index");
+        }
+        else
+        {
+        }
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Tecnicos/Index");
+    }
 }
