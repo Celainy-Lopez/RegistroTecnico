@@ -1,8 +1,8 @@
 ﻿@page "/Tecnicos/Create"
-
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoService
 @inject NavigationManager navigation
+@inject IJSRuntime js
 
 <PageTitle> Nuevo Técnico</PageTitle>
 <EditForm Model="tecnico" OnValidSubmit="Crear">
@@ -20,6 +20,11 @@
             <InputText id="nombre" class="form-control" @bind-Value="tecnico.nombreTecnico"></InputText>
             <ValidationMessage For="@(() => tecnico.nombreTecnico)"></ValidationMessage>
 
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="text-danger">@errorMessage</div>
+            }
+
             <label for="sueldoHora" class="form-label">Sueldo Hora</label>
             <InputNumber id="sueldoHora" class="form-control" @bind-Value="tecnico.sueldoHora"></InputNumber>
             <ValidationMessage For="@(() => tecnico.sueldoHora)"></ValidationMessage>
@@ -33,18 +38,19 @@
 
 @code {
     public Tecnicos tecnico { get; set; } = new Tecnicos();
+    public string errorMessage { get; set; }
 
     public async Task Crear()
     {
-
-        if (!await tecnicoService.Existe(tecnico.tecnicoId))
+        if (await tecnicoService.ValidarTecnico(tecnico.nombreTecnico))
+        {
+            errorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
+        }
+        else if (!await tecnicoService.Existe(tecnico.tecnicoId))
         {
             await tecnicoService.Insertar(tecnico);
             tecnico = new Tecnicos();
             navigation.NavigateTo("/Tecnicos/Index");
-        }
-        else
-        {
         }
     }
 
