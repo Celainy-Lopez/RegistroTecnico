@@ -1,5 +1,75 @@
-﻿<h3>Edit</h3>
+﻿@page "/Tecnicos/Edit/{TecnicosId:int}"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicoService
+@inject NavigationManager navigation
+
+<PageTitle>Editar técnico</PageTitle>
+<EditForm Model="tecnicos" OnValidSubmit="Modificar">
+	<DataAnnotationsValidator />
+	<div class="container">
+		<div class="card shadow-lg">
+			<div class="card-header bg-danger text-white text-center">
+				<h2>Editar datos técnico</h2>
+			</div>
+			<div class="card-body">
+				@*Datos*@
+				<label for="id" class="form-label">ID</label>
+				<InputNumber id="id" class="form-control" @bind-Value="tecnicos.tecnicoId" readonly></InputNumber>
+				<label for="NombreTecnico" class="form-label"><strong>Nombre</strong></label>
+				<InputText id="NombreTecnico" class="form-control" @bind-Value="tecnicos.nombreTecnico"></InputText>
+				<ValidationMessage For="@(()=> tecnicos.nombreTecnico)"></ValidationMessage>
+
+				<label for="SueldoHora" class="form-label"><strong>SueldoHora</strong></label>
+				<InputNumber id="SueldoHora" class="form-control" @bind-Value="tecnicos.sueldoHora"></InputNumber>
+				<ValidationMessage For="@(()=> tecnicos.sueldoHora)"></ValidationMessage>
+			</div>
+			<div class="card-footer">
+				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left" @onclick="Volver"> </button>
+				<button type="submit" class="btn btn-danger bi bi-pencil-square"> </button>
+			</div>
+		</div>
+	</div>
+
+</EditForm>
 
 @code {
 
+	[Parameter]
+	public int TecnicosId { get; set; }
+	public Tecnicos tecnicos { get; set; } = new Tecnicos();
+	public bool Repetido { get; set; }
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (TecnicosId > 0)
+		{
+			tecnicos = await tecnicoService.Buscar(TecnicosId);
+		}
+
+	}
+
+	public async Task<bool> Validar()
+	{
+		var existe = await tecnicoService.ValidarTecnico(tecnicos.nombreTecnico);
+		Repetido = existe == null;
+		return Repetido;
+
+	}
+
+
+	public async Task Modificar()
+	{
+		if (!await Validar())
+		{
+			await tecnicoService.Guardar(tecnicos);
+			tecnicos = new Tecnicos();
+			Volver();
+		}
+	}
+
+	public void Volver()
+	{
+		navigation.NavigateTo("/Tecnicos/Index");
+	}
 }
