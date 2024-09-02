@@ -1,5 +1,112 @@
-﻿<h3>Index</h3>
+﻿@page "/Tecnicos/Index"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicoService
+@inject NavigationManager navigation
+
+<PageTitle>Técnicos</PageTitle>
+<div class="container">
+	<div class="card-header bg-danger text-white text-center">
+		<h2 class="Técnicos">Registro de técnicos</h2>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel-fill">Filtar por:</label>
+			<InputSelect id="filtro" class="form-select" @bind-Value="filtro">
+				<option value="id">ID</option>
+				<option value="Nombre">NombreTecnico</option>
+				<option value="SueldoHora">SueldoHora</option>
+			</InputSelect>
+		</div>
+		<div class="col-md-6">
+			<label for="valorFiltro" class="form-label"></label>
+			<div class="input-group">
+				<InputText id="valorFiltro" @bind-Value="valorFiltro" class="form-control" placeholder="Buscar" />
+				<button @onclick="Buscar" class="btn btn-no-color bi bi-search text-danger" type="button"> <br /> </button>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-body">
+		<table class="table table-light table-bordered">
+			<thead class="table table-striped text-center bg-danger text-white">
+				<tr>
+					<th>ID</th>
+					<th>Nombre Técnico</th>
+					<th>Sueldo Técnico</th>
+					<th>Ver</th>
+					<th>Editar</th>
+					<th>Eliminar</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var tecnico in tecnicos)
+				{
+					<tr>
+						<td class="text-center">@tecnico.tecnicoId</td>
+						<td class="text-center">@tecnico.nombreTecnico</td>
+						<td class="text-center">@tecnico.sueldoHora</td>
+
+						<td class="text-center">
+							<a href="/Tecnicos/Details/@tecnico.tecnicoId" class="btn btn-no-color text-danger bi bi-eye-fill"></a>
+						</td>
+						<td class="text-center">
+							<a href="/Tecnicos/Edit/@tecnico.tecnicoId" class="btn btn-no-color text-danger bi bi-pencil-square"></a>
+						</td>
+						<td class="text-center">
+							<a href="/Tecnicos/Delete/@tecnico.tecnicoId" class="btn btn-no-color text-danger bi bi-person-x"></a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="row">
+		<div class="col text-end">
+			<!-- Clase para alinear a la derecha -->
+			<a href="/Tecnicos/Create" class="btn btn-danger bi bi-plus-square-fill mt-3"> </a>
+		</div>
+	</div>
+</div>
 
 @code {
+	public List<Tecnicos> tecnicos = new List<Tecnicos>();
+	public string filtro = "id";
+	public string valorFiltro = "";
 
+	protected override async Task OnInitializedAsync()
+	{
+		tecnicos = await tecnicoService.Listar(a => true);
+	}
+
+	public async Task Buscar()
+	{
+		if (!string.IsNullOrWhiteSpace(valorFiltro))
+		{
+			switch (filtro)
+			{
+				case "id":
+					if (int.TryParse(valorFiltro, out int id))
+					{
+						tecnicos = await tecnicoService.Listar(w => w.tecnicoId == id);
+					}
+					break;
+
+				case "Nombre":
+					tecnicos = await tecnicoService.Listar(w => w.nombreTecnico.ToLower().Contains(valorFiltro.ToLower()));
+					break;
+
+				case "SueldoHora":
+					if (float.TryParse(valorFiltro, out float SueldoHora))
+					{
+						tecnicos = await tecnicoService.Listar(w => w.sueldoHora == SueldoHora);
+					}
+					break;
+			}
+		}
+		else
+		{
+			tecnicos = await tecnicoService.Listar(a => true);
+		}
+	}
 }
