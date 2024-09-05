@@ -6,34 +6,33 @@ using RegistroTecnico.DAL;
 
 #nullable disable
 
-namespace RegistroTecnico.Migrations
+namespace RegistroTecnico.Migrations;
+
+[DbContext(typeof(Context))]
+partial class ContextModelSnapshot : ModelSnapshot
 {
-    [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    protected override void BuildModel(ModelBuilder modelBuilder)
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
+        modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("RegistroTecnico.Models.Tecnicos", b =>
-                {
-                    b.Property<int>("TecnicoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+        modelBuilder.Entity("RegistroTecnico.Models.Tecnicos", b =>
+            {
+                b.Property<int>("TecnicoId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    b.Property<string>("NombreTecnico")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("NombreTecnico")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<float>("SueldoHora")
-                        .HasColumnType("REAL");
+                b.Property<float>("SueldoHora")
+                    .HasColumnType("REAL");
 
-                    b.HasKey("TecnicoId");
+                b.HasKey("TecnicoId");
 
-                    b.ToTable("Tecnicos");
-                });
+                b.ToTable("Tecnicos");
+            });
 #pragma warning restore 612, 618
-        }
     }
 }
