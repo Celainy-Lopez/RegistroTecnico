@@ -17,34 +17,35 @@
             <InputNumber id="id" class="form-control" @bind-Value="tecnico.tecnicoId" readonly></InputNumber>
 
             <label for="nombre" class="form-label">Nombre Técnico</label>
-            <InputText id="nombre" class="form-control" @bind-Value="tecnico.nombreTecnico"></InputText>
+            <InputText id="nombre" class="form-control" @bind-Value="tecnico.nombreTecnico" placeholder ="Juan Perez"></InputText>
             <ValidationMessage For="@(() => tecnico.nombreTecnico)"></ValidationMessage>
-
             @if (!string.IsNullOrEmpty(errorMessage))
             {
-                <div class="text-danger">@errorMessage</div>
+                <div class="alert-danger bi-exclamation-triangle-fill ">@errorMessage</div>
+
             }
 
             <label for="sueldoHora" class="form-label">Sueldo Hora</label>
-            <InputNumber id="sueldoHora" class="form-control" @bind-Value="tecnico.sueldoHora"></InputNumber>
+            <InputNumber id="sueldoHora" class="form-control" @bind-Value="tecnico.sueldoHora" placeholder ="0"/>
             <ValidationMessage For="@(() => tecnico.sueldoHora)"></ValidationMessage>
+
         </div>
         <div class="card-footer">
             <button type="button" class="btn btn-secondary bi bi-box-arrow-in-left" @onclick="Volver"> </button>
-            <button type="submit" class="btn btn-danger bi bi-person-fill-down "></button>
+            <button type="submit" class="btn btn-danger bi bi-person-fill-down"></button>
         </div>
     </div>
 </EditForm>
 
 @code {
     public Tecnicos tecnico { get; set; } = new Tecnicos();
-    public string errorMessage { get; set; }
+    public string errorMessage{ get; set; }
 
     public async Task Crear()
     {
         if (await tecnicoService.ValidarTecnico(tecnico.nombreTecnico))
         {
-            errorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
+          errorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
         }
         else if (!await tecnicoService.Existe(tecnico.tecnicoId))
         {
