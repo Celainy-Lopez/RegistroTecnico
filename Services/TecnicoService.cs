@@ -16,7 +16,7 @@ namespace RegistroTecnico.Services
 
         public async Task<bool> Existe(int id)
         {
-            return await _context.Tecnicos.AnyAsync(c => c.tecnicoId == id);
+            return await _context.Tecnicos.AnyAsync(c => c.TecnicoId == id);
         }
 
         public async Task<bool> Insertar(Tecnicos tecnicos)
@@ -33,7 +33,7 @@ namespace RegistroTecnico.Services
 
         public async Task<bool> Eliminar(int id)
         {
-            var tecnico = await _context.Tecnicos.FirstOrDefaultAsync(c => c.tecnicoId == id);
+            var tecnico = await _context.Tecnicos.FirstOrDefaultAsync(c => c.TecnicoId == id);
             if(tecnico != null)
             {
                 _context.Tecnicos.Remove(tecnico);
@@ -52,24 +52,24 @@ namespace RegistroTecnico.Services
         public async Task<Tecnicos?> BuscarNombres(string nombre)
         {
             return await _context.Tecnicos.AsNoTracking()
-                .FirstOrDefaultAsync(c=>c.nombreTecnico == nombre);
+                .FirstOrDefaultAsync(c=>c.NombreTecnico == nombre);
         }
 
         public async Task<Tecnicos?> Buscar (int id)
         {
             return await _context.Tecnicos
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.tecnicoId == id);
+                .FirstOrDefaultAsync(c => c.TecnicoId == id);
         }
 
         public async Task<bool> ValidarTecnico(string nombre)
         {
-            return await _context.Tecnicos.AnyAsync(c => c.nombreTecnico == nombre);
+            return await _context.Tecnicos.AnyAsync(c => c.NombreTecnico == nombre);
         }
 
         public async Task<bool> Guardar(Tecnicos tecnico)
         {
-            if (!await Existe(tecnico.tecnicoId))
+            if (!await Existe(tecnico.TecnicoId))
                 return await Insertar(tecnico);
             else
                 return await Modificar(tecnico);

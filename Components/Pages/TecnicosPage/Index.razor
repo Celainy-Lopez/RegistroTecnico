@@ -42,18 +42,18 @@
 				@foreach (var tecnico in tecnicos)
 				{
 					<tr>
-						<td class="text-center">@tecnico.tecnicoId</td>
-						<td class="text-center">@tecnico.nombreTecnico</td>
-						<td class="text-center">@tecnico.sueldoHora</td>
+						<td class="text-center">@tecnico.TecnicoId</td>
+						<td class="text-center">@tecnico.NombreTecnico</td>
+						<td class="text-center">@tecnico.SueldoHora</td>
 
 						<td class="text-center">
-							<a href="/Tecnicos/Details/@tecnico.tecnicoId" class="btn btn-no-color text-danger bi bi-eye-fill"></a>
+							<a href="/Tecnicos/Details/@tecnico.TecnicoId" class="btn btn-no-color text-danger bi bi-eye-fill"></a>
 						</td>
 						<td class="text-center">
-							<a href="/Tecnicos/Edit/@tecnico.tecnicoId" class="btn btn-no-color text-danger bi bi-pencil-square"></a>
+							<a href="/Tecnicos/Edit/@tecnico.TecnicoId" class="btn btn-no-color text-danger bi bi-pencil-square"></a>
 						</td>
 						<td class="text-center">
-							<a href="/Tecnicos/Delete/@tecnico.tecnicoId" class="btn btn-no-color text-danger bi bi-person-x"></a>
+							<a href="/Tecnicos/Delete/@tecnico.TecnicoId" class="btn btn-no-color text-danger bi bi-person-x"></a>
 						</td>
 					</tr>
 				}
@@ -83,18 +83,18 @@
 				case "id":
 					if (int.TryParse(valorFiltro, out int id))
 					{
-						tecnicos = await tecnicoService.Listar(w => w.tecnicoId == id);
+						tecnicos = await tecnicoService.Listar(w => w.TecnicoId == id);
 					}
 					break;
 
 				case "Nombre":
-					tecnicos = await tecnicoService.Listar(w => w.nombreTecnico.ToLower().Contains(valorFiltro.ToLower()));
+					tecnicos = await tecnicoService.Listar(w => w.NombreTecnico.ToLower().Contains(valorFiltro.ToLower()));
 					break;
 
 				case "SueldoHora":
 					if (float.TryParse(valorFiltro, out float SueldoHora))
 					{
-						tecnicos = await tecnicoService.Listar(w => w.sueldoHora == SueldoHora);
+						tecnicos = await tecnicoService.Listar(w => w.SueldoHora == SueldoHora);
 					}
 					break;
 			}

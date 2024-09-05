@@ -14,11 +14,11 @@
         </div>
         <div class="card-body">
             <label for="id" class="form-label">ID</label>
-            <InputNumber id="id" class="form-control" @bind-Value="tecnico.tecnicoId" readonly></InputNumber>
+            <InputNumber id="id" class="form-control" @bind-Value="tecnico.TecnicoId" readonly></InputNumber>
 
             <label for="nombre" class="form-label">Nombre Técnico</label>
-            <InputText id="nombre" class="form-control" @bind-Value="tecnico.nombreTecnico" placeholder ="Juan Perez"></InputText>
-            <ValidationMessage For="@(() => tecnico.nombreTecnico)"></ValidationMessage>
+            <InputText id="nombre" class="form-control" @bind-Value="tecnico.NombreTecnico" placeholder ="Juan Perez"></InputText>
+            <ValidationMessage For="@(() => tecnico.NombreTecnico)"></ValidationMessage>
             @if (!string.IsNullOrEmpty(errorMessage))
             {
                 <div class="alert-danger bi-exclamation-triangle-fill ">@errorMessage</div>
@@ -26,8 +26,8 @@
             }
 
             <label for="sueldoHora" class="form-label">Sueldo Hora</label>
-            <InputNumber id="sueldoHora" class="form-control" @bind-Value="tecnico.sueldoHora" placeholder ="0"/>
-            <ValidationMessage For="@(() => tecnico.sueldoHora)"></ValidationMessage>
+            <InputNumber id="sueldoHora" class="form-control" @bind-Value="tecnico.SueldoHora" placeholder ="0"/>
+            <ValidationMessage For="@(() => tecnico.SueldoHora)"></ValidationMessage>
 
         </div>
         <div class="card-footer">
@@ -43,11 +43,11 @@
 
     public async Task Crear()
     {
-        if (await tecnicoService.ValidarTecnico(tecnico.nombreTecnico))
+        if (await tecnicoService.ValidarTecnico(tecnico.NombreTecnico))
         {
           errorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
         }
-        else if (!await tecnicoService.Existe(tecnico.tecnicoId))
+        else if (!await tecnicoService.Existe(tecnico.TecnicoId))
         {
             await tecnicoService.Insertar(tecnico);
             tecnico = new Tecnicos();
