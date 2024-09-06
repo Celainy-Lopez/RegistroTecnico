@@ -20,11 +20,14 @@
 		{
 			@*Datos*@
 			<div class="mb-1">
+				@*TecnicoId*@
 				<p class="mb-0">Técnico Id: @tecnicos.TecnicoId</p>
 				<div class="mb-1">
+					@*NombreTecnico*@
 					<p class="mb-0">Nombre tecnico: @tecnicos.NombreTecnico</p>
 				</div>
 				<div class="mb-1">
+					@*SueldoHora*@
 					<p class="mb-0">Sueldo por hora: @tecnicos.SueldoHora</p>
 				</div>
 			</div>
@@ -33,14 +36,13 @@
 	</div>
 	@*Footer*@
 	<div class="card-footer">
-		<button type="button" class="btn btn-danger text-white bi bi-arrow-90deg-left" @onclick="Volver"> </button>
+		<button type="button" class="btn btn-secondary text-white bi bi-arrow-90deg-left" @onclick="Volver"> </button>
 	</div>
 </div>
 
 @code {
 
 	[Parameter]
-
 	public int TecnicosId { get; set; }
 	public Tecnicos tecnicos { get; set; } = new Tecnicos();
 
