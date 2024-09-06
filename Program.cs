@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RegistroTecnico.Components;
 using RegistroTecnico.DAL;
+using RegistroTecnico.Service;
 using RegistroTecnico.Services;
 
 
@@ -17,6 +18,7 @@ public class Program
         //Inyeccion del servicio (service)
 
         builder.Services.AddScoped<TecnicoService>();
+        builder.Services.AddScoped<TipoTecnicoService>();
 
         // Add services to the container.
         builder.Services.AddRazorComponents()
