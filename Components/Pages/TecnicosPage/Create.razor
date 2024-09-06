@@ -4,13 +4,13 @@
 @inject NavigationManager navigation
 @inject IJSRuntime js
 
-<PageTitle> Nuevo Técnico</PageTitle>
+<PageTitle> Nuevo T&eacute;cnico</PageTitle>
 <EditForm Model="Tecnico" OnValidSubmit="Crear">
     <DataAnnotationsValidator />
     <div class="container"></div>
     <div class="card shadow-lg">
         <div class="card-header bg-danger text-white text-center bi bi-person-add fs-1">
-            <h2>Agregar técnico</h2>
+            <h2>Agregar t&eacute;cnico</h2>
         </div>
         <div class="card-body">
             @*Id*@
@@ -18,7 +18,7 @@
             <InputNumber id="id" class="form-control" @bind-Value="Tecnico.TecnicoId" readonly></InputNumber>
 
             @*Nombre*@
-            <label for="nombre" class="form-label">Nombre Técnico</label>
+            <label for="nombre" class="form-label">Nombre t&eacute;cnico</label>
             <InputText id="nombre" class="form-control" @bind-Value="Tecnico.NombreTecnico" placeholder ="Juan Perez"></InputText>
             <ValidationMessage For="@(() => Tecnico.NombreTecnico)"></ValidationMessage>
             @if (!string.IsNullOrEmpty(ErrorMessage))

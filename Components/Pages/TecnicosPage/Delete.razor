@@ -3,20 +3,20 @@
 @inject TecnicoService tecnicoService
 @inject NavigationManager navigation
 
-<PageTitle>Eliminar técnico</PageTitle>
+<PageTitle>Eliminar t&eacute;cnicos</PageTitle>
 <EditForm Model="Tecnico" OnValidSubmit="EliminarTecnico">
 	<DataAnnotationsValidator />
 	<div class="card-shadow-lg">
 		<div class="card-header bg-danger text-white text-center">
-			<h2>Eliminar técnico</h2>
+			<h2>Eliminar t&eacute;cnico</h2>
 		</div>
 		<div class="card-body">
-			<h6><strong>¿Seguro que deseas eliminar este técnico?</strong></h6>
+			<h6><strong>¿Seguro que deseas eliminar este t&eacute;cnico?</strong></h6>
 			@*Id*@
 			<p class="mb-0">Tecnico Id: @Tecnico.TecnicoId</p>
 			<div class="mb-1">
 				@*NombreTecnico*@
-				<p class="mb-0">Nombre Tecnico: @Tecnico.NombreTecnico</p>
+				<p class="mb-0">Nombre t&eacute;cnico: @Tecnico.NombreTecnico</p>
 				<div class="mb-1">
 					@*SueldoHora*@
 					<p class="mb-0"> Sueldo por hora: @Tecnico.SueldoHora</p>
