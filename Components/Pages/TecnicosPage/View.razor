@@ -1,5 +1,5 @@
 ﻿@page "/Tecnicos/Details/"
-@page "/Tecnicos/Details/{TecnicosId:int}"
+@page "/Tecnicos/Details/{TecnicoId:int}"
 @rendermode InteractiveServer
 @inject TecnicoService tecnico
 @inject NavigationManager navigation
@@ -15,20 +15,20 @@
 	</div>
 	@*Body*@
 	<div class="card-body">
-		<h5><strong>Detalles del Técnico:</strong></h5>
-		@if (tecnicos != null)
+		<h5><strong>Detalles del técnico:</strong></h5>
+		@if (Tecnico != null)
 		{
 			@*Datos*@
 			<div class="mb-1">
 				@*TecnicoId*@
-				<p class="mb-0">Técnico Id: @tecnicos.TecnicoId</p>
+				<p class="mb-0">Técnico Id: @Tecnico.TecnicoId</p>
 				<div class="mb-1">
 					@*NombreTecnico*@
-					<p class="mb-0">Nombre tecnico: @tecnicos.NombreTecnico</p>
+					<p class="mb-0">Nombre tecnico: @Tecnico.NombreTecnico</p>
 				</div>
 				<div class="mb-1">
 					@*SueldoHora*@
-					<p class="mb-0">Sueldo por hora: @tecnicos.SueldoHora</p>
+					<p class="mb-0">Sueldo por hora: @Tecnico.SueldoHora</p>
 				</div>
 			</div>
 
@@ -43,12 +43,13 @@
 @code {
 
 	[Parameter]
-	public int TecnicosId { get; set; }
-	public Tecnicos tecnicos { get; set; } = new Tecnicos();
+	public int TecnicoId { get; set; }
+
+	public Tecnicos Tecnico { get; set; } = new Tecnicos();
 
 	protected override async Task OnInitializedAsync()
 	{
-		tecnicos = await tecnico.Buscar(TecnicosId);
+		Tecnico = await tecnico.Buscar(TecnicoId);
 	}
 
 	public void Volver()

@@ -5,7 +5,7 @@
 @inject IJSRuntime js
 
 <PageTitle> Nuevo Técnico</PageTitle>
-<EditForm Model="tecnico" OnValidSubmit="Crear">
+<EditForm Model="Tecnico" OnValidSubmit="Crear">
     <DataAnnotationsValidator />
     <div class="container"></div>
     <div class="card shadow-lg">
@@ -15,22 +15,22 @@
         <div class="card-body">
             @*Id*@
             <label for="id" class="form-label">ID</label>
-            <InputNumber id="id" class="form-control" @bind-Value="tecnico.TecnicoId" readonly></InputNumber>
+            <InputNumber id="id" class="form-control" @bind-Value="Tecnico.TecnicoId" readonly></InputNumber>
 
             @*Nombre*@
             <label for="nombre" class="form-label">Nombre Técnico</label>
-            <InputText id="nombre" class="form-control" @bind-Value="tecnico.NombreTecnico" placeholder ="Juan Perez"></InputText>
-            <ValidationMessage For="@(() => tecnico.NombreTecnico)"></ValidationMessage>
-            @if (!string.IsNullOrEmpty(errorMessage))
+            <InputText id="nombre" class="form-control" @bind-Value="Tecnico.NombreTecnico" placeholder ="Juan Perez"></InputText>
+            <ValidationMessage For="@(() => Tecnico.NombreTecnico)"></ValidationMessage>
+            @if (!string.IsNullOrEmpty(ErrorMessage))
             {
-                <div class="alert-danger bi-exclamation-triangle-fill ">@errorMessage</div>
+                <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
 
             }
 
             @*SueldoHora*@
             <label for="sueldoHora" class="form-label">Sueldo Hora</label>
-            <InputNumber id="sueldoHora" class="form-control" @bind-Value="tecnico.SueldoHora" placeholder ="0"/>
-            <ValidationMessage For="@(() => tecnico.SueldoHora)"></ValidationMessage>
+            <InputNumber id="sueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora" placeholder ="0"/>
+            <ValidationMessage For="@(() => Tecnico.SueldoHora)"></ValidationMessage>
 
         </div>
         <div class="card-footer">
@@ -41,19 +41,19 @@
 </EditForm>
 
 @code {
-    public Tecnicos tecnico { get; set; } = new Tecnicos();
-    public string errorMessage{ get; set; }
+    public Tecnicos Tecnico { get; set; } = new Tecnicos();
+    public string ErrorMessage{ get; set; }
 
     public async Task Crear()
     {
-        if (await tecnicoService.ValidarTecnico(tecnico.NombreTecnico))
+        if (await tecnicoService.ValidarTecnico(Tecnico.NombreTecnico))
         {
-          errorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
+          ErrorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
         }
         else
         {
-            await tecnicoService.Guardar(tecnico);
-            tecnico = new Tecnicos();
+            await tecnicoService.Guardar(Tecnico);
+            Tecnico = new Tecnicos();
             navigation.NavigateTo("/Tecnicos/Index");
         }
     }

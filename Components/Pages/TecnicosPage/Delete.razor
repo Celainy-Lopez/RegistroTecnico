@@ -1,10 +1,10 @@
-﻿@page "/Tecnicos/Delete/{TecnicosId:int}"
+﻿@page "/Tecnicos/Delete/{TecnicoId:int}"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>Eliminar técnico</PageTitle>
-<EditForm Model="tecnicos" OnValidSubmit="EliminarTecnico">
+<EditForm Model="Tecnico" OnValidSubmit="EliminarTecnico">
 	<DataAnnotationsValidator />
 	<div class="card-shadow-lg">
 		<div class="card-header bg-danger text-white text-center">
@@ -13,13 +13,13 @@
 		<div class="card-body">
 			<h6><strong>¿Seguro que deseas eliminar este técnico?</strong></h6>
 			@*Id*@
-			<p class="mb-0">Tecnico Id: @tecnicos.TecnicoId</p>
+			<p class="mb-0">Tecnico Id: @Tecnico.TecnicoId</p>
 			<div class="mb-1">
 				@*NombreTecnico*@
-				<p class="mb-0">Nombre Tecnico: @tecnicos.NombreTecnico</p>
+				<p class="mb-0">Nombre Tecnico: @Tecnico.NombreTecnico</p>
 				<div class="mb-1">
 					@*SueldoHora*@
-					<p class="mb-0"> Sueldo por hora: @tecnicos.SueldoHora</p>
+					<p class="mb-0"> Sueldo por hora: @Tecnico.SueldoHora</p>
 					<div class="mb-1">
 					</div>
 				</div>
@@ -38,21 +38,21 @@
 @code {
 
 	[Parameter]
-	public int TecnicosId { get; set; }
-	public Tecnicos tecnicos { get; set; } = new Tecnicos();
+	public int TecnicoId { get; set; }
+	public Tecnicos Tecnico { get; set; } = new Tecnicos();
 
 	protected override async Task OnInitializedAsync()
 	{
-		if (TecnicosId > 0)
+		if (TecnicoId > 0)
 		{
-			tecnicos = (await tecnicoService.Buscar(TecnicosId));
+			Tecnico = (await tecnicoService.Buscar(TecnicoId));
 		}
 
 	}
 
 	public async Task EliminarTecnico()
 	{
-		var eliminar = await tecnicoService.Eliminar(tecnicos.TecnicoId);
+		var eliminar = await tecnicoService.Eliminar(Tecnico.TecnicoId);
 
 		if (eliminar)
 		{

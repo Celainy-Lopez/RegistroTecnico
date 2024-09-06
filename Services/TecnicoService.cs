@@ -14,15 +14,15 @@ public class TecnicoService(Context context)
         return await _context.Tecnicos.AnyAsync(c => c.TecnicoId == id);
     }
 
-    private async Task<bool> Insertar(Tecnicos tecnicos)
+    private async Task<bool> Insertar(Tecnicos tecnico)
     {
-        _context.Tecnicos.Add(tecnicos);
+        _context.Tecnicos.Add(tecnico);
         return await _context.SaveChangesAsync() > 0;
     }
 
-    private async Task <bool> Modificar(Tecnicos tecnicos)
+    private async Task <bool> Modificar(Tecnicos tecnico)
     {
-        _context.Update(tecnicos);
+        _context.Update(tecnico);
         return await _context.SaveChangesAsync() > 0;
     }
 
