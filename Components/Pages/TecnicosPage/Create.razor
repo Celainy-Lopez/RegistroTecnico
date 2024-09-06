@@ -13,9 +13,11 @@
             <h2>Agregar técnico</h2>
         </div>
         <div class="card-body">
+            @*Id*@
             <label for="id" class="form-label">ID</label>
             <InputNumber id="id" class="form-control" @bind-Value="tecnico.TecnicoId" readonly></InputNumber>
 
+            @*Nombre*@
             <label for="nombre" class="form-label">Nombre Técnico</label>
             <InputText id="nombre" class="form-control" @bind-Value="tecnico.NombreTecnico" placeholder ="Juan Perez"></InputText>
             <ValidationMessage For="@(() => tecnico.NombreTecnico)"></ValidationMessage>
@@ -25,6 +27,7 @@
 
             }
 
+            @*SueldoHora*@
             <label for="sueldoHora" class="form-label">Sueldo Hora</label>
             <InputNumber id="sueldoHora" class="form-control" @bind-Value="tecnico.SueldoHora" placeholder ="0"/>
             <ValidationMessage For="@(() => tecnico.SueldoHora)"></ValidationMessage>
