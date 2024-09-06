@@ -3,18 +3,14 @@ using RegistroTecnico.DAL;
 using RegistroTecnico.Models;
 using System.Linq.Expressions;
 
-namespace RegistroTecnico.Service;
 
-public class TipoTecnicoService
+namespace RegistroTecnico.Services;
+
+public class TipoTecnicoService(Context context)
 {
-	private readonly Context _context;
-	
-	public TipoTecnicoService(Context context)
-	{
-		_context = context;
-	}
+	private readonly Context _context = context;
 
-	private async Task<bool> Existe(int id)
+    private async Task<bool> Existe(int id)
 	{
 		return await _context.TiposTecnicos.AnyAsync(tT=>tT.TipoTecnicoId == id);
 	
