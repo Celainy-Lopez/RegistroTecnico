@@ -5,16 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RegistroTecnico.Services;
 
-public class TecnicoService
+public class TecnicoService(Context context)
 {
-    private readonly Context _context;
+    private readonly Context _context = context;
 
-    public TecnicoService(Context context)
-    {
-        _context = context; 
-    }
-
-    public async Task<bool> Existe(int id)
+	public async Task<bool> Existe(int id)
     {
         return await _context.Tecnicos.AnyAsync(c => c.TecnicoId == id);
     }
