@@ -52,7 +52,7 @@
         }
         else
         {
-            await tecnicoService.Insertar(tecnico);
+            await tecnicoService.Guardar(tecnico);
             tecnico = new Tecnicos();
             navigation.NavigateTo("/Tecnicos/Index");
         }
