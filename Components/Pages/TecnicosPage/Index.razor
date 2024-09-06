@@ -101,7 +101,7 @@
 					break;
 
 				case "Nombre":
-					Tecnico = await tecnicoService.Listar(c => c.NombreTecnico.ToLower().Contains(ValorFiltro.ToLower()));
+					Tecnico = await tecnicoService.Listar(c => c.NombreTecnico.ToLower().Equals(ValorFiltro.ToLower()));
 					break;
 
 				case "SueldoHora":
