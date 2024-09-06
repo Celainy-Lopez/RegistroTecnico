@@ -47,7 +47,7 @@
         {
           errorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
         }
-        else if (!await tecnicoService.Existe(tecnico.TecnicoId))
+        else
         {
             await tecnicoService.Insertar(tecnico);
             tecnico = new Tecnicos();
