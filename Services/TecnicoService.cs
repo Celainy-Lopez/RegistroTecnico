@@ -9,18 +9,18 @@ public class TecnicoService(Context context)
 {
     private readonly Context _context = context;
 
-	public async Task<bool> Existe(int id)
+	private async Task<bool> Existe(int id)
     {
         return await _context.Tecnicos.AnyAsync(c => c.TecnicoId == id);
     }
 
-    public async Task<bool> Insertar(Tecnicos tecnicos)
+    private async Task<bool> Insertar(Tecnicos tecnicos)
     {
         _context.Tecnicos.Add(tecnicos);
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task <bool> Modificar(Tecnicos tecnicos)
+    private async Task <bool> Modificar(Tecnicos tecnicos)
     {
         _context.Update(tecnicos);
         return await _context.SaveChangesAsync() > 0;
