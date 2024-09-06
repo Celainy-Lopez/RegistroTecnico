@@ -1,5 +1,9 @@
-﻿<h3>CreateTecnico</h3>
+﻿@page "/TiposTecnicos/CreateTipoTecnico"
+@page "/TiposTecnico/{TecnicoId: id }"
+@inject  TipoTecnicoService tipoTecnicoService
 
 @code {
+    [Parameter]
+    public int? TipoTecnicoId{ get; set; }
 
 }
