@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RegistroTecnico.Components;
 using RegistroTecnico.DAL;
-using RegistroTecnico.Service;
 using RegistroTecnico.Services;
 
 
