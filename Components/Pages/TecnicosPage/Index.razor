@@ -9,19 +9,22 @@
 		<h2 class="T&eacute;cnicos">Registro de t&eacute;cnicos</h2>
 	</div>
 	<div class="row">
+		@*Filtrar*@
 		<div class="col-md-3">
-			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel-fill">Filtar por:</label>
+			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel-fill fs-6">Filtrar por:</label>
 			<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
 				<option value="id">ID</option>
 				<option value="Nombre">NombreTecnico</option>
 				<option value="SueldoHora">SueldoHora</option>
 			</InputSelect>
 		</div>
+
+		@*Buscar*@
 		<div class="col-md-6">
-			<label for="valorFiltro" class="form-label"></label>
+			<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
 			<div class="input-group">
 				<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
-				<button @onclick="Buscar" class="btn btn-no-color bi bi-search text-danger" type="button"> <br /> </button>
+				<button @onclick="Buscar" class="btn btn-no-color bi bi-search text-danger" type="button"> </button>
 			</div>
 		</div>
 	</div>
@@ -61,20 +64,27 @@
 					</tr>
 				}
 			</tbody>
-			<a href="/Tecnicos/Create" class="btn btn-danger bi bi-plus-square-fill mt-3"> </a>
 		</table>
-	</div>
+		<div class="card-footer">
+			@if (Busqueda)
+			{
+				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left mt-3" @onclick="Volver"> </button>
 
+			}
+			<a href="/Tecnicos/Create" class="btn btn-danger bi bi-plus-square-fill mt-3"> </a>
+		</div>
+	</div>
 </div>
 
 @code {
 	public List<Tecnicos> Tecnico = new List<Tecnicos>();
 	public string Filtro = "id";
 	public string ValorFiltro = "";
+	public bool Busqueda = false;
 
 	protected override async Task OnInitializedAsync()
 	{
-		Tecnico = await tecnicoService.Listar(a => true);
+		Tecnico = await tecnicoService.Listar(t => true);
 	}
 
 	public async Task Buscar()
@@ -86,25 +96,32 @@
 				case "id":
 					if (int.TryParse(ValorFiltro, out int id))
 					{
-						Tecnico = await tecnicoService.Listar(w => w.TecnicoId == id);
+						Tecnico = await tecnicoService.Listar(c => c.TecnicoId == id);
 					}
 					break;
 
 				case "Nombre":
-					Tecnico = await tecnicoService.Listar(w => w.NombreTecnico.ToLower().Contains(ValorFiltro.ToLower()));
+					Tecnico = await tecnicoService.Listar(c => c.NombreTecnico.ToLower().Contains(ValorFiltro.ToLower()));
 					break;
 
 				case "SueldoHora":
 					if (float.TryParse(ValorFiltro, out float SueldoHora))
 					{
-						Tecnico = await tecnicoService.Listar(w => w.SueldoHora == SueldoHora);
+						Tecnico = await tecnicoService.Listar(c => c.SueldoHora == SueldoHora);
 					}
 					break;
 			}
+			Busqueda = true;
 		}
 		else
 		{
-			Tecnico = await tecnicoService.Listar(a => true);
+			Volver();
 		}
+	}
+
+	public async Task Volver()
+	{
+		Tecnico = await tecnicoService.Listar(t => true);
+		Busqueda = false;
 	}
 }
