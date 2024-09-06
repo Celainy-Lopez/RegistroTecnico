@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RegistroTecnico.Models;
+using SQLitePCL;
 
 namespace RegistroTecnico.DAL;
 
