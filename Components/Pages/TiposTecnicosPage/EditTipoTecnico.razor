@@ -1,5 +1,77 @@
-﻿<h3>EditTipoTecnico</h3>
+﻿@page "/TiposTecnicos/EditTipoTecnico/{TipoTecnicoId:int}"
+@rendermode InteractiveServer
+@inject TipoTecnicoService tipoTecnicoService
+@inject NavigationManager navigation
+
+<PageTitle>Editar tipo t&eacute;cnico</PageTitle>
+<EditForm Model="TipoTecnico" OnValidSubmit="Modificar">
+	<DataAnnotationsValidator />
+	<div class="container">
+		<div class="card shadow-lg">
+			<div class="card-header bg-danger text-white text-center">
+				<h2 class="bi bi-pencil-square"><strong>Editar tipo t&eacute;cnico</strong></h2>
+			</div>
+
+			<div class="card-body">
+				@*Id*@
+				<label for="id" class="form-label"><strong>ID</strong></label>
+				<InputNumber id="id" class="form-control" @bind-Value="TipoTecnico.TipoTecnicoId" readonly></InputNumber>
+
+				@*Descripcion*@
+				<label for="Descripcion" class="form-label"><strong>Descripcion</strong></label>
+				<InputText id="Descripcion" class="form-control" @bind-Value="TipoTecnico.Descripcion" @onfocus="() => ErrorMessage = string.Empty"></InputText>
+				<ValidationMessage For="@(()=> TipoTecnico.Descripcion)"></ValidationMessage>
+				@if (!string.IsNullOrEmpty(ErrorMessage))
+				{
+					<div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
+
+				}
+
+			</div>
+			<div class="card-footer">
+				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left" @onclick="Volver"> </button>
+				<button type="submit" class="btn btn-danger bi bi-pencil-square"> </button>
+			</div>
+		</div>
+	</div>
+
+</EditForm>
 
 @code {
 
+	[Parameter]
+	public int TipoTecnicoId { get; set; }
+	public TiposTecnicos TipoTecnico { get; set; } = new TiposTecnicos();
+	public bool Repetido { get; set; }
+	public string ErrorMessage { get; set; }
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (TipoTecnicoId > 0)
+		{
+			TipoTecnico = await tipoTecnicoService.Buscar(TipoTecnicoId);
+		}
+
+	}
+
+	public async Task Modificar()
+	{
+		if (await tipoTecnicoService.ValidarTipoTecnico(TipoTecnico.Descripcion))
+		{
+			ErrorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
+		}
+		else
+		{
+			await tipoTecnicoService.Guardar(TipoTecnico);
+			TipoTecnico = new TiposTecnicos();
+			Volver();
+
+		}
+	}
+
+	public void Volver()
+	{
+		navigation.NavigateTo("/TiposTecnicos/IndexTipoTecnico");
+	}
 }
