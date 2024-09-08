@@ -1,12 +1,13 @@
 ﻿@page "/Tecnicos/Index"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoService
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>T&eacute;cnicos</PageTitle>
 <div class="container">
 	<div class="card-header bg-danger text-white text-center">
-		<h2 class="T&eacute;cnicos">Registro de t&eacute;cnicos</h2>
+		<h2 class="T&eacute;cnicos bi bi-person-rolodex"> <strong>Registro t&eacute;cnicos</strong></h2>
 	</div>
 	<div class="row">
 		@*Filtrar*@
@@ -15,6 +16,7 @@
 			<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
 				<option value="id">ID</option>
 				<option value="Nombre">NombreTecnico</option>
+				<option value ="Descripcion">Descripci&oacute;n</option>
 				<option value="SueldoHora">SueldoHora</option>
 			</InputSelect>
 		</div>
@@ -37,6 +39,8 @@
 					<th>ID</th>
 					@*NombreTecnico*@
 					<th>Nombre t&eacute;cnico</th>
+					@*Descripcion*@
+					<th>Descripcion</th>
 					@*SueldoHora*@
 					<th>Sueldo hora</th>
 					<th>Ver</th>
@@ -50,6 +54,7 @@
 					<tr>
 						<td class="text-center">@tecnico.TecnicoId</td>
 						<td class="text-center">@tecnico.NombreTecnico</td>
+						<td class="text-center">@tecnico.Descripcion</td>
 						<td class="text-center">@tecnico.SueldoHora</td>
 
 						<td class="text-center">
@@ -109,6 +114,9 @@
 					{
 						Tecnico = await tecnicoService.Listar(c => c.SueldoHora == SueldoHora);
 					}
+					break;
+				case "Descripcion":
+					Tecnico = await tecnicoService.Listar(c => c.Descripcion.ToLower().Contains(ValorFiltro.ToLower()));
 					break;
 			}
 			Busqueda = true;
