@@ -1,5 +1,6 @@
 ﻿@page "/Tecnicos/Edit/{TecnicoId:int}"
 @rendermode InteractiveServer
+@inject TipoTecnicoService tipoTecnicoService
 @inject TecnicoService tecnicoService
 @inject NavigationManager navigation
 
@@ -9,23 +10,34 @@
 	<div class="container">
 		<div class="card shadow-lg">
 			<div class="card-header bg-danger text-white text-center">
-				<h2>Editar datos t&eacute;cnico</h2>
+				<h2 class="bi bi-pencil-square"><strong>Editar datos t&eacute;cnico</strong></h2>
 			</div>
 
 			<div class="card-body">
 				@*Id*@
-				<label for="id" class="form-label">ID</label>
+				<label for="id" class="form-label"><strong>ID</strong></label>
 				<InputNumber id="id" class="form-control" @bind-Value="Tecnico.TecnicoId" readonly></InputNumber>
 
 				@*NombreTecnico*@
 				<label for="NombreTecnico" class="form-label"><strong>Nombre</strong></label>
-				<InputText id="NombreTecnico" class="form-control" @bind-Value="Tecnico.NombreTecnico"></InputText>
+				<InputText id="NombreTecnico" class="form-control" @bind-Value="Tecnico.NombreTecnico" @onfocus="() => ErrorMessage = string.Empty"></InputText>
 				<ValidationMessage For="@(()=> Tecnico.NombreTecnico)"></ValidationMessage>
 				@if (!string.IsNullOrEmpty(ErrorMessage))
 				{
 					<div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
 
 				}
+
+				<label for="Descripcion" class="form-label"><strong>Descripcion</strong></label>
+				<!--Filtrar modificacion del tipo tecnico-->
+				<InputSelect id="Descripcion" class="form-select" @bind-Value="Tecnico.Descripcion">
+					@foreach (var descripcion in ListaDescripciones)
+					{
+						<option value="@descripcion.Descripcion">@descripcion.Descripcion</option>
+					}
+				</InputSelect>
+				<ValidationMessage For="@(()=> Tecnico.Descripcion)"></ValidationMessage>
+
 
 				@*SueldoHora*@
 				<label for="SueldoHora" class="form-label"><strong>SueldoHora</strong></label>
@@ -48,6 +60,7 @@
 	public Tecnicos Tecnico { get; set; } = new Tecnicos();
 	public bool Repetido { get; set; }
 	public string ErrorMessage { get; set; }
+	public List<TiposTecnicos> ListaDescripciones{ get; set; } = new List<TiposTecnicos>();
 
 
 	protected override async Task OnInitializedAsync()
@@ -56,12 +69,15 @@
 		{
 			Tecnico = await tecnicoService.Buscar(TecnicoId);
 		}
+		ListaDescripciones = await tipoTecnicoService.Listar(tT => tT.TipoTecnicoId > 0);
 
 	}
 
 	public async Task Modificar()
 	{
-		if (await tecnicoService.ValidarTecnico(Tecnico.NombreTecnico))
+		var tecnicoOriginal = await tecnicoService.Buscar(TecnicoId);
+
+		if (Tecnico.NombreTecnico != tecnicoOriginal.NombreTecnico && await tecnicoService.ValidarTecnico(Tecnico.NombreTecnico))
 		{
 			ErrorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
 		}
@@ -73,8 +89,14 @@
 		}
 	}
 
+
 	public void Volver()
 	{
 		navigation.NavigateTo("/Tecnicos/Index");
+	}
+
+	private void LimpiarError()
+	{
+		ErrorMessage = string.Empty;
 	}
 }
