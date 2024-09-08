@@ -1,5 +1,54 @@
-﻿<h3>ViewTipoTecnico</h3>
+﻿@page "/TiposTecnicos/DetailsTipoTecnico/"
+@page "/TiposTecnicos/DetailsTipoTecnico/{TipoTecnicoId:int}"
+@rendermode InteractiveServer
+@inject TipoTecnicoService tipoTecnicoService
+@inject NavigationManager navigation
+
+
+<PageTitle>Detalles tipo t&eacute;cnico</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		@*Header*@
+		<div class="card-header bg-danger text-white text-center">
+			<h3><strong>Detalles tipo t&eacute;cnico </strong> <i class="bi bi-binoculars" /></h3>
+		</div>
+	</div>
+	@*Body*@
+	<div class="card-body">
+		@if (TipoTecnico != null)
+		{
+			@*Datos*@
+			<div class="mb-1">
+				@*TipoTecnicoId*@
+				<p class="mb-0"><strong>Tipo t&eacute;cnico ID:</strong> @TipoTecnico.TipoTecnicoId</p>
+				<div class="mb-1">
+					@*Descripcion*@
+					<p class="mb-0"><strong>Descripcion:</strong> @TipoTecnico.Descripcion</p>
+				</div>
+			</div>
+		}
+	</div>
+	@*Footer*@
+	<div class="card-footer">
+		<button type="button" class="btn btn-secondary text-white bi bi-arrow-90deg-left" @onclick="Volver"> </button>
+	</div>
+</div>
 
 @code {
 
+	[Parameter]
+	public int TipoTecnicoId { get; set; }
+
+	public TiposTecnicos TipoTecnico { get; set; } = new TiposTecnicos();
+
+	protected override async Task OnInitializedAsync()
+	{
+		TipoTecnico = await tipoTecnicoService.Buscar(TipoTecnicoId);
+	}
+
+	public void Volver()
+	{
+		navigation.NavigateTo("/TiposTecnicos/IndexTipoTecnico");
+
+	}
 }
