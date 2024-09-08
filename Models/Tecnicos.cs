@@ -12,4 +12,7 @@ public class Tecnicos
     [Required(ErrorMessage = "Por favor ingrese el sueldo del técnico")]
     [Range(0.01, float.MaxValue, ErrorMessage = "El sueldo debe ser mayor que 0")]
     public float? SueldoHora { get; set; }
+
+    [Required(ErrorMessage = "Debe seleccionar una descripción")]
+    public string Descripcion { get; set; }
 }
