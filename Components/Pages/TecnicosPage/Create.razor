@@ -1,6 +1,7 @@
 ﻿@page "/Tecnicos/Create"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoService
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 @inject IJSRuntime js
 
@@ -19,7 +20,7 @@
 
             @*Nombre*@
             <label for="nombre" class="form-label">Nombre t&eacute;cnico</label>
-            <InputText id="nombre" class="form-control" @bind-Value="Tecnico.NombreTecnico" placeholder ="Juan Perez"></InputText>
+            <InputText id="nombre" class="form-control" @bind-Value="Tecnico.NombreTecnico" placeholder="Juan Perez" @onfocus="() => ErrorMessage = string.Empty"></InputText>
             <ValidationMessage For="@(() => Tecnico.NombreTecnico)"></ValidationMessage>
             @if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -27,9 +28,21 @@
 
             }
 
+            @*Descripcion*@
+            <label for="Descripcion" class="form-label"><strong>Descripcion</strong></label>
+            <!--Filtrar creacion del tipo tecnico-->
+            <InputSelect id="Descripcion" class="form-select" @bind-Value="Tecnico.Descripcion">
+                <option value="">Elija una opción</option>
+                @foreach (var descripcion in ListaDescripciones)
+                {
+                    <option value="@descripcion.Descripcion">@descripcion.Descripcion</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(()=> Tecnico.Descripcion)"></ValidationMessage>
+
             @*SueldoHora*@
             <label for="sueldoHora" class="form-label">Sueldo Hora</label>
-            <InputNumber id="sueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora" placeholder ="0"/>
+            <InputNumber id="sueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora" placeholder="0" />
             <ValidationMessage For="@(() => Tecnico.SueldoHora)"></ValidationMessage>
 
         </div>
@@ -42,13 +55,19 @@
 
 @code {
     public Tecnicos Tecnico { get; set; } = new Tecnicos();
-    public string ErrorMessage{ get; set; }
+    public string ErrorMessage { get; set; }
+    public List<TiposTecnicos> ListaDescripciones { get; set; } = new List<TiposTecnicos>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaDescripciones = await tipoTecnicoService.Listar(tT => tT.TipoTecnicoId > 0);
+    }
 
     public async Task Crear()
     {
         if (await tecnicoService.ValidarTecnico(Tecnico.NombreTecnico))
         {
-          ErrorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
+            ErrorMessage = "El nombre del técnico ya existe. Por favor, elija otro.";
         }
         else
         {
