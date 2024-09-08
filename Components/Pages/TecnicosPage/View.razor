@@ -1,7 +1,7 @@
 ﻿@page "/Tecnicos/Details/"
 @page "/Tecnicos/Details/{TecnicoId:int}"
 @rendermode InteractiveServer
-@inject TecnicoService tecnico
+@inject TecnicoService tecnicoService
 @inject NavigationManager navigation
 
 
@@ -9,29 +9,32 @@
 <div class="container">
 	<div class="card shadow-lg">
 		@*Header*@
-		<div class="card-header bg-danger text-white text-center">
-			<h3><strong>Detalles t&eacute;cnico:</strong></h3>
+		<div class="card-header bg-danger text-white text-center"
+			<h3><strong>Detalles t&eacute;cnico</strong> <i class="bi bi-person-bounding-box fs-2"/></h3>
 		</div>
 	</div>
 	@*Body*@
 	<div class="card-body">
-		<h5><strong>Detalles del t&eacute;cnico:</strong></h5>
 		@if (Tecnico != null)
 		{
 			@*Datos*@
 			<div class="mb-1">
 				@*TecnicoId*@
-				<p class="mb-0">T&eacute;cnico Id: @Tecnico.TecnicoId</p>
+				<p class="mb-0"><strong>T&eacute;cnico ID:</strong> @Tecnico.TecnicoId</p>
+				@*NombreTecnico*@
 				<div class="mb-1">
-					@*NombreTecnico*@
-					<p class="mb-0">Nombre tecnico: @Tecnico.NombreTecnico</p>
+					<p class="mb-0"><strong>Nombre t&eacute;cnico:</strong> @Tecnico.NombreTecnico</p>
 				</div>
+				@*Descripcion*@
 				<div class="mb-1">
-					@*SueldoHora*@
-					<p class="mb-0">Sueldo por hora: @Tecnico.SueldoHora</p>
+					<p class="mb-0"><strong>Descripci&oacute;n:</strong> @Tecnico.Descripcion</p>
+				</div>
+
+				@*SueldoHora*@
+				<div class="mb-1">
+					<p class="mb-0"><strong>Sueldo hora:</strong> @Tecnico.SueldoHora</p>
 				</div>
 			</div>
-
 		}
 	</div>
 	@*Footer*@
@@ -49,7 +52,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		Tecnico = await tecnico.Buscar(TecnicoId);
+		Tecnico = await tecnicoService.Buscar(TecnicoId);
 	}
 
 	public void Volver()
