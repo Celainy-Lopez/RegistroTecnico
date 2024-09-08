@@ -35,4 +35,9 @@
     <None Include="Components\Pages\TecnicosPage\Index.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
