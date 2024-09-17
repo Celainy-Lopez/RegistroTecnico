@@ -66,7 +66,7 @@ namespace RegistroTecnico.Migrations
                     TrabajoId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DescripcionTrabajo = table.Column<string>(type: "TEXT", nullable: false),
-                    Monto = table.Column<float>(type: "REAL", nullable: true),
+                    Monto = table.Column<float>(type: "REAL", nullable: false),
                     Fecha = table.Column<DateTime>(type: "TEXT", nullable: true),
                     ClienteId = table.Column<int>(type: "INTEGER", nullable: false),
                     TecnicoId = table.Column<int>(type: "INTEGER", nullable: false)

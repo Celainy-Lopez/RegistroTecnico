@@ -92,6 +92,7 @@ namespace RegistroTecnico.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<float?>("Monto")
+                        .IsRequired()
                         .HasColumnType("REAL");
 
                     b.Property<int>("TecnicoId")
