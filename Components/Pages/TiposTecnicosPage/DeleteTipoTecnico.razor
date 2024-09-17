@@ -4,23 +4,23 @@
 @inject NavigationManager navigation
 
 <PageTitle>Eliminar t&eacute;cnicos</PageTitle>
-<EditForm Model="TipoTecnico" OnValidSubmit="EliminarTecnico">
+<EditForm Model="TipoTecnico" OnValidSubmit="EliminarTipoTecnico">
 	<DataAnnotationsValidator />
 	<div class="card-shadow-lg">
 		<div class="card-header bg-danger text-white text-center ">
-			<h2 class="bi bi-journal-x"><strong>Eliminar t&eacute;cnico</strong></h2>
+			<h2><strong>Eliminar tipo t&eacute;cnico <i class="bi bi-journal-x" /></strong></h2>
 		</div>
 		<div class="card-body">
-			<h6><strong>¿Seguro que deseas eliminar este t&eacute;cnico?</strong></h6>
+			<h6><strong>¿Seguro que deseas eliminar este tipo t&eacute;cnico?</strong></h6>
 			@*Id*@
-			<p class="mb-0">Tecnico Id: @TipoTecnico.TipoTecnicoId</p>
+			<p class="mb-0"><strong>Tipo t&eacute;cnico Id:</strong> @TipoTecnico.TipoTecnicoId</p>
 			<div class="mb-1">
 				@*Descripcion*@
-				<p class="mb-0">Nombre t&eacute;cnico: @TipoTecnico.Descripcion</p>
+				<p class="mb-0"><strong>Nombre tipo t&eacute;cnico:</strong> @TipoTecnico.Descripcion</p>
 
 				<div class="card-footer">
 					<button type="button" class="btn btn-secondary text-white bi bi-box-arrow-in-left" @onclick=Volver> </button>
-					<button type="button" class="btn btn-danger bi bi-trash" @onclick=EliminarTecnico> </button>
+					<button type="button" class="btn btn-danger bi bi-trash" @onclick=EliminarTipoTecnico> </button>
 				</div>
 			</div>
 		</div>
@@ -44,7 +44,7 @@
 
 	}
 
-	public async Task EliminarTecnico()
+	public async Task EliminarTipoTecnico()
 	{
 		var eliminar = await tipoTecnicoService.Eliminar(TipoTecnico.TipoTecnicoId);
 
