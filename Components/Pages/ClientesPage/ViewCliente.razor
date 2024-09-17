@@ -1,5 +1,59 @@
-﻿<h3>ViewCliente</h3>
+﻿@page "/Clientes/DetailsCliente/"
+@page "/Clientes/DetailsCliente/{ClienteId:int}"
+@rendermode InteractiveServer
+@inject ClienteService clienteService
+@inject NavigationManager navigation
+
+
+<PageTitle>Detalles cliente</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		@*Header*@
+		<div class="card-header bg-danger text-white text-center"
+			<h3><strong>Detalles cliente</strong> <i class="bi bi-person-bounding-box fs-2"/></h3>
+		</div>
+	</div>
+	@*Body*@
+	<div class="card-body">
+		@if (Cliente != null)
+		{
+			@*Datos*@
+			<div class="mb-1">
+				@*ClienteId*@
+				<p class="mb-0"><strong>Cliente ID:</strong> @Cliente.ClienteId</p>
+				@*NombreTecnico*@
+				<div class="mb-1">
+					<p class="mb-0"><strong>Nombre cliente:</strong> @Cliente.Nombres</p>
+				</div>
+				@*WhatsApp*@
+				<div class="mb-1">
+					<p class="mb-0"><strong>WhatsApp:</strong> @Cliente.WhatsApp</p>
+				</div>
+
+			</div>
+		}
+	</div>
+	@*Footer*@
+	<div class="card-footer">
+		<button type="button" class="btn btn-secondary text-white bi bi-arrow-90deg-left" @onclick="Volver"> </button>
+	</div>
+</div>
 
 @code {
 
+	[Parameter]
+	public int ClienteId { get; set; }
+
+	public Clientes Cliente { get; set; } = new Clientes();
+
+	protected override async Task OnInitializedAsync()
+	{
+		Cliente = await clienteService.Buscar(ClienteId);
+	}
+
+	public void Volver()
+	{
+		navigation.NavigateTo("/Clientes/IndexCliente");
+
+	}
 }
