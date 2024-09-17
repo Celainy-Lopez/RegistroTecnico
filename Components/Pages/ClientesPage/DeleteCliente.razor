@@ -18,7 +18,7 @@
 				@*NombreCliente*@
 				<p class="mb-0"><strong>Nombre cliente:</strong> @Cliente.Nombres</p>
 				@*WhatsApp*@
-				<p class="mb-0"><strong>WhatsApp:</strong> @Cliente.WhatsApp</p>
+				<p class="mb-0"><strong>WhatsApp:</strong> @String.Format("{0:(###) ###-####}", long.Parse(Cliente.WhatsApp)) </p>
 
 				<div class="card-footer">
 					<button type="button" class="btn btn-secondary text-white bi bi-box-arrow-in-left" @onclick=Volver> </button>
