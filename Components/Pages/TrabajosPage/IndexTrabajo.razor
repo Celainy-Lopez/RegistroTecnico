@@ -1,0 +1,226 @@
+﻿@page "/Trabajos/IndexTrabajo"
+@rendermode InteractiveServer
+@inject ClienteService clienteService
+@inject TrabajoService trabajoService
+@inject TecnicoService tecnicoService
+@inject TipoTecnicoService tipoTecnicoService
+@inject NavigationManager navigation
+@inject IJSRuntime js
+
+<PageTitle>Trabajos</PageTitle>
+<div class="container">
+	<div class="card-header bg-danger text-white text-center">
+		<h2 class="Clientes"> <strong>Registro trabajos <i class="bi bi-journal-bookmark-fill fs-2" /></strong></h2>
+	</div>
+	<div class="row">
+		@*Filtrar*@
+		<div class="col-md-3">
+			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel-fill fs-6">Filtrar por:</label>
+			<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
+				<option value="Monto">Monto</option>
+				<option value="Fecha">Fecha</option>
+				<option value="idTrabajo">ID Trabajo</option>
+				<option value="idTecnico">ID Tecnico</option>
+				<option value="idCliente">ID Cliente</option>
+				<option value="idTipoTecnico">ID TipoTecnico</option>
+				<option value="NombreTecnico">NombreTecnico</option>
+				<option value="NombreCliente">NombreCliente</option>
+				<option value="DescripcionTipoTecnico">Descripci&oacute;n tipo tecnico</option>
+				<option value="DescripcionTrabajo">Descripci&oacute;n trabajo</option>
+
+			</InputSelect>
+		</div>
+
+		@*Buscar*@
+		<div class="col-md-6">
+			<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
+			<div class="input-group">
+				<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
+				<button @onclick="Buscar" class="btn btn-no-color bi bi-search text-danger" type="button"> </button>
+			</div>
+		</div>
+
+
+		<div class="mb-3">
+			@* Campo adicional para filtro por fecha *@
+			@if (Filtro == "Fecha")
+			{
+				<label for="FechaFiltro" class="form-label"><strong>Fecha</strong></label>
+				<InputDate id="FechaFiltro" class="form-control" @bind-Value="FechaFiltro" />
+			}
+		</div>
+	</div>
+
+	<div class="card-body">
+		<table class="table table-light table-bordered">
+			<thead class="table table-striped text-center bg-danger text-white">
+				<tr>
+					@*TrabajoId*@
+					<th>Trabajo ID</th>
+					@*DescripcionTrabajo*@
+					<th>Descripcion tipo trabajo</th>
+					@*Monto*@
+					<th>Monto</th>
+					@*Fecha*@
+					<th>Fecha</th>
+					@*ClienteId*@
+					<th>Cliente ID</th>
+					@*NombreCliente*@
+					<th>Nombre Cliente</th>
+					@*TecnicoId*@
+					<th>T&eacute;cnico ID</th>
+					@*NombreTecnico*@
+					<th>Nombre t&eacute;cnico</th>
+					@*TipoTecnicoId*@
+					<th>Tipo t&eacute;cnico ID</th>
+					@*DescripcionTipoTecnico*@
+					<th>Descripcion tipo T&eacute;cnico</th>
+					@*Terminar trabajo*@
+					<th>Finalizar trabajo</th>
+					<th>Ver</th>
+					<th>Editar</th>
+					<th>Eliminar</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var trabajo in Trabajo)
+				{
+					<tr class="text-center align-middle">
+						<td>@trabajo.TrabajoId</td>
+						<td>@trabajo.DescripcionTrabajo</td>
+						<td>@trabajo.Monto</td>
+						<td>@trabajo.Fecha?.ToString("dd/MM/yyyy")</td>
+						<td>@trabajo.ClienteId</td>
+						<td>@trabajo.Cliente.Nombres</td>
+						<td>@trabajo.TecnicoId</td>
+						<td>@trabajo.Tecnico.NombreTecnico</td>
+						<td>@trabajo.Tecnico.TipoTecnicoId</td>
+						<td>@trabajo.Tecnico.TipoTecnico?.Descripcion</td>
+						<td>
+							<input type="checkbox" @onclick="() => EnviarMensaje(trabajo)" />
+						</td>
+
+						<td class="text-center">
+							<a href="/Trabajos/DetailsTrabajo/@trabajo.TrabajoId" class="btn btn-no-color text-danger bi bi-eye-fill"></a>
+						</td>
+						<td class="text-center">
+							<a href="/Trabajos/EditTrabajo/@trabajo.TrabajoId" class="btn btn-no-color text-danger bi bi-pencil-square"></a>
+						</td>
+						<td class="text-center">
+							<a href="/Trabajos/DeleteTrabajo/@trabajo.TrabajoId" class="btn btn-no-color text-danger bi bi-person-x"></a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div class="card-footer">
+			@if (Busqueda)
+			{
+				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left mt-3" @onclick="Volver"> </button>
+
+			}
+			<a href="/Trabajos/CreateTrabajo" class="btn btn-danger bi bi-plus-square-fill mt-3"> </a>
+		</div>
+	</div>
+</div>
+
+@code {
+	public List<Trabajos> Trabajo = new List<Trabajos>();
+	public string Filtro = "idTrabajo";
+	public string ValorFiltro = "";
+	public bool Busqueda = false;
+	public DateTime? FechaFiltro { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		Trabajo = await trabajoService.Listar(t => true);
+	}
+
+	public async Task Buscar()
+	{
+		if (!string.IsNullOrWhiteSpace(ValorFiltro) || Filtro == "Fecha")
+		{
+			switch (Filtro)
+			{
+				case "Monto":
+					if (float.TryParse(ValorFiltro, out float monto))
+					{
+						Trabajo = await trabajoService.Listar(c => c.Monto == monto);
+					}
+					break;
+
+				case "Fecha":
+					if (FechaFiltro.HasValue)
+					{
+						Trabajo = await trabajoService.Listar(c => c.Fecha.HasValue && c.Fecha.Value.Date == FechaFiltro.Value.Date);
+					}
+					break;
+
+				case "idTrabajo":
+					if (int.TryParse(ValorFiltro, out int idTrabajo))
+					{
+						Trabajo = await trabajoService.Listar(c => c.TrabajoId == idTrabajo);
+					}
+					break;
+
+				case "idTecnico":
+					if (int.TryParse(ValorFiltro, out int idTecnico))
+					{
+						Trabajo = await trabajoService.Listar(c => c.TecnicoId == idTecnico);
+					}
+					break;
+
+				case "idCliente":
+					if (int.TryParse(ValorFiltro, out int idCliente))
+					{
+						Trabajo = await trabajoService.Listar(c => c.ClienteId == idCliente);
+					}
+					break;
+
+				case "idTipoTecnico":
+					if (int.TryParse(ValorFiltro, out int idTipoTecnico))
+					{
+						Trabajo = await trabajoService.Listar(c => c.Tecnico.TipoTecnicoId == idTipoTecnico);
+					}
+					break;
+
+
+				case "NombreTecnico":
+					Trabajo = await trabajoService.Listar(c => c.Tecnico.NombreTecnico.ToLower().Equals(ValorFiltro.ToLower()));
+					break;
+
+				case "NombreCliente":
+					Trabajo = await trabajoService.Listar(c => c.Cliente.Nombres.ToLower().Equals(ValorFiltro.ToLower()));
+					break;
+
+				case "DescripcionTrabajo":
+					Trabajo = await trabajoService.Listar(c => c.DescripcionTrabajo.ToLower().Equals(ValorFiltro.ToLower()));
+					break;
+
+				case "DescripcionTipoTecnico":
+					Trabajo = await trabajoService.Listar(c => c.Tecnico.TipoTecnico.Descripcion.ToLower().Contains(ValorFiltro.ToLower()));
+					break;
+
+			}
+			Busqueda = true;
+		}
+		else
+		{
+			Volver();
+		}
+	}
+
+	public async Task Volver()
+	{
+		Trabajo = await trabajoService.Listar(t => true);
+		Busqueda = false;
+	}
+
+	public async Task EnviarMensaje(Trabajos trabajo)
+	{
+		var mensaje = $"Hola {trabajo.Cliente.Nombres}, tenemos novedades sobre su trabajo: {trabajo.DescripcionTrabajo}. El ingeniero/a {trabajo.Tecnico.NombreTecnico} ha finalizado con exito su requirimiento\n\n. Monto:{trabajo.Monto} \n Fecha{trabajo.Fecha?.ToString("dd/MM/yyyy")}\n ID: {trabajo.TrabajoId} \n Por favor, contacte con nosotros para más información. Gracias por preferirnos";
+		var urlWhatsApp = $"https://wa.me/+{trabajo.Cliente.WhatsApp}?text={Uri.EscapeDataString(mensaje)}";
+		await js.InvokeVoidAsync("open", urlWhatsApp, "_blank");
+	}
+}
+}
