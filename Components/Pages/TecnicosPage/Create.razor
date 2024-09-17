@@ -11,15 +11,15 @@
     <div class="container"></div>
     <div class="card shadow-lg">
         <div class="card-header bg-danger text-white text-center bi bi-person-add fs-1">
-            <h2>Agregar t&eacute;cnico</h2>
+            <h2><strong>Agregar t&eacute;cnico</strong></h2>
         </div>
         <div class="card-body">
-            @*Id*@
-            <label for="id" class="form-label">ID</label>
+            @*TecnicoId*@
+            <label for="id" class="form-label"><strong>ID</strong></label>
             <InputNumber id="id" class="form-control" @bind-Value="Tecnico.TecnicoId" readonly></InputNumber>
 
-            @*Nombre*@
-            <label for="nombre" class="form-label">Nombre t&eacute;cnico</label>
+            @*NombreTecnico*@
+            <label for="nombre" class="form-label"><strong>Nombre t&eacute;cnico</strong></label>
             <InputText id="nombre" class="form-control" @bind-Value="Tecnico.NombreTecnico" placeholder="Juan Perez" @onfocus="() => ErrorMessage = string.Empty"></InputText>
             <ValidationMessage For="@(() => Tecnico.NombreTecnico)"></ValidationMessage>
             @if (!string.IsNullOrEmpty(ErrorMessage))
@@ -28,20 +28,20 @@
 
             }
 
-            @*Descripcion*@
+            @*DescripcionTipoTecnico*@
             <label for="Descripcion" class="form-label"><strong>Descripcion</strong></label>
             <!--Filtrar creacion del tipo tecnico-->
-            <InputSelect id="Descripcion" class="form-select" @bind-Value="Tecnico.Descripcion">
-                <option value="">Elija una opción</option>
+            <InputSelect id="Descripcion" class="form-select" @bind-Value="Tecnico.TipoTecnicoId">
+                <option value="0">Elija una opción</option>
                 @foreach (var descripcion in ListaDescripciones)
                 {
-                    <option value="@descripcion.Descripcion">@descripcion.Descripcion</option>
+                    <option value="@descripcion.TipoTecnicoId">@descripcion.Descripcion</option>
                 }
             </InputSelect>
-            <ValidationMessage For="@(()=> Tecnico.Descripcion)"></ValidationMessage>
+            <ValidationMessage For="@(()=> Tecnico.TipoTecnicoId)"></ValidationMessage>
 
             @*SueldoHora*@
-            <label for="sueldoHora" class="form-label">Sueldo Hora</label>
+            <label for="sueldoHora" class="form-label"><strong>Sueldo Hora</strong></label>
             <InputNumber id="sueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora" placeholder="0" />
             <ValidationMessage For="@(() => Tecnico.SueldoHora)"></ValidationMessage>
 
