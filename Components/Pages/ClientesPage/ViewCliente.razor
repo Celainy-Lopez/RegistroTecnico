@@ -27,7 +27,7 @@
 				</div>
 				@*WhatsApp*@
 				<div class="mb-1">
-					<p class="mb-0"><strong>WhatsApp:</strong> @Cliente.WhatsApp</p>
+					<p class="mb-0"><strong>WhatsApp:</strong> @String.Format("{0:(###) ###-####}", long.Parse(Cliente.WhatsApp))</p>
 				</div>
 
 			</div>
