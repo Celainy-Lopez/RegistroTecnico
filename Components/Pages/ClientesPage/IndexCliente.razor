@@ -1,5 +1,123 @@
-﻿<h3>IndexCliente</h3>
+﻿@page "/Clientes/IndexCliente"
+@rendermode InteractiveServer
+@inject ClienteService clienteService
+@inject NavigationManager navigation
+
+<PageTitle>Clientes</PageTitle>
+<div class="container">
+	<div class="card-header bg-danger text-white text-center">
+		<h2 class="Clientes"><strong>Registro clientes</strong> <i class="bi bi-people-fill"></i></h2>
+	</div>
+	<div class="row">
+		@*Filtrar*@
+		<div class="col-md-3">
+			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel-fill fs-6">Filtrar por:</label>
+			<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
+				<option value="id">ID</option>
+				<option value="Descripcion">Descripcion</option>
+			</InputSelect>
+		</div>
+
+		@*Buscar*@
+		<div class="col-md-6">
+			<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
+			<div class="input-group">
+				<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
+				<button @onclick="Buscar" class="btn btn-no-color bi bi-search text-danger" type="button"> </button>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-body">
+		<table class="table table-light table-bordered">
+			<thead class="table table-striped text-center bg-danger text-white">
+				<tr>
+					@*Id*@
+					<th>Cliente ID</th>
+					@*NombreCliente*@
+					<th>Nombre cliente</th>
+					@*WhatsApp*@
+					<th>WhatsApp</th>
+					<th>Ver</th>
+					<th>Editar</th>
+					<th>Eliminar</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var cliente in Cliente)
+				{
+					<tr>
+						<td class="text-center">@cliente.ClienteId</td>
+						<td class="text-center">@cliente.Nombres</td>
+						<td class="text-center">@cliente.WhatsApp</td>
+
+						<td class="text-center">
+							<a href="/Clientes/DetailsCliente/@cliente.ClienteId" class="btn btn-no-color text-danger bi bi-eye-fill"></a>
+						</td>
+						<td class="text-center">
+							<a href="/Clientes/EditCliente/@cliente.ClienteId" class="btn btn-no-color text-danger bi bi-pencil-square"></a>
+						</td>
+						<td class="text-center">
+							<a href="/Clientes/DeleteCliente/@cliente.ClienteId" class="btn btn-no-color text-danger bi bi-file-earmark-x-fill"></a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div class="card-footer">
+			@if (Busqueda)
+			{
+				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left mt-3" @onclick="Volver"> </button>
+
+			}
+			<a href="/Clientes/CreateCliente" class="btn btn-danger bi bi-plus-square-fill mt-3"> </a>
+		</div>
+	</div>
+</div>
 
 @code {
+	public List<Clientes> Cliente = new List<Clientes>();
+	public string Filtro = "id";
+	public string ValorFiltro = "";
+	public bool Busqueda = false;
 
+	protected override async Task OnInitializedAsync()
+	{
+		Cliente = await clienteService.Listar(t => true);
+	}
+
+	public async Task Buscar()
+	{
+		if (!string.IsNullOrWhiteSpace(ValorFiltro))
+		{
+			switch (Filtro)
+			{
+				case "id":
+					if (int.TryParse(ValorFiltro, out int id))
+					{
+						Cliente = await clienteService.Listar(c => c.ClienteId == id);
+					}
+					break;
+
+				case "Nombres":
+					Cliente = await clienteService.Listar(c => c.Nombres.ToLower().Equals(ValorFiltro.ToLower()));
+					break;
+				case "WhatsApp":
+					Cliente = await clienteService.Listar(c => c.WhatsApp.ToLower().Equals(ValorFiltro.ToLower()));
+					break;
+
+			}
+			Busqueda = true;
+		}
+		else
+		{
+			Volver();
+		}
+	}
+
+	public async Task Volver()
+	{
+		Cliente = await clienteService.Listar(t => true);
+		Busqueda = false;
+	}
 }
