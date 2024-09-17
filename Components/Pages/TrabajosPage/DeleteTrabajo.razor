@@ -1,0 +1,82 @@
+﻿@page "/Trabajos/DeleteTrabajo/"
+@page "/Trabajos/DeleteTrabajo/{TrabajoId:int}"
+@rendermode InteractiveServer
+@inject TrabajoService trabajoService
+@inject NavigationManager navigation
+
+
+<PageTitle>Eliminar t&eacute;cnicos</PageTitle>
+<EditForm Model="Trabajo" OnValidSubmit="EliminarTrabajo">
+	<DataAnnotationsValidator />
+	<div class="card-shadow-lg">
+		<div class="card-header bg-danger text-white text-center ">
+			<h2 class="bi bi-journal-x"><strong>Eliminar t&eacute;cnico</strong></h2>
+		</div>
+		<div class="card-body">
+			<h6><strong>¿Seguro que deseas eliminar este t&eacute;cnico?</strong></h6>
+			@*Datos*@
+			<div class="mb-1">
+				@*TrabajoId*@
+				<p class="mb-0"><strong>Trabajo ID:</strong> @Trabajo.TrabajoId</p>
+				@*DescripcionTrabajo*@
+				<p class="mb-0"><strong>Descripci&oacute;n trabajo:</strong> @Trabajo.DescripcionTrabajo</p>
+				@*Monto*@
+				<p class="mb-0"><strong>Monto:</strong> @Trabajo.Monto</p>
+				@*Fecha*@
+				<p class="mb-0"><strong>Fecha:</strong> @Trabajo.Fecha</p>
+				@*ClienteId*@
+				<p class="mb-0"><strong>Cliente ID:</strong> @Trabajo.ClienteId</p>
+				@*NombreCliente*@
+				<p class="mb-0"><strong>NombreCliente:</strong> @Trabajo.Cliente.Nombres</p>
+				@*TecnicoId*@
+				<p class="mb-0"><strong>T&eacute;cnico ID:</strong> @Trabajo.TecnicoId</p>
+				@*NombreTecnico*@
+				<p class="mb-0"><strong>Nombre t&eacute;cnico:</strong> @Trabajo.Tecnico.NombreTecnico</p>
+				@*IDTipoTecnico*@
+				<p class="mb-0"><strong>Tipo t&eacute;cnico ID:</strong> @Trabajo.Tecnico.TipoTecnicoId</p>
+				@*Descripcion Tipo Tecnico*@
+				<p class="mb-0"><strong>Descripci&oacute;n tipo t&eacute;cnico:</strong> @Trabajo.Tecnico.TipoTecnico.Descripcion</p>
+
+				<div class="card-footer">
+					<button type="button" class="btn btn-secondary text-white bi bi-box-arrow-in-left" @onclick=Volver> </button>
+					<button type="button" class="btn btn-danger bi bi-trash" @onclick=EliminarTrabajo> </button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</EditForm>
+
+
+
+@code {
+
+	[Parameter]
+	public int TrabajoId { get; set; }
+	public Trabajos Trabajo { get; set; } = new Trabajos();
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (TrabajoId > 0)
+		{
+			Trabajo = (await trabajoService.Buscar(TrabajoId));
+		}
+
+	}
+
+	public async Task EliminarTrabajo()
+	{
+		var eliminar = await trabajoService.Eliminar(Trabajo.TrabajoId);
+
+		if (eliminar)
+		{
+			Volver();
+		}
+
+	}
+
+	public void Volver()
+	{
+		navigation.NavigateTo("/Trabajos/IndexTrabajo");
+	}
+}
