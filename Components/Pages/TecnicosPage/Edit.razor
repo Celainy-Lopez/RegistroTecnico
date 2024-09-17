@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="card shadow-lg">
 			<div class="card-header bg-danger text-white text-center">
-				<h2 class="bi bi-pencil-square"><strong>Editar datos t&eacute;cnico</strong></h2>
+				<h2><strong>Editar datos t&eacute;cnico <i class="bi bi-pencil-square" /></strong></h2>
 			</div>
 
 			<div class="card-body">
@@ -28,15 +28,16 @@
 
 				}
 
-				<label for="Descripcion" class="form-label"><strong>Descripcion</strong></label>
+				<label for="Descripcion" class="form-label"><strong>Descripcion tipo t&eacute;cnico</strong></label>
 				<!--Filtrar modificacion del tipo tecnico-->
-				<InputSelect id="Descripcion" class="form-select" @bind-Value="Tecnico.Descripcion">
+				<InputSelect id="Descripcion" class="form-select" @bind-Value="Tecnico.TipoTecnicoId">
+					<option value="0">Seleccione un tipo de técnico</option>
 					@foreach (var descripcion in ListaDescripciones)
 					{
-						<option value="@descripcion.Descripcion">@descripcion.Descripcion</option>
+						<option value="@descripcion.TipoTecnicoId">@descripcion.Descripcion</option>
 					}
 				</InputSelect>
-				<ValidationMessage For="@(()=> Tecnico.Descripcion)"></ValidationMessage>
+				<ValidationMessage For="@(()=> Tecnico.TipoTecnicoId)"></ValidationMessage>
 
 
 				@*SueldoHora*@
