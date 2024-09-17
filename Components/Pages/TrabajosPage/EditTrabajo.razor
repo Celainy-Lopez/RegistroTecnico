@@ -37,7 +37,7 @@
 					<option value="0">Elija una opción</option>
 					@foreach (var nombresT in ListaNombresT)
 					{
-						<option value="@nombresT.TecnicoId">@nombresT.NombreTecnico</option>
+						<option value="@nombresT.TecnicoId">@nombresT.NombreTecnico (@nombresT.TipoTecnico?.Descripcion)</option>
 					}
 				</InputSelect>
 				<ValidationMessage For="@(()=> Trabajo.TecnicoId)"></ValidationMessage>
