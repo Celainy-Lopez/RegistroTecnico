@@ -55,7 +55,7 @@
 						<td>@tecnico.TecnicoId</td>
 						<td>@tecnico.NombreTecnico</td>
 						<td>@tecnico.TipoTecnico.Descripcion</td>
-						<td>@tecnico.SueldoHora</td>
+						<td>@($"{tecnico.SueldoHora:C}")</td>
 
 						<td>
 							<a href="/Tecnicos/Details/@tecnico.TecnicoId" class="btn btn-no-color text-danger bi bi-eye-fill"></a>
