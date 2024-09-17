@@ -42,7 +42,7 @@
 
             @*SueldoHora*@
             <label for="sueldoHora" class="form-label"><strong>Sueldo Hora</strong></label>
-            <InputNumber id="sueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora" placeholder="0" />
+            <InputNumber id="sueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora" placeholder="$0.00" />
             <ValidationMessage For="@(() => Tecnico.SueldoHora)"></ValidationMessage>
 
         </div>
