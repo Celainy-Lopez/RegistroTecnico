@@ -88,7 +88,7 @@
 					<tr class="text-center align-middle">
 						<td>@trabajo.TrabajoId</td>
 						<td>@trabajo.DescripcionTrabajo</td>
-						<td>@trabajo.Monto</td>
+						<td>@($"{trabajo.Monto:C}")</td>
 						<td>@trabajo.Fecha?.ToString("dd/MM/yyyy")</td>
 						<td>@trabajo.ClienteId</td>
 						<td>@trabajo.Cliente.Nombres</td>
