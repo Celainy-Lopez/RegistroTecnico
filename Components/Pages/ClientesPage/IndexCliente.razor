@@ -13,8 +13,9 @@
 		<div class="col-md-3">
 			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel-fill fs-6">Filtrar por:</label>
 			<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
-				<option value="id">ID</option>
-				<option value="Descripcion">Descripcion</option>
+				<option value="id">ClienteID</option>
+				<option value="NombreCliente">Nombre cliente</option>
+				<option value="WhatsApp">WhatsApp</option>
 			</InputSelect>
 		</div>
 
@@ -49,7 +50,7 @@
 					<tr>
 						<td class="text-center">@cliente.ClienteId</td>
 						<td class="text-center">@cliente.Nombres</td>
-						<td class="text-center">@cliente.WhatsApp</td>
+						<td class="text-center">@String.Format("{0:(###) ###-####}", long.Parse(cliente.WhatsApp))</td>
 
 						<td class="text-center">
 							<a href="/Clientes/DetailsCliente/@cliente.ClienteId" class="btn btn-no-color text-danger bi bi-eye-fill"></a>
@@ -99,7 +100,7 @@
 					}
 					break;
 
-				case "Nombres":
+				case "NombreCliente":
 					Cliente = await clienteService.Listar(c => c.Nombres.ToLower().Equals(ValorFiltro.ToLower()));
 					break;
 				case "WhatsApp":
