@@ -18,6 +18,8 @@ public class Program
 
         builder.Services.AddScoped<TecnicoService>();
         builder.Services.AddScoped<TipoTecnicoService>();
+        builder.Services.AddScoped<ClienteService>();
+        builder.Services.AddScoped<TrabajoService>();
 
         // Add services to the container.
         builder.Services.AddRazorComponents()
