@@ -40,16 +40,11 @@ public class TipoTecnicoService(Context context)
 
     public async Task<List<TiposTecnicos>> Listar(Expression<Func<TiposTecnicos, bool>> criterio)
     {
-        return _context.TiposTecnicos.AsNoTracking()
-            .Where(criterio)
-            .ToList();
-    }
-
-    public async Task<TiposTecnicos?> BuscarDescripcion(string descripcion)
-    {
-        return await _context.TiposTecnicos.AsNoTracking()
-            .FirstOrDefaultAsync(tT=>tT.Descripcion == descripcion);
-    }
+        return await _context.TiposTecnicos
+		    .AsNoTracking()
+		    .Where(criterio)
+		    .ToListAsync();
+	}
 
     public async Task<TiposTecnicos?> Buscar (int id)
     {
