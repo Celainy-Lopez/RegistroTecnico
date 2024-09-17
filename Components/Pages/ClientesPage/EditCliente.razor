@@ -19,21 +19,21 @@
 
 				@*NombreCliente*@
 				<label for="nombreCliente" class="form-label"><strong>Nombre Cliente</strong></label>
-				<InputText id="nombreCliente" class="form-control" @bind-Value="Cliente.Nombres" @onfocus="() => ErrorMessage = string.Empty"></InputText>
+				<InputText id="nombreCliente" class="form-control" @bind-Value="Cliente.Nombres" @onfocus="() => ErrorMessageName = string.Empty"></InputText>
 				<ValidationMessage For="@(()=> Cliente.Nombres)"></ValidationMessage>
-				@if (!string.IsNullOrEmpty(ErrorMessage))
+				@if (!string.IsNullOrEmpty(ErrorMessageName))
 				{
-					<div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
+					<div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessageName</div>
 
 				}
 
 				@*WhatsApp*@
 				<label for="WhatsApp" class="form-label"><strong>WhatsApp</strong></label>
-				<InputText id="WhatsApp" class="form-control" @bind-Value="Cliente.WhatsApp" @onfocus="() => ErrorMessage = string.Empty"></InputText>
+				<InputText id="WhatsApp" class="form-control" @bind-Value="Cliente.WhatsApp" @onfocus="() => ErrorMessageWhatsApp = string.Empty"></InputText>
 				<ValidationMessage For="@(()=> Cliente.WhatsApp)"></ValidationMessage>
-				@if (!string.IsNullOrEmpty(ErrorMessage))
+				@if (!string.IsNullOrEmpty(ErrorMessageWhatsApp))
 				{
-					<div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
+					<div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessageWhatsApp</div>
 
 				}
 
@@ -53,7 +53,8 @@
 	public int ClienteId { get; set; }
 	public Clientes Cliente { get; set; } = new Clientes();
 	public bool Repetido { get; set; }
-	public string ErrorMessage { get; set; }
+	public string ErrorMessageName { get; set; }
+	public string ErrorMessageWhatsApp{ get; set; }
 
 
 	protected override async Task OnInitializedAsync()
@@ -67,17 +68,23 @@
 
 	public async Task Modificar()
 	{
-		if (await clienteService.ValidarCliente(Cliente.Nombres))
+		var clienteOriginal = await clienteService.Buscar(ClienteId);
+
+		if (Cliente.Nombres != clienteOriginal.Nombres && await clienteService.ValidarCliente(Cliente.Nombres))
 		{
-			ErrorMessage = "El nombre del cliente ya existe. Por favor, elija otro.";
+			ErrorMessageName = "El nombre del técnico ya existe. Por favor, elija otro.";
+		}
+		else if (await clienteService.ValidarWhatsApp(Cliente.WhatsApp))
+		{
+			ErrorMessageWhatsApp = "Numero registrado, intenta de nuevo";
 		}
 		else
 		{
 			await clienteService.Guardar(Cliente);
 			Cliente = new Clientes();
 			Volver();
-
 		}
+		
 	}
 
 	public void Volver()
