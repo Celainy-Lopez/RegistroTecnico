@@ -1,0 +1,80 @@
+﻿@page "/Trabajos/DetailsTrabajo/"
+@page "/Trabajos/DetailsTrabajo/{TrabajoId:int}"
+@rendermode InteractiveServer
+@inject TrabajoService trabajoService
+@inject NavigationManager navigation
+
+
+<PageTitle>Detalles Trabajos</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		@*Header*@
+		<div class="card-header bg-danger text-white text-center"
+			<h3><strong>Detalles trabajos</strong> <i class="bi bi-person-bounding-box fs-2"/></h3>
+		</div>
+	</div>
+	@*Body*@
+	<div class="card-body">
+		@if (Trabajo != null)
+		{
+			@*Datos*@
+			<div class="mb-1">
+				@*TrabajoId*@
+				<p class="mb-0"><strong>Trabajo ID:</strong> @Trabajo.TrabajoId</p>
+
+				@*DescripcionTrabajo*@
+				<p class="mb-0"><strong>Descripci&oacute;n trabajo:</strong> @Trabajo.DescripcionTrabajo</p> 
+
+				@*Monto*@
+				<p class="mb-0"><strong>Monto:</strong> @Trabajo.Monto</p> 
+				
+				@*Fecha*@
+				<p class="mb-0"><strong>Fecha:</strong> @Trabajo.Fecha</p> <br />
+				
+				@*ClienteId*@
+				<p class="mb-0"><strong>Cliente ID:</strong> @Trabajo.ClienteId</p> 
+				
+				@*NombreCliente*@
+				<p class="mb-0"><strong>Nombre Cliente:</strong> @Trabajo.Cliente.Nombres</p>
+				
+				@*WhatsApp*@
+				<p class="mb-0"><strong>N&uacute;mero contacto cliente:</strong> @Trabajo.Cliente.WhatsApp</p> <br />
+				
+				@*TecnicoId*@
+				<p class="mb-0"><strong>T&eacute;cnico ID:</strong> @Trabajo.TecnicoId</p>
+				
+				@*NombreTecnico*@
+				<p class="mb-0"><strong>Nombre t&eacute;cnico:</strong> @Trabajo.Tecnico.NombreTecnico</p>
+				
+				@*IDTipoTecnico*@
+				<p class="mb-0"><strong>Tipo t&eacute;cnico ID:</strong> @Trabajo.Tecnico.TipoTecnicoId</p>
+				
+				@*Descripcion Tipo Tecnico*@
+				<p class="mb-0"><strong>Descripci&oacute;n tipo t&eacute;cnico:</strong> @Trabajo.Tecnico.TipoTecnico.Descripcion</p>
+			</div>
+		}
+	</div>
+	@*Footer*@
+	<div class="card-footer">
+		<button type="button" class="btn btn-secondary text-white bi bi-arrow-90deg-left" @onclick="Volver"> </button>
+	</div>
+</div>
+
+@code {
+
+	[Parameter]
+	public int TrabajoId { get; set; }
+
+	public Trabajos Trabajo { get; set; } = new Trabajos();
+
+	protected override async Task OnInitializedAsync()
+	{
+		Trabajo = await trabajoService.Buscar(TrabajoId);
+	}
+
+	public void Volver()
+	{
+		navigation.NavigateTo("/Trabajos/IndexTrabajo");
+
+	}
+}
