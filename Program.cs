@@ -20,6 +20,7 @@ public class Program
         builder.Services.AddScoped<TipoTecnicoService>();
         builder.Services.AddScoped<ClienteService>();
         builder.Services.AddScoped<TrabajoService>();
+        builder.Services.AddScoped<PrioridadService>();
 
         // Add services to the container.
         builder.Services.AddRazorComponents()
