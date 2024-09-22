@@ -13,4 +13,6 @@ public class Context(DbContextOptions<Context> options) : DbContext(options)
 	public DbSet<Clientes> Clientes {  get; set; }
 
 	public DbSet<Trabajos> Trabajos { get; set; }
+
+	public DbSet<Prioridades> Prioridades { get; set; }
 }
