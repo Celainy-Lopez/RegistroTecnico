@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Content Remove="Components\Pages\Index.razor" />
-    <Content Remove="Components\Pages\PrioridadesPage\.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Components\Pages\PrioridadesPage\.razor" />
     <None Include="Components\Pages\TecnicosPage\Index.razor" />
   </ItemGroup>
 
