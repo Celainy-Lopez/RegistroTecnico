@@ -33,7 +33,7 @@ namespace RegistroTecnico.Migrations
 
                     b.HasKey("ClienteId");
 
-                    b.ToTable("Clientes");
+                    b.ToTable("Clientes", (string)null);
                 });
 
             modelBuilder.Entity("RegistroTecnico.Models.Prioridades", b =>
@@ -51,7 +51,7 @@ namespace RegistroTecnico.Migrations
 
                     b.HasKey("PrioridadId");
 
-                    b.ToTable("Prioridades");
+                    b.ToTable("Prioridades", (string)null);
                 });
 
             modelBuilder.Entity("RegistroTecnico.Models.Tecnicos", b =>
@@ -75,7 +75,7 @@ namespace RegistroTecnico.Migrations
 
                     b.HasIndex("TipoTecnicoId");
 
-                    b.ToTable("Tecnicos");
+                    b.ToTable("Tecnicos", (string)null);
                 });
 
             modelBuilder.Entity("RegistroTecnico.Models.TiposTecnicos", b =>
@@ -90,7 +90,7 @@ namespace RegistroTecnico.Migrations
 
                     b.HasKey("TipoTecnicoId");
 
-                    b.ToTable("TiposTecnicos");
+                    b.ToTable("TiposTecnicos", (string)null);
                 });
 
             modelBuilder.Entity("RegistroTecnico.Models.Trabajos", b =>
@@ -122,7 +122,7 @@ namespace RegistroTecnico.Migrations
 
                     b.HasIndex("TecnicoId");
 
-                    b.ToTable("Trabajos");
+                    b.ToTable("Trabajos", (string)null);
                 });
 
             modelBuilder.Entity("RegistroTecnico.Models.Tecnicos", b =>
