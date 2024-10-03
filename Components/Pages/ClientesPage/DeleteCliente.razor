@@ -21,7 +21,10 @@
 				<p class="mb-0"><strong>WhatsApp:</strong> @String.Format("{0:(###) ###-####}", long.Parse(Cliente.WhatsApp)) </p>
 
 				<div class="card-footer">
-					<button type="button" class="btn btn-secondary text-white bi bi-box-arrow-in-left" @onclick=Volver> </button>
+					<a href="/Clientes/IndexCliente"
+					   class="btn btn-outline-secondary">
+						<span class="bi bi-arrow-left mt-3"></span> Volver
+					</a>   
 					<button type="button" class="btn btn-danger bi bi-trash" @onclick=EliminarCliente> </button>
 				</div>
 			</div>
@@ -52,13 +55,7 @@
 
 		if (eliminar)
 		{
-			Volver();
+			navigation.NavigateTo("/Clientes/IndexCliente");
 		}
-
-	}
-
-	public void Volver()
-	{
-		navigation.NavigateTo("/Clientes/IndexCliente");
 	}
 }

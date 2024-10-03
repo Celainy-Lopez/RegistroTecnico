@@ -42,7 +42,10 @@
 				<p class="mb-0"><strong>Descripci&oacute;n tipo t&eacute;cnico:</strong> @Trabajo.Tecnico.TipoTecnico.Descripcion</p>
 
 				<div class="card-footer">
-					<button type="button" class="btn btn-secondary text-white bi bi-box-arrow-in-left" @onclick=Volver> </button>
+					<a href="/Trabajos/IndexTrabajo"
+					   class="btn btn-outline-secondary">
+						<span class="bi bi-arrow-left mt-3"></span> Volver
+					</a>	
 					<button type="button" class="btn btn-danger bi bi-trash" @onclick=EliminarTrabajo> </button>
 				</div>
 
@@ -74,13 +77,8 @@
 
 		if (eliminar)
 		{
-			Volver();
+			navigation.NavigateTo("/Trabajos/IndexTrabajo");
 		}
 
-	}
-
-	public void Volver()
-	{
-		navigation.NavigateTo("/Trabajos/IndexTrabajo");
 	}
 }

@@ -29,7 +29,10 @@
 
 			</div>
 			<div class="card-footer">
-				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left" @onclick="Volver"> </button>
+				<a href="/TiposTecnicos/IndexTipoTecnico"
+					 class="btn btn-outline-secondary">
+					<span class="bi bi-arrow-left mt-3"></span> Volver
+				</a> 
 				<button type="submit" class="btn btn-danger bi bi-pencil-square"> </button>
 			</div>
 		</div>
@@ -65,13 +68,8 @@
 		{
 			await tipoTecnicoService.Guardar(TipoTecnico);
 			TipoTecnico = new TiposTecnicos();
-			Volver();
+			navigation.NavigateTo("/TiposTecnicos/IndexTipoTecnico");
 
 		}
-	}
-
-	public void Volver()
-	{
-		navigation.NavigateTo("/TiposTecnicos/IndexTipoTecnico");
 	}
 }

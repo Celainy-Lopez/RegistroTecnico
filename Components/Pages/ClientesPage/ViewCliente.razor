@@ -35,7 +35,10 @@
 	</div>
 	@*Footer*@
 	<div class="card-footer">
-		<button type="button" class="btn btn-secondary text-white bi bi-arrow-90deg-left" @onclick="Volver"> </button>
+		<a href="/Clientes/IndexCliente"
+		   class="btn btn-outline-secondary">
+			<span class="bi bi-arrow-left mt-3"></span> Volver
+		</a>
 	</div>
 </div>
 
@@ -49,11 +52,5 @@
 	protected override async Task OnInitializedAsync()
 	{
 		Cliente = await clienteService.Buscar(ClienteId);
-	}
-
-	public void Volver()
-	{
-		navigation.NavigateTo("/Clientes/IndexCliente");
-
 	}
 }

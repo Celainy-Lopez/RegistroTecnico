@@ -59,7 +59,10 @@
 				<ValidationMessage For="@(()=> Trabajo.Monto)"></ValidationMessage>
 			</div>
 			<div class="card-footer">
-				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left" @onclick="Volver"> </button>
+				<a href="/Trabajos/IndexTrabajo"
+				   class="btn btn-outline-secondary">
+					<span class="bi bi-arrow-left mt-3"></span> Volver
+				</a>	
 				<button type="submit" class="btn btn-danger bi bi-pencil-square"> </button>
 			</div>
 		</div>
@@ -101,14 +104,8 @@
 		{
 			await trabajoService.Guardar(Trabajo);
 			Trabajo = new Trabajos();
-			Volver();
+			navigation.NavigateTo("/Trabajos/IndexTrabajo");
 		}
-	}
-
-
-	public void Volver()
-	{
-		navigation.NavigateTo("/Trabajos/IndexTrabajo");
 	}
 
 	private void LimpiarError()

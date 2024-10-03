@@ -39,7 +39,10 @@
 	</div>
 	@*Footer*@
 	<div class="card-footer">
-		<button type="button" class="btn btn-secondary text-white bi bi-arrow-90deg-left" @onclick="Volver"> </button>
+		<a href="/Tecnicos/Index"
+		   class="btn btn-outline-secondary">
+			<span class="bi bi-arrow-left mt-3"></span> Volver
+		</a>
 	</div>
 </div>
 
@@ -53,11 +56,5 @@
 	protected override async Task OnInitializedAsync()
 	{
 		Tecnico = await tecnicoService.Buscar(TecnicoId);
-	}
-
-	public void Volver()
-	{
-		navigation.NavigateTo("/Tecnicos/Index");
-
 	}
 }

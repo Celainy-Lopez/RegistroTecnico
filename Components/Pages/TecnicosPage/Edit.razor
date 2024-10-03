@@ -46,7 +46,10 @@
 				<ValidationMessage For="@(()=> Tecnico.SueldoHora)"></ValidationMessage>
 			</div>
 			<div class="card-footer">
-				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left" @onclick="Volver"> </button>
+				<a href="/Tecnicos/Index"
+				   class="btn btn-outline-secondary">
+					<span class="bi bi-arrow-left mt-3"></span> Volver
+				</a>   
 				<button type="submit" class="btn btn-danger bi bi-pencil-square"> </button>
 			</div>
 		</div>
@@ -86,14 +89,8 @@
 		{
 			await tecnicoService.Guardar(Tecnico);
 			Tecnico = new Tecnicos();
-			Volver();
+			navigation.NavigateTo("/Tecnicos/Index");
 		}
-	}
-
-
-	public void Volver()
-	{
-		navigation.NavigateTo("/Tecnicos/Index");
 	}
 
 	private void LimpiarError()
