@@ -28,8 +28,11 @@
 
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-secondary bi bi-box-arrow-in-left" @onclick="Volver"> </button>
-            <button type="submit" class="btn btn-danger bi bi-sort-down"></button>
+                <a href="/TiposTecnicos/IndexTipoTecnico"
+                   class="btn btn-outline-secondary">
+                    <span class="bi bi-arrow-left mt-3"></span> Volver
+                </a>   
+                <button type="submit" class="btn btn-danger bi bi-sort-down"></button>
             </div>
         </div>
 </EditForm>
@@ -50,10 +53,5 @@
             TipoTecnico = new TiposTecnicos();
             navigationManager.NavigateTo("/TiposTecnicos/IndexTipoTecnico");
         }
-    }
-
-    public void Volver()
-    {
-        navigationManager.NavigateTo("/TiposTecnicos/IndexTipoTecnico");
     }
 }

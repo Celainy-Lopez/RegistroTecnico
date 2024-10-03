@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Components\Pages\PrioridadesPage\.razor" />
     <None Include="Components\Pages\TecnicosPage\Index.razor" />
   </ItemGroup>
 

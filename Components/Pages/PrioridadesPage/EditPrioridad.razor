@@ -29,7 +29,10 @@
 
 			<div/>
 			<div class="card-footer">
-				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left" @onclick="Volver"> </button>
+				<a href="/Prioridades/IndexPrioridad"
+				   class="btn btn-outline-secondary">
+					<span class="bi bi-arrow-left mt-3"></span> Volver
+				</a>
 				<button type="submit" class="btn btn-danger bi bi-pencil-square"> </button>
 			</div>
 		</div>
@@ -67,12 +70,7 @@
 		{
 			await prioridadService.Guardar(Prioridad);
 			Prioridad = new Prioridades();
-			Volver();
+			navigation.NavigateTo("/Prioridades/IndexPrioridad");
 		}
-	}
-
-	public void Volver()
-	{
-		navigation.NavigateTo("/Prioridades/IndexPrioridad");
 	}
 }
