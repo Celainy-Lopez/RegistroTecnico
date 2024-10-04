@@ -11,7 +11,7 @@
 	<div class="row">
 		@*Filtrar*@
 		<div class="col-md-3">
-			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel-fill fs-6">Filtrar por:</label>
+			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel fs-6">Filtrar por:</label>
 			<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
 				<option value="id">ID</option>
 				<option value="Descripcion">Descripcion</option>
@@ -23,12 +23,13 @@
 			<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
 			<div class="input-group">
 				<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
-				<button @onclick="Buscar" class="btn btn-no-color bi bi-search text-danger" type="button"> </button>
+				<button @onclick="Buscar" class="btn btn-outline-danger bi bi-search" type="button"> Buscar</button>
 			</div>
 		</div>
 	</div>
 
 	<div class="card-body">
+		<a href="/TiposTecnicos/CreateTipoTecnico" class="btn btn-outline-danger bi bi-plus-square mt-3"> Crear</a>
 		<table class="table table-light table-bordered">
 			<thead class="table table-striped text-center bg-danger text-white">
 				<tr>
@@ -49,13 +50,13 @@
 						<td class="text-center">@tipoTecnico.Descripcion</td>
 
 						<td class="text-center">
-							<a href="/TiposTecnicos/DetailsTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-no-color text-danger bi bi-eye-fill"></a>
+							<a href="/TiposTecnicos/DetailsTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-outline-danger bi bi-eye"></a>
 						</td>
 						<td class="text-center">
-							<a href="/TiposTecnicos/EditTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-no-color text-danger bi bi-pencil-square"></a>
+							<a href="/TiposTecnicos/EditTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-outline-danger bi bi-pencil-square"></a>
 						</td>
 						<td class="text-center">
-							<a href="/TiposTecnicos/DeleteTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-no-color text-danger bi bi-file-earmark-x-fill"></a>
+							<a href="/TiposTecnicos/DeleteTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-outline-danger bi bi-trash"></a>
 						</td>
 					</tr>
 				}
@@ -64,10 +65,9 @@
 		<div class="card-footer">
 			@if (Busqueda)
 			{
-				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left mt-3" @onclick="Volver"> </button>
+				<button type="button" class="btn btn-outline-secondary bi bi-arrow-left mt-3" @onclick="Volver"> Volver</button>
 
 			}
-			<a href="/TiposTecnicos/CreateTipoTecnico" class="btn btn-danger bi bi-plus-square-fill mt-3"> </a>
 		</div>
 	</div>
 </div>
