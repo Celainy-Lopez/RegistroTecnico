@@ -6,33 +6,33 @@
 <PageTitle>Eliminar clientes</PageTitle>
 <EditForm Model="Cliente" OnValidSubmit="EliminarCliente">
 	<DataAnnotationsValidator />
-	<div class="card-shadow-lg">
-		<div class="card-header bg-danger text-white text-center ">
-			<h2><strong>Eliminar cliente<i class="bi bi-journal-x" /></strong></h2>
-		</div>
-		<div class="card-body">
-			<h6><strong>¿Seguro que deseas eliminar cliente?</strong></h6>
-			@*ClienteId*@
-			<p class="mb-0"><strong>Cliente ID:</strong> @Cliente.ClienteId</p>
-			<div class="mb-1">
-				@*NombreCliente*@
-				<p class="mb-0"><strong>Nombre cliente:</strong> @Cliente.Nombres</p>
-				@*WhatsApp*@
-				<p class="mb-0"><strong>WhatsApp:</strong> @String.Format("{0:(###) ###-####}", long.Parse(Cliente.WhatsApp)) </p>
+	<div class="container">
+		<div class="card-shadow-lg">
+			<div class="card-header bg-danger text-white text-center ">
+				<h2><strong>Eliminar cliente<i class="bi bi-journal-x" /></strong></h2>
+			</div>
+			<div class="card-body">
+				<h6><strong>¿Seguro que deseas eliminar cliente?</strong></h6>
+				@*ClienteId*@
+				<p class="mb-0"><strong>Cliente ID:</strong> @Cliente.ClienteId</p>
+				<div class="mb-1">
+					@*NombreCliente*@
+					<p class="mb-0"><strong>Nombre cliente:</strong> @Cliente.Nombres</p>
+					@*WhatsApp*@
+					<p class="mb-0"><strong>WhatsApp:</strong> @String.Format("{0:(###) ###-####}", long.Parse(Cliente.WhatsApp)) </p>
 
-				<div class="card-footer">
-					<a href="/Clientes/IndexCliente"
-					   class="btn btn-outline-secondary">
-						<span class="bi bi-arrow-left mt-3"></span> Volver
-					</a>   
-					<button type="button" class="btn btn-danger bi bi-trash" @onclick=EliminarCliente> </button>
+					<div class="card-footer">
+						<a href="/Clientes/IndexCliente"
+						   class="btn btn-outline-secondary">
+							<span class="bi bi-arrow-left mt-3"></span> Volver
+						</a>
+						<button type="button" class="btn btn-outline-danger bi bi-trash" @onclick=EliminarCliente> Eliminar</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </EditForm>
-
-
 
 @code {
 

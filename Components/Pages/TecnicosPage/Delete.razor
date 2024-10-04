@@ -6,30 +6,32 @@
 <PageTitle>Eliminar t&eacute;cnicos</PageTitle>
 <EditForm Model="Tecnico" OnValidSubmit="EliminarTecnico">
 	<DataAnnotationsValidator />
-	<div class="card-shadow-lg">
-		<div class="card-header bg-danger text-white text-center">
-			<h2><strong>Eliminar t&eacute;cnico <i class="bi bi-person-x"></i></strong></h2>
-		</div>
-		<div class="card-body">
-			<h6><strong>¿Seguro que deseas eliminar este t&eacute;cnico?</strong></h6>
-			@*Id*@
-			<p class="mb-0"><strong>Tecnico ID:</strong> @Tecnico.TecnicoId</p>
-			<div class="mb-1">
-				@*NombreTecnico*@
-				<p class="mb-0"><strong>Nombre t&eacute;cnico:</strong> @Tecnico.NombreTecnico</p>
+	<div class="container">
+		<div class="card-shadow-lg">
+			<div class="card-header bg-danger text-white text-center">
+				<h2><strong>Eliminar t&eacute;cnico <i class="bi bi-person-x"></i></strong></h2>
+			</div>
+			<div class="card-body">
+				<h6><strong>¿Seguro que deseas eliminar este t&eacute;cnico?</strong></h6>
+				@*Id*@
+				<p class="mb-0"><strong>Tecnico ID:</strong> @Tecnico.TecnicoId</p>
 				<div class="mb-1">
-					@*SueldoHora*@
-					<p class="mb-0"><strong>Sueldo hora:</strong> @($"{Tecnico.SueldoHora:C}")</p>
+					@*NombreTecnico*@
+					<p class="mb-0"><strong>Nombre t&eacute;cnico:</strong> @Tecnico.NombreTecnico</p>
 					<div class="mb-1">
+						@*SueldoHora*@
+						<p class="mb-0"><strong>Sueldo hora:</strong> @($"{Tecnico.SueldoHora:C}")</p>
+						<div class="mb-1">
+						</div>
 					</div>
-				</div>
 
-				<div class="card-footer">
-					<a href="/Tecnicos/Index"
-					   class="btn btn-outline-secondary">
-						<span class="bi bi-arrow-left mt-3"></span> Volver
-					</a>   
-					<button type="button" class="btn btn-danger bi bi-trash" @onclick=EliminarTecnico> </button>
+					<div class="card-footer">
+						<a href="/Tecnicos/Index"
+						   class="btn btn-outline-secondary">
+							<span class="bi bi-arrow-left mt-3"></span> Volver
+						</a>
+						<button type="button" class="btn btn-outline-danger bi bi-trash" @onclick=EliminarTecnico> Eliminar</button>
+					</div>
 				</div>
 			</div>
 		</div>

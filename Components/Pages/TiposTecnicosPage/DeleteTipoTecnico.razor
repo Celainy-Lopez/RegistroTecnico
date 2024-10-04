@@ -6,24 +6,26 @@
 <PageTitle>Eliminar t&eacute;cnicos</PageTitle>
 <EditForm Model="TipoTecnico" OnValidSubmit="EliminarTipoTecnico">
 	<DataAnnotationsValidator />
-	<div class="card-shadow-lg">
-		<div class="card-header bg-danger text-white text-center ">
-			<h2><strong>Eliminar tipo t&eacute;cnico <i class="bi bi-journal-x" /></strong></h2>
-		</div>
-		<div class="card-body">
-			<h6><strong>¿Seguro que deseas eliminar este tipo t&eacute;cnico?</strong></h6>
-			@*Id*@
-			<p class="mb-0"><strong>Tipo t&eacute;cnico Id:</strong> @TipoTecnico.TipoTecnicoId</p>
-			<div class="mb-1">
-				@*Descripcion*@
-				<p class="mb-0"><strong>Nombre tipo t&eacute;cnico:</strong> @TipoTecnico.Descripcion</p>
+	<div class="container">
+		<div class="card-shadow-lg">
+			<div class="card-header bg-danger text-white text-center ">
+				<h2><strong>Eliminar tipo t&eacute;cnico <i class="bi bi-journal-x" /></strong></h2>
+			</div>
+			<div class="card-body">
+				<h6><strong>¿Seguro que deseas eliminar este tipo t&eacute;cnico?</strong></h6>
+				@*Id*@
+				<p class="mb-0"><strong>Tipo t&eacute;cnico Id:</strong> @TipoTecnico.TipoTecnicoId</p>
+				<div class="mb-1">
+					@*Descripcion*@
+					<p class="mb-0"><strong>Nombre tipo t&eacute;cnico:</strong> @TipoTecnico.Descripcion</p>
 
-				<div class="card-footer">
-					<a href="/TiposTecnicos/IndexTipoTecnico"
-					   class="btn btn-outline-secondary">
-						<span class="bi bi-arrow-left mt-3"></span> Volver
-					</a>   
-					<button type="button" class="btn btn-danger bi bi-trash" @onclick=EliminarTipoTecnico> </button>
+					<div class="card-footer">
+						<a href="/TiposTecnicos/IndexTipoTecnico"
+						   class="btn btn-outline-secondary">
+							<span class="bi bi-arrow-left mt-3"></span> Volver
+						</a>
+						<button type="button" class="btn btn-outline-danger bi bi-trash" @onclick=EliminarTipoTecnico> Eliminar</button>
+					</div>
 				</div>
 			</div>
 		</div>
