@@ -8,50 +8,51 @@
 <PageTitle> Nuevo T&eacute;cnico</PageTitle>
 <EditForm Model="Tecnico" OnValidSubmit="Crear">
     <DataAnnotationsValidator />
-    <div class="container"></div>
-    <div class="card shadow-lg">
-        <div class="card-header bg-danger text-white text-center bi bi-person-add fs-1">
-            <h2><strong>Agregar t&eacute;cnico</strong></h2>
-        </div>
-        <div class="card-body">
-            @*TecnicoId*@
-            <label for="id" class="form-label"><strong>ID</strong></label>
-            <InputNumber id="id" class="form-control" @bind-Value="Tecnico.TecnicoId" readonly></InputNumber>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header bg-danger text-white text-center bi bi-person-add fs-1">
+                <h2><strong>Agregar t&eacute;cnico</strong></h2>
+            </div>
+            <div class="card-body">
+                @*TecnicoId*@
+                <label for="id" class="form-label"><strong>ID</strong></label>
+                <InputNumber id="id" class="form-control" @bind-Value="Tecnico.TecnicoId" readonly></InputNumber>
 
-            @*NombreTecnico*@
-            <label for="nombre" class="form-label"><strong>Nombre t&eacute;cnico</strong></label>
-            <InputText id="nombre" class="form-control" @bind-Value="Tecnico.NombreTecnico" placeholder="Juan Perez" @onfocus="() => ErrorMessage = string.Empty"></InputText>
-            <ValidationMessage For="@(() => Tecnico.NombreTecnico)"></ValidationMessage>
-            @if (!string.IsNullOrEmpty(ErrorMessage))
-            {
-                <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
-
-            }
-
-            @*DescripcionTipoTecnico*@
-            <label for="Descripcion" class="form-label"><strong>Descripcion</strong></label>
-            <!--Filtrar creacion del tipo tecnico-->
-            <InputSelect id="Descripcion" class="form-select" @bind-Value="Tecnico.TipoTecnicoId">
-                <option value="0">Elija una opción</option>
-                @foreach (var descripcion in ListaDescripciones)
+                @*NombreTecnico*@
+                <label for="nombre" class="form-label"><strong>Nombre t&eacute;cnico</strong></label>
+                <InputText id="nombre" class="form-control" @bind-Value="Tecnico.NombreTecnico" placeholder="Juan Perez" @onfocus="() => ErrorMessage = string.Empty"></InputText>
+                <ValidationMessage For="@(() => Tecnico.NombreTecnico)"></ValidationMessage>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
                 {
-                    <option value="@descripcion.TipoTecnicoId">@descripcion.Descripcion</option>
+                    <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
+
                 }
-            </InputSelect>
-            <ValidationMessage For="@(()=> Tecnico.TipoTecnicoId)"></ValidationMessage>
 
-            @*SueldoHora*@
-            <label for="sueldoHora" class="form-label"><strong>Sueldo Hora</strong></label>
-            <InputNumber id="sueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora" placeholder="$0.00" />
-            <ValidationMessage For="@(() => Tecnico.SueldoHora)"></ValidationMessage>
+                @*DescripcionTipoTecnico*@
+                <label for="Descripcion" class="form-label"><strong>Descripcion</strong></label>
+                <!--Filtrar creacion del tipo tecnico-->
+                <InputSelect id="Descripcion" class="form-select" @bind-Value="Tecnico.TipoTecnicoId">
+                    <option value="0">Elija una opción</option>
+                    @foreach (var descripcion in ListaDescripciones)
+                    {
+                        <option value="@descripcion.TipoTecnicoId">@descripcion.Descripcion</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(()=> Tecnico.TipoTecnicoId)"></ValidationMessage>
 
-        </div>
-        <div class="card-footer">
-				<a href="/Tecnicos/Index"
-				   class="btn btn-outline-secondary">
-					<span class="bi bi-arrow-left mt-3"></span> Volver
-				</a>   
-                <button type="submit" class="btn btn-danger bi bi-person-fill-down"></button>
+                @*SueldoHora*@
+                <label for="sueldoHora" class="form-label"><strong>Sueldo Hora</strong></label>
+                <InputNumber id="sueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora" placeholder="$0.00" />
+                <ValidationMessage For="@(() => Tecnico.SueldoHora)"></ValidationMessage>
+
+            </div>
+            <div class="card-footer">
+                <a href="/Tecnicos/Index"
+                   class="btn btn-outline-secondary">
+                    <span class="bi bi-arrow-left mt-3"></span> Volver
+                </a>
+                <button type="submit" class="btn btn-outline-success bi bi-person-down"> Guardar</button>
+            </div>
         </div>
     </div>
 </EditForm>

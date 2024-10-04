@@ -7,32 +7,33 @@
 <PageTitle>Nuevo tipo t&eacute;cnico</PageTitle>
 <EditForm Model="TipoTecnico" OnValidSubmit ="Crear">
     <DataAnnotationsValidator />
-        <div class="container"></div>
-        <div class="card shadow-lg">
-        <div class="card-header bg-danger text-white text-center">
-            <h2><strong>Crear tipo t&eacute;cnico</strong> <i class="bi bi-plus-circle-fill fs-2" /></h2>
-            </div>
-            <div class="card-body">
-                @*TipoTecnicoId*@
-            <label for="id" class="form-label"> <strong>Tipo tecnico ID</strong></label>
-                <InputNumber id="id" class="form-control" @bind-Value="TipoTecnico.TipoTecnicoId" readonly></InputNumber>
+        <div class="container">
+            <div class="card shadow-lg">
+                <div class="card-header bg-danger text-white text-center">
+                    <h2><strong>Crear tipo t&eacute;cnico</strong> <i class="bi bi-plus-circle-fill fs-2" /></h2>
+                </div>
+                <div class="card-body">
+                    @*TipoTecnicoId*@
+                    <label for="id" class="form-label"> <strong>Tipo tecnico ID</strong></label>
+                    <InputNumber id="id" class="form-control" @bind-Value="TipoTecnico.TipoTecnicoId" readonly></InputNumber>
 
-                @*Descripcion*@
-            <label for="descripcion" class="form-label"><strong>Descripci&oacute;n</strong></label>
-            <InputText id="descripcion" class="form-control" @bind-Value="TipoTecnico.Descripcion" placeholder="Reparaci&oacute;n" @onfocus="() => ErrorMessage = string.Empty"></InputText>
-                <ValidationMessage For="@(() => TipoTecnico.Descripcion)"></ValidationMessage>
-                @if (!string.IsNullOrEmpty(ErrorMessage))
-                {
-                    <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
-                }
+                    @*Descripcion*@
+                    <label for="descripcion" class="form-label"><strong>Descripci&oacute;n</strong></label>
+                    <InputText id="descripcion" class="form-control" @bind-Value="TipoTecnico.Descripcion" placeholder="Reparaci&oacute;n" @onfocus="() => ErrorMessage = string.Empty"></InputText>
+                    <ValidationMessage For="@(() => TipoTecnico.Descripcion)"></ValidationMessage>
+                    @if (!string.IsNullOrEmpty(ErrorMessage))
+                    {
+                        <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
+                    }
 
-            </div>
-            <div class="card-footer">
-                <a href="/TiposTecnicos/IndexTipoTecnico"
-                   class="btn btn-outline-secondary">
-                    <span class="bi bi-arrow-left mt-3"></span> Volver
-                </a>   
-                <button type="submit" class="btn btn-danger bi bi-sort-down"></button>
+                </div>
+                <div class="card-footer">
+                    <a href="/TiposTecnicos/IndexTipoTecnico"
+                       class="btn btn-outline-secondary">
+                        <span class="bi bi-arrow-left mt-3"></span> Volver
+                    </a>
+                    <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
+                </div>
             </div>
         </div>
 </EditForm>
