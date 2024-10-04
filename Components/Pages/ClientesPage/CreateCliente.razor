@@ -7,43 +7,44 @@
 <PageTitle> Nuevo cliente</PageTitle>
 <EditForm Model="Cliente" OnValidSubmit="Crear">
     <DataAnnotationsValidator />
-    <div class="container"></div>
-    <div class="card shadow-lg">
-        <div class="card-header bg-danger text-white text-center bi bi-person-add fs-1">
-            <h2><strong>Agregar cliente</strong></h2>
-        </div>
-        <div class="card-body">
-            @*ClienteId*@
-            <label for="id" class="form-label"><strong>ID</strong></label>
-            <InputNumber id="id" class="form-control" @bind-Value="Cliente.ClienteId" readonly></InputNumber>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header bg-danger text-white text-center bi bi-person-add fs-1">
+                <h2><strong>Agregar cliente</strong></h2>
+            </div>
+            <div class="card-body">
+                @*ClienteId*@
+                <label for="id" class="form-label"><strong>ID</strong></label>
+                <InputNumber id="id" class="form-control" @bind-Value="Cliente.ClienteId" readonly></InputNumber>
 
-            @*NombreCliente*@
-            <label for="nombre" class="form-label"><strong>Nombre cliente</strong></label>
-            <InputText id="nombre" class="form-control" @bind-Value="Cliente.Nombres" placeholder="Juan Perez" @onfocus="() => ErrorMessageName = string.Empty"></InputText>
-            <ValidationMessage For="@(() => Cliente.Nombres)"></ValidationMessage>
-            @if (!string.IsNullOrEmpty(ErrorMessageName))
-            {
-                <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessageName</div>
-            }
+                @*NombreCliente*@
+                <label for="nombre" class="form-label"><strong>Nombre cliente</strong></label>
+                <InputText id="nombre" class="form-control" @bind-Value="Cliente.Nombres" placeholder="Juan Perez" @onfocus="() => ErrorMessageName = string.Empty"></InputText>
+                <ValidationMessage For="@(() => Cliente.Nombres)"></ValidationMessage>
+                @if (!string.IsNullOrEmpty(ErrorMessageName))
+                {
+                    <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessageName</div>
+                }
 
-            @*WhatsApp*@
-            <label for="WhatsApp" class="form-label"><strong>WhatsApp</strong></label>
-            <InputText id="WhatsApp" class="form-control" @bind-Value="Cliente.WhatsApp" placeholder="8295994830" @onfocus="() => ErrorMessageWhatsApp = string.Empty"></InputText>
-            <ValidationMessage For="@(() => Cliente.WhatsApp)"></ValidationMessage>
-            @if (!string.IsNullOrEmpty(ErrorMessageWhatsApp))
-            {
-                <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessageWhatsApp</div>
+                @*WhatsApp*@
+                <label for="WhatsApp" class="form-label"><strong>WhatsApp</strong></label>
+                <InputText id="WhatsApp" class="form-control" @bind-Value="Cliente.WhatsApp" placeholder="8295994830" @onfocus="() => ErrorMessageWhatsApp = string.Empty"></InputText>
+                <ValidationMessage For="@(() => Cliente.WhatsApp)"></ValidationMessage>
+                @if (!string.IsNullOrEmpty(ErrorMessageWhatsApp))
+                {
+                    <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessageWhatsApp</div>
 
-            }
+                }
 
 
-        </div>
-        <div class="card-footer">
-            <a href="/Clientes/IndexCliente"
-               class="btn btn-outline-secondary">
-                <span class="bi bi-arrow-left mt-3"></span> Volver
-            </a>   
-            <button type="submit" class="btn btn-danger bi bi-person-fill-down"></button>
+            </div>
+            <div class="card-footer">
+                <a href="/Clientes/IndexCliente"
+                   class="btn btn-outline-secondary">
+                    <span class="bi bi-arrow-left mt-3"></span> Volver
+                </a>
+                <button type="submit" class="btn btn-outline-success bi bi-person-down"> Guardar</button>
+            </div>
         </div>
     </div>
 </EditForm>
@@ -57,7 +58,7 @@
     {
         if (await clienteService.ValidarCliente(Cliente.Nombres))
         {
-            ErrorMessageName = "El nombre del técnico ya existe. Por favor, elija otro.";
+            ErrorMessageName = "El nombre del cliente ya existe. Por favor, elija otro.";
         }
         else if (await clienteService.ValidarWhatsApp(Cliente.WhatsApp))
         {
