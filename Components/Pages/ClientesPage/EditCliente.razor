@@ -43,7 +43,7 @@
 				   class="btn btn-outline-secondary">
 					<span class="bi bi-arrow-left mt-3"></span> Volver
 				</a>   
-				<button type="submit" class="btn btn-danger bi bi-pencil-square"> </button>
+				<button type="submit" class="btn btn-outline-success bi bi-pencil-square"> Modificar</button>
 			</div>
 		</div>
 	</div>
@@ -75,7 +75,7 @@
 
 		if (Cliente.Nombres != clienteOriginal.Nombres && await clienteService.ValidarCliente(Cliente.Nombres))
 		{
-			ErrorMessageName = "El nombre del técnico ya existe. Por favor, elija otro.";
+			ErrorMessageName = "El nombre del cliente ya existe. Por favor, elija otro.";
 		}
 		else if (await clienteService.ValidarWhatsApp(Cliente.WhatsApp))
 		{
