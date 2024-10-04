@@ -44,6 +44,7 @@ public class TrabajoService(Context context)
 			.Include(t=>t.Tecnico)
 				.ThenInclude(t=>t.TipoTecnico)
 			.Include(t=>t.Cliente)
+			.Include(t => t.Prioridad)
 			.ToList();
 	}
 
@@ -53,6 +54,7 @@ public class TrabajoService(Context context)
 			.Include(t => t.Tecnico)
 				.ThenInclude(t => t.TipoTecnico)
 			.Include(t => t.Cliente)
+			.Include(t => t.Prioridad)
 			.FirstOrDefaultAsync(c => c.TrabajoId == id);
 	}
 
