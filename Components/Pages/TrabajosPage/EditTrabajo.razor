@@ -3,6 +3,7 @@
 @inject TrabajoService trabajoService
 @inject ClienteService clienteService
 @inject TecnicoService tecnicoService
+@inject PrioridadService prioridadService
 @inject NavigationManager navigation
 
 <PageTitle>Editar trabajo</PageTitle>
@@ -20,8 +21,8 @@
 				<InputNumber id="idTrabajo" class="form-control" @bind-Value="Trabajo.TrabajoId" readonly></InputNumber>
 
 				@*NombreCliente*@
-				<label for="nombre" class="form-label"><strong>Nombre Cliente</strong></label>
-				<InputSelect id="Nombres" class="form-select" @bind-Value="Trabajo.ClienteId">
+				<label for="Nombres" class="form-label"><strong>Nombre Cliente</strong></label>
+				<InputSelect id="Nombres" class="form-select" @bind-Value="Trabajo.ClienteId" @onfocus="LimpiarMensaje">
 					<option value="0">Elija una opción</option>
 					@foreach (var nombresC in ListaNombresC)
 					{
@@ -33,7 +34,7 @@
 
 				@*NombreTecnico*@
 				<label for="NombreTecnico" class="form-label"><strong>Nombre t&eacute;cnico</strong></label>
-				<InputSelect id="NombreTecnico" class="form-select" @bind-Value="Trabajo.TecnicoId">
+				<InputSelect id="NombreTecnico" class="form-select" @bind-Value="Trabajo.TecnicoId" @onfocus="LimpiarMensaje">
 					<option value="0">Elija una opción</option>
 					@foreach (var nombresT in ListaNombresT)
 					{
@@ -53,17 +54,33 @@
 
 				}
 
+				@*PrioridadTrabajo*@
+				<label for="prioridad" class="form-label"><strong>Prioridad</strong></label>
+				<InputSelect id="prioridad" class="form-select" @bind-Value="Trabajo.PrioridadId" @onfocus="LimpiarMensaje">
+					<option value="0">Elija una opción</option>
+					@foreach (var prioridadT in ListaPrioridades)
+					{
+						<option value="@prioridadT.PrioridadId">@prioridadT.DescripcionPrioridad</option>
+					}
+				</InputSelect>
+				<ValidationMessage For="@(()=> Trabajo.PrioridadId)"></ValidationMessage>
+
 				@*Monto*@
 				<label for="Monto" class="form-label"><strong>Monto</strong></label>
-				<InputNumber id="Monto" class="form-control" @bind-Value="Trabajo.Monto"></InputNumber>
+				<InputNumber id="Monto" class="form-control" @bind-Value="Trabajo.Monto" @onfocus="LimpiarMensaje"></InputNumber>
 				<ValidationMessage For="@(()=> Trabajo.Monto)"></ValidationMessage>
 			</div>
 			<div class="card-footer">
+				@if (!string.IsNullOrEmpty(CheckMessage))
+				{
+					<div class="alert alert-success bi bi-check2-circle ">@CheckMessage</div>
+
+				}
 				<a href="/Trabajos/IndexTrabajo"
 				   class="btn btn-outline-secondary">
 					<span class="bi bi-arrow-left mt-3"></span> Volver
 				</a>	
-				<button type="submit" class="btn btn-danger bi bi-pencil-square"> </button>
+				<button type="submit" class="btn btn-outline-success bi bi-pencil-square"> Modificar</button>
 			</div>
 		</div>
 	</div>
@@ -77,8 +94,10 @@
 	public Trabajos Trabajo { get; set; } = new Trabajos();
 	public bool Repetido { get; set; }
 	public string ErrorMessage { get; set; }
+	public string CheckMessage{ get; set; }
 	public List<Clientes> ListaNombresC{ get; set; } = new List<Clientes>();
 	public List<Tecnicos> ListaNombresT { get; set; } = new List<Tecnicos>();
+	public List<Prioridades> ListaPrioridades { get; set; } = new List<Prioridades>();
 
 
 	protected override async Task OnInitializedAsync()
@@ -89,13 +108,14 @@
 		}
 		ListaNombresC = await clienteService.Listar(nC => nC.ClienteId > 0);
 		ListaNombresT = await tecnicoService.Listar(nT => nT.TecnicoId > 0);
+		ListaPrioridades = await prioridadService.Listar(nP => nP.PrioridadId > 0);
 
 	}
 
 	public async Task Modificar()
 	{
 		var trabajoOriginal = await trabajoService.Buscar(TrabajoId);
-		
+
 		if (Trabajo.DescripcionTrabajo != trabajoOriginal.DescripcionTrabajo && await trabajoService.ValidarTrabajo(Trabajo.DescripcionTrabajo))
 		{
 			ErrorMessage = "Trabajo registrado. Por favor, elija otro.";
@@ -103,13 +123,17 @@
 		else
 		{
 			await trabajoService.Guardar(Trabajo);
-			Trabajo = new Trabajos();
-			navigation.NavigateTo("/Trabajos/IndexTrabajo");
+			CheckMessage = "El trabajo se ha modificado correctamente";
 		}
 	}
 
 	private void LimpiarError()
 	{
 		ErrorMessage = string.Empty;
+	}
+
+	private void LimpiarMensaje()
+	{
+		CheckMessage = string.Empty;
 	}
 }

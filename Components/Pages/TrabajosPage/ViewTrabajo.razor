@@ -20,46 +20,41 @@
 			@*Datos*@
 			<div class="mb-1">
 				@*TrabajoId*@
-				<p class="mb-0"><strong>Trabajo ID:</strong> @Trabajo.TrabajoId</p>
-
+				<div><strong>Trabajo ID:</strong> @Trabajo.TrabajoId</div>
+				@*Prioridad*@
+				<div><strong>Prioridad:</strong> @Trabajo.Prioridad.DescripcionPrioridad</div>
 				@*DescripcionTrabajo*@
-				<p class="mb-0"><strong>Descripci&oacute;n trabajo:</strong> @Trabajo.DescripcionTrabajo</p> 
-
+				<div><strong>Descripci&oacute;n trabajo:</strong> @Trabajo.DescripcionTrabajo</div>
 				@*Monto*@
-				<p class="mb-0"><strong>Monto:</strong> @($"{Trabajo.Monto:C}")</p>
-
+				<div><strong>Monto:</strong> @($"{Trabajo.Monto:C}")</div>
 				@*Fecha*@
-				<p class="mb-0"><strong>Fecha:</strong> @Trabajo.Fecha</p> <br />
-				
+				<div><strong>Fecha:</strong> @Trabajo.Fecha</div> <br />
+
 				@*ClienteId*@
-				<p class="mb-0"><strong>Cliente ID:</strong> @Trabajo.ClienteId</p> 
-				
+				<div><strong>Cliente ID:</strong> @Trabajo.ClienteId</div>
 				@*NombreCliente*@
-				<p class="mb-0"><strong>Nombre Cliente:</strong> @Trabajo.Cliente.Nombres</p>
-				
+				<div><strong>Nombre cliente:</strong> @Trabajo.Cliente.Nombres</div>
 				@*WhatsApp*@
-				<p class="mb-0"><strong>N&uacute;mero contacto cliente:</strong> @String.Format("{0:(###) ###-####}", long.Parse(Trabajo.Cliente.WhatsApp))</p> <br />
-				
+				<div><strong>WhatsApp:</strong> @String.Format("{0:(###) ###-####}", long.Parse(Trabajo.Cliente.WhatsApp)) </div> <br />
+
 				@*TecnicoId*@
-				<p class="mb-0"><strong>T&eacute;cnico ID:</strong> @Trabajo.TecnicoId</p>
-				
+				<div><strong>T&eacute;cnico ID:</strong> @Trabajo.TecnicoId</div>
 				@*NombreTecnico*@
-				<p class="mb-0"><strong>Nombre t&eacute;cnico:</strong> @Trabajo.Tecnico.NombreTecnico</p>
-				
+				<div><strong>Nombre t&eacute;cnico:</strong> @Trabajo.Tecnico.NombreTecnico</div>
 				@*IDTipoTecnico*@
-				<p class="mb-0"><strong>Tipo t&eacute;cnico ID:</strong> @Trabajo.Tecnico.TipoTecnicoId</p>
-				
+				<div><strong>Tipo t&eacute;cnico ID:</strong> @Trabajo.Tecnico.TipoTecnicoId</div>
 				@*Descripcion Tipo Tecnico*@
-				<p class="mb-0"><strong>Descripci&oacute;n tipo t&eacute;cnico:</strong> @Trabajo.Tecnico.TipoTecnico.Descripcion</p>
+				<div><strong>Descripci&oacute;n tipo t&eacute;cnico:</strong> @Trabajo.Tecnico.TipoTecnico.Descripcion</div>
+
+				<div class="card-footer">
+					<a href="/Trabajos/IndexTrabajo"
+					   class="btn btn-outline-secondary">
+						<span class="bi bi-arrow-left mt-3"></span> Volver
+					</a>
+				</div>
+
 			</div>
 		}
-	</div>
-	@*Footer*@
-	<div class="card-footer">
-		<a href="/Trabajos/IndexTrabajo"
-		   class="btn btn-outline-secondary">
-			<span class="bi bi-arrow-left mt-3"></span> Volver
-		</a>
 	</div>
 </div>
 

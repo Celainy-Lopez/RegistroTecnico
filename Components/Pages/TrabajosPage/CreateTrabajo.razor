@@ -4,6 +4,7 @@
 @inject TecnicoService tecnicoService
 @inject TipoTecnicoService tipoTecnicoService
 @inject ClienteService clienteService
+@inject PrioridadService prioridadService
 @inject NavigationManager navigation
 @inject IJSRuntime js
 
@@ -22,8 +23,8 @@
             <ValidationMessage For="@(()=> Trabajo.TrabajoId)"></ValidationMessage>
 
             @*NombreCliente*@
-            <label for="nombre" class="form-label"><strong>Nombre Cliente</strong></label>
-            <InputSelect id="Nombres" class="form-select" @bind-Value="Trabajo.ClienteId">
+            <label for="nombreCliente" class="form-label"><strong>Nombre Cliente</strong></label>
+            <InputSelect id="nombreCliente" class="form-select" @bind-Value="Trabajo.ClienteId">
                 <option value="0">Elija una opción</option>
                 @foreach (var nombresC in ListaNombresC)
                 {
@@ -34,8 +35,8 @@
 
 
             @*NombreTecnico*@
-            <label for="nombre" class="form-label"><strong>Nombre t&eacute;cnico</strong></label>
-            <InputSelect id="NombreTecnico" class="form-select" @bind-Value="Trabajo.TecnicoId">
+            <label for="nombreTecnico" class="form-label"><strong>Nombre t&eacute;cnico</strong></label>
+            <InputSelect id="nombreTecnico" class="form-select" @bind-Value="Trabajo.TecnicoId">
                 <option value="0">Elija una opción</option>
                 @foreach (var nombresT in ListaNombresT)
                 {
@@ -52,6 +53,17 @@
             {
                 <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
             }
+
+            @*PrioridadTrabajo*@
+            <label for="prioridad" class="form-label"><strong>Prioridad</strong></label>
+            <InputSelect id="prioridad" class="form-select" @bind-Value="Trabajo.PrioridadId">
+                <option value="0">Elija una opción</option>
+                @foreach (var prioridadT in ListaPrioridades)
+                {
+                    <option value="@prioridadT.PrioridadId">@prioridadT.DescripcionPrioridad</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(()=> Trabajo.PrioridadId)"></ValidationMessage>
 
             @*Monto*@
             <label for="Monto" class="form-label"><strong>Monto</strong></label>
@@ -71,7 +83,7 @@
 		       class="btn btn-outline-secondary">
 			    <span class="bi bi-arrow-left mt-3"></span> Volver
 		    </a>
-            <button type="submit" class="btn btn-danger bi bi-person-fill-down"></button>
+            <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
         </div>
     </div>
 </EditForm>
@@ -80,12 +92,14 @@
     public Trabajos Trabajo { get; set; } = new Trabajos();
     public List<Clientes> ListaNombresC { get; set; } = new List<Clientes>();
     public List<Tecnicos> ListaNombresT { get; set; } = new List<Tecnicos>();
+    public List<Prioridades> ListaPrioridades { get; set; } = new List<Prioridades>();
     public string ErrorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         ListaNombresC = await clienteService.Listar(nC => nC.ClienteId > 0);
         ListaNombresT = await tecnicoService.Listar(nT => nT.TecnicoId > 0);
+        ListaPrioridades = await prioridadService.Listar(nP => nP.PrioridadId > 0);
     }
 
     public async Task Crear()
