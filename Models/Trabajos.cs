@@ -19,13 +19,18 @@ public class Trabajos
 
 	public Clientes Cliente { get; set; }
 	[ForeignKey("Cliente")]
-        [Range(1, int.MaxValue, ErrorMessage = "Por favor, seleccione una opción válida")]
-        public int ClienteId { get; set; }
+    [Range(1, int.MaxValue, ErrorMessage = "Por favor, seleccione una opción válida")]
+    public int ClienteId { get; set; }
 
 
 	public Tecnicos Tecnico { get; set; }
 	[ForeignKey("Tecnico")]
-        [Range(1, int.MaxValue, ErrorMessage = "Por favor, seleccione una opción válida")]
-        public int TecnicoId { get; set; }
+    [Range(1, int.MaxValue, ErrorMessage = "Por favor, seleccione una opción válida")]
+	public int TecnicoId { get; set; }
+
+	public Prioridades Prioridad { get; set; }
+	[ForeignKey("Prioridad")]
+	[Range(1, int.MaxValue, ErrorMessage ="Por favor, seleccione una opcion valida")]
+	public int PrioridadId { get; set; }
 
 }
