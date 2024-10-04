@@ -8,49 +8,51 @@
 <PageTitle>Eliminar t&eacute;cnicos</PageTitle>
 <EditForm Model="Trabajo" OnValidSubmit="EliminarTrabajo">
 	<DataAnnotationsValidator />
-	<div class="card-shadow-lg">
-		<div class="card-header bg-danger text-white text-center ">
-			<h2 class="bi bi-journal-x"><strong>Eliminar t&eacute;cnico</strong></h2>
-		</div>
-		<div class="card-body">
-			<h6><strong>¿Seguro que deseas eliminar este t&eacute;cnico?</strong></h6>
-			@*Datos*@
-			<div class="mb-1">
-				@*TrabajoId*@
-				<div><strong>Trabajo ID:</strong> @Trabajo.TrabajoId</div>
-				@*Prioridad*@
-				<div><strong>Prioridad:</strong> @Trabajo.Prioridad.DescripcionPrioridad</div>
-				@*DescripcionTrabajo*@
-				<div><strong>Descripci&oacute;n trabajo:</strong> @Trabajo.DescripcionTrabajo</div>
-				@*Monto*@
-				<div><strong>Monto:</strong> @($"{Trabajo.Monto:C}")</div>
-				@*Fecha*@
-				<div><strong>Fecha:</strong> @Trabajo.Fecha</div> <br />
+	<div class="container">
+		<div class="card-shadow-lg">
+			<div class="card-header bg-danger text-white text-center ">
+				<h2 class="bi bi-journal-x"><strong>Eliminar t&eacute;cnico</strong></h2>
+			</div>
+			<div class="card-body">
+				<h6><strong>¿Seguro que deseas eliminar este t&eacute;cnico?</strong></h6>
+				@*Datos*@
+				<div class="mb-1">
+					@*TrabajoId*@
+					<div><strong>Trabajo ID:</strong> @Trabajo.TrabajoId</div>
+					@*Prioridad*@
+					<div><strong>Prioridad:</strong> @Trabajo.Prioridad.DescripcionPrioridad</div>
+					@*DescripcionTrabajo*@
+					<div><strong>Descripci&oacute;n trabajo:</strong> @Trabajo.DescripcionTrabajo</div>
+					@*Monto*@
+					<div><strong>Monto:</strong> @($"{Trabajo.Monto:C}")</div>
+					@*Fecha*@
+					<div><strong>Fecha:</strong> @Trabajo.Fecha</div> <br />
 
-				@*ClienteId*@
-				<div><strong>Cliente ID:</strong> @Trabajo.ClienteId</div>
-				@*NombreCliente*@
-				<div><strong>Nombre cliente:</strong> @Trabajo.Cliente.Nombres</div>
-				@*WhatsApp*@
-				<div><strong>WhatsApp:</strong> @String.Format("{0:(###) ###-####}", long.Parse(Trabajo.Cliente.WhatsApp)) </div> <br />
+					@*ClienteId*@
+					<div><strong>Cliente ID:</strong> @Trabajo.ClienteId</div>
+					@*NombreCliente*@
+					<div><strong>Nombre cliente:</strong> @Trabajo.Cliente.Nombres</div>
+					@*WhatsApp*@
+					<div><strong>WhatsApp:</strong> @String.Format("{0:(###) ###-####}", long.Parse(Trabajo.Cliente.WhatsApp)) </div> <br />
 
-				@*TecnicoId*@
-				<div ><strong>T&eacute;cnico ID:</strong> @Trabajo.TecnicoId</div>
-				@*NombreTecnico*@
-				<div><strong>Nombre t&eacute;cnico:</strong> @Trabajo.Tecnico.NombreTecnico</div>
-				@*IDTipoTecnico*@
-				<div><strong>Tipo t&eacute;cnico ID:</strong> @Trabajo.Tecnico.TipoTecnicoId</div>
-				@*Descripcion Tipo Tecnico*@
-				<div><strong>Descripci&oacute;n tipo t&eacute;cnico:</strong> @Trabajo.Tecnico.TipoTecnico.Descripcion</div>
+					@*TecnicoId*@
+					<div><strong>T&eacute;cnico ID:</strong> @Trabajo.TecnicoId</div>
+					@*NombreTecnico*@
+					<div><strong>Nombre t&eacute;cnico:</strong> @Trabajo.Tecnico.NombreTecnico</div>
+					@*IDTipoTecnico*@
+					<div><strong>Tipo t&eacute;cnico ID:</strong> @Trabajo.Tecnico.TipoTecnicoId</div>
+					@*Descripcion Tipo Tecnico*@
+					<div><strong>Descripci&oacute;n tipo t&eacute;cnico:</strong> @Trabajo.Tecnico.TipoTecnico.Descripcion</div>
 
-				<div class="card-footer">
-					<a href="/Trabajos/IndexTrabajo"
-					   class="btn btn-outline-secondary">
-						<span class="bi bi-arrow-left mt-3"></span> Volver
-					</a>	
-					<button type="button" class="btn btn-outline-danger bi bi-trash" @onclick=EliminarTrabajo> Eliminar</button>
+					<div class="card-footer">
+						<a href="/Trabajos/IndexTrabajo"
+						   class="btn btn-outline-secondary">
+							<span class="bi bi-arrow-left mt-3"></span> Volver
+						</a>
+						<button type="button" class="btn btn-outline-danger bi bi-trash" @onclick=EliminarTrabajo> Eliminar</button>
+					</div>
+
 				</div>
-
 			</div>
 		</div>
 	</div>
