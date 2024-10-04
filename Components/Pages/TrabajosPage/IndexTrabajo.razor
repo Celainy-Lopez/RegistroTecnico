@@ -15,10 +15,11 @@
 	<div class="row">
 		@*Filtrar*@
 		<div class="col-md-3">
-			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel-fill fs-6">Filtrar por:</label>
+			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel fs-6">Filtrar por:</label>
 			<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
 				<option value="Monto">Monto</option>
 				<option value="Fecha">Fecha</option>
+				<option value="Prioridad"> Prioridad</option>
 				<option value="idTrabajo">ID Trabajo</option>
 				<option value="idTecnico">ID Tecnico</option>
 				<option value="idCliente">ID Cliente</option>
@@ -36,12 +37,12 @@
 			<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
 			<div class="input-group">
 				<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
-				<button @onclick="Buscar" class="btn btn-no-color bi bi-search text-danger" type="button"> </button>
+				<button @onclick="Buscar" class="btn btn-outline-danger bi bi-search" type="button"> Buscar</button>
 			</div>
 		</div>
 
 
-		<div class="mb-3">
+		<div class="col-md-2">
 			@* Campo adicional para filtro por fecha *@
 			@if (Filtro == "Fecha")
 			{
@@ -52,9 +53,10 @@
 	</div>
 
 	<div class="card-body">
-		<table class="table table-light table-bordered">
+		<a href="/Trabajos/CreateTrabajo" class="btn btn-outline-danger bi bi-plus-square"> Crear</a>
+		<table class="table table-light table-bordered table-hover">
 			<thead class="table table-striped text-center bg-danger text-white">
-				<tr>
+				<tr class="text-center">
 					@*TrabajoId*@
 					<th>Trabajo ID</th>
 					@*DescripcionTrabajo*@
@@ -63,6 +65,8 @@
 					<th>Monto</th>
 					@*Fecha*@
 					<th>Fecha</th>
+					@*Prioridad*@
+					<th> Prioridad</th>
 					@*ClienteId*@
 					<th>Cliente ID</th>
 					@*NombreCliente*@
@@ -85,11 +89,13 @@
 			<tbody>
 				@foreach (var trabajo in Trabajo)
 				{
-					<tr class="text-center align-middle">
+					<tr class="text-center">
 						<td>@trabajo.TrabajoId</td>
 						<td>@trabajo.DescripcionTrabajo</td>
 						<td>@($"{trabajo.Monto:C}")</td>
 						<td>@trabajo.Fecha?.ToString("dd/MM/yyyy")</td>
+
+						<td> @trabajo.Prioridad.DescripcionPrioridad</td>
 						<td>@trabajo.ClienteId</td>
 						<td>@trabajo.Cliente.Nombres</td>
 						<td>@trabajo.TecnicoId</td>
@@ -101,13 +107,13 @@
 						</td>
 
 						<td class="text-center">
-							<a href="/Trabajos/DetailsTrabajo/@trabajo.TrabajoId" class="btn btn-no-color text-danger bi bi-eye-fill"></a>
+							<a href="/Trabajos/DetailsTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-eye-fill"></a>
 						</td>
 						<td class="text-center">
-							<a href="/Trabajos/EditTrabajo/@trabajo.TrabajoId" class="btn btn-no-color text-danger bi bi-pencil-square"></a>
+							<a href="/Trabajos/EditTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-pencil-square"></a>
 						</td>
 						<td class="text-center">
-							<a href="/Trabajos/DeleteTrabajo/@trabajo.TrabajoId" class="btn btn-no-color text-danger bi bi-person-x"></a>
+							<a href="/Trabajos/DeleteTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-trash"></a>
 						</td>
 					</tr>
 				}
@@ -116,10 +122,9 @@
 		<div class="card-footer">
 			@if (Busqueda)
 			{
-				<button type="button" class="btn btn-secondary bi bi-box-arrow-in-left mt-3" @onclick="Volver"> </button>
-
+				<button type="button" class="btn btn-outline-secondary bi bi-arrow-left mt-3" @onclick="Volver"> Volver</button>
+				 
 			}
-			<a href="/Trabajos/CreateTrabajo" class="btn btn-danger bi bi-plus-square-fill mt-3"> </a>
 		</div>
 	</div>
 </div>
@@ -156,6 +161,10 @@
 					}
 					break;
 
+				case "Prioridad" : 
+					Trabajo = await trabajoService.Listar(c => c.Prioridad.DescripcionPrioridad.ToLower().Equals(ValorFiltro.ToLower()));
+					break;
+
 				case "idTrabajo":
 					if (int.TryParse(ValorFiltro, out int idTrabajo))
 					{
@@ -183,7 +192,6 @@
 						Trabajo = await trabajoService.Listar(c => c.Tecnico.TipoTecnicoId == idTipoTecnico);
 					}
 					break;
-
 
 				case "NombreTecnico":
 					Trabajo = await trabajoService.Listar(c => c.Tecnico.NombreTecnico.ToLower().Equals(ValorFiltro.ToLower()));

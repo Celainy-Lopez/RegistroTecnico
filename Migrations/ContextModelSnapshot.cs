@@ -33,7 +33,7 @@ namespace RegistroTecnico.Migrations
 
                     b.HasKey("ClienteId");
 
-                    b.ToTable("Clientes", (string)null);
+                    b.ToTable("Clientes");
                 });
 
             modelBuilder.Entity("RegistroTecnico.Models.Prioridades", b =>
@@ -46,12 +46,13 @@ namespace RegistroTecnico.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<TimeSpan>("Tiempo")
-                        .HasColumnType("TEXT");
+                    b.Property<double?>("Tiempo")
+                        .IsRequired()
+                        .HasColumnType("REAL");
 
                     b.HasKey("PrioridadId");
 
-                    b.ToTable("Prioridades", (string)null);
+                    b.ToTable("Prioridades");
                 });
 
             modelBuilder.Entity("RegistroTecnico.Models.Tecnicos", b =>
@@ -75,7 +76,7 @@ namespace RegistroTecnico.Migrations
 
                     b.HasIndex("TipoTecnicoId");
 
-                    b.ToTable("Tecnicos", (string)null);
+                    b.ToTable("Tecnicos");
                 });
 
             modelBuilder.Entity("RegistroTecnico.Models.TiposTecnicos", b =>
@@ -90,7 +91,7 @@ namespace RegistroTecnico.Migrations
 
                     b.HasKey("TipoTecnicoId");
 
-                    b.ToTable("TiposTecnicos", (string)null);
+                    b.ToTable("TiposTecnicos");
                 });
 
             modelBuilder.Entity("RegistroTecnico.Models.Trabajos", b =>
@@ -113,6 +114,9 @@ namespace RegistroTecnico.Migrations
                         .IsRequired()
                         .HasColumnType("REAL");
 
+                    b.Property<int>("PrioridadId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("TecnicoId")
                         .HasColumnType("INTEGER");
 
@@ -120,9 +124,11 @@ namespace RegistroTecnico.Migrations
 
                     b.HasIndex("ClienteId");
 
+                    b.HasIndex("PrioridadId");
+
                     b.HasIndex("TecnicoId");
 
-                    b.ToTable("Trabajos", (string)null);
+                    b.ToTable("Trabajos");
                 });
 
             modelBuilder.Entity("RegistroTecnico.Models.Tecnicos", b =>
@@ -144,6 +150,12 @@ namespace RegistroTecnico.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RegistroTecnico.Models.Prioridades", "Prioridad")
+                        .WithMany()
+                        .HasForeignKey("PrioridadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RegistroTecnico.Models.Tecnicos", "Tecnico")
                         .WithMany()
                         .HasForeignKey("TecnicoId")
@@ -151,6 +163,8 @@ namespace RegistroTecnico.Migrations
                         .IsRequired();
 
                     b.Navigation("Cliente");
+
+                    b.Navigation("Prioridad");
 
                     b.Navigation("Tecnico");
                 });

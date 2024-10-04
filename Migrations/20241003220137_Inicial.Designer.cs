@@ -11,7 +11,7 @@ using RegistroTecnico.DAL;
 namespace RegistroTecnico.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240922115754_Inicial")]
+    [Migration("20241003220137_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -49,8 +49,9 @@ namespace RegistroTecnico.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<TimeSpan>("Tiempo")
-                        .HasColumnType("TEXT");
+                    b.Property<double?>("Tiempo")
+                        .IsRequired()
+                        .HasColumnType("REAL");
 
                     b.HasKey("PrioridadId");
 
@@ -116,12 +117,17 @@ namespace RegistroTecnico.Migrations
                         .IsRequired()
                         .HasColumnType("REAL");
 
+                    b.Property<int>("PrioridadId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("TecnicoId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("TrabajoId");
 
                     b.HasIndex("ClienteId");
+
+                    b.HasIndex("PrioridadId");
 
                     b.HasIndex("TecnicoId");
 
@@ -147,6 +153,12 @@ namespace RegistroTecnico.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RegistroTecnico.Models.Prioridades", "Prioridad")
+                        .WithMany()
+                        .HasForeignKey("PrioridadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RegistroTecnico.Models.Tecnicos", "Tecnico")
                         .WithMany()
                         .HasForeignKey("TecnicoId")
@@ -154,6 +166,8 @@ namespace RegistroTecnico.Migrations
                         .IsRequired();
 
                     b.Navigation("Cliente");
+
+                    b.Navigation("Prioridad");
 
                     b.Navigation("Tecnico");
                 });
