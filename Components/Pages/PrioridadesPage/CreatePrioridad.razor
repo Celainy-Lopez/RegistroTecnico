@@ -7,41 +7,42 @@
 <PageTitle>Nueva prioridad</PageTitle>
 <EditForm Model="Prioridad" OnValidSubmit="Crear">
     <DataAnnotationsValidator />
-    <div class="container"></div>
-    <div class="card shadow-lg">
-        <div class="card-header bg-danger text-white text-center">
-            <h2><strong>Crear prioridad</strong> <i class="bi bi-plus-circle-fill fs-2" /></h2>
-        </div>
-        <div class="card-body">
-            @*PrioridadId*@
-            <label for="id" class="form-label"> <strong>Prioridad ID</strong></label>
-            <InputNumber id="id" class="form-control" @bind-Value="Prioridad.PrioridadId" readonly></InputNumber>
-            <ValidationMessage For="@(() =>Prioridad.PrioridadId)"></ValidationMessage>
-            
-            @*DescripcionPrioridad*@
-            <label for="descripcionPrioridad" class="form-label"><strong>Descripci&oacute;n prioridad</strong></label>
-            <InputText id="descripcionPrioridad" class="form-control" @bind-Value="Prioridad.DescripcionPrioridad" placeholder="Urgente, alta, baja" @onfocus="() => ErrorMessage = string.Empty"> </InputText>
-            <ValidationMessage For="@(() => Prioridad.DescripcionPrioridad)"></ValidationMessage>
-            @if (!string.IsNullOrEmpty(ErrorMessage))
-            {
-                <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header bg-danger text-white text-center">
+                <h2><strong>Crear prioridad</strong> <i class="bi bi-plus-circle-fill fs-2" /></h2>
+            </div>
+            <div class="card-body">
+                @*PrioridadId*@
+                <label for="id" class="form-label"> <strong>Prioridad ID</strong></label>
+                <InputNumber id="id" class="form-control" @bind-Value="Prioridad.PrioridadId" readonly></InputNumber>
+                <ValidationMessage For="@(() =>Prioridad.PrioridadId)"></ValidationMessage>
 
-            }
+                @*DescripcionPrioridad*@
+                <label for="descripcionPrioridad" class="form-label"><strong>Descripci&oacute;n prioridad</strong></label>
+                <InputText id="descripcionPrioridad" class="form-control" @bind-Value="Prioridad.DescripcionPrioridad" placeholder="Urgente, alta, baja" @onfocus="() => ErrorMessage = string.Empty"> </InputText>
+                <ValidationMessage For="@(() => Prioridad.DescripcionPrioridad)"></ValidationMessage>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
 
-            @*Tiempo*@
-            <label for="id" class="form-label"> <strong>Tiempo</strong></label>
-            <InputNumber id="id" class="form-control" @bind-Value="Prioridad.Tiempo" placeholder="60 minutos"></InputNumber>
-            <ValidationMessage For="@(() =>Prioridad.Tiempo)"></ValidationMessage>
+                }
+
+                @*Tiempo*@
+                <label for="id" class="form-label"> <strong>Tiempo</strong></label>
+                <InputNumber id="id" class="form-control" @bind-Value="Prioridad.Tiempo" placeholder="60 minutos"></InputNumber>
+                <ValidationMessage For="@(() =>Prioridad.Tiempo)"></ValidationMessage>
 
 
 
-        </div>
-        <div class="card-footer">
-            <a href="/Prioridades/IndexPrioridad"
-               class="btn btn-outline-secondary">
-                <span class="bi bi-arrow-left mt-3"></span> Volver
-            </a>   
-            <button type="submit" class="btn btn-danger bi bi-sort-down"></button>
+            </div>
+            <div class="card-footer">
+                <a href="/Prioridades/IndexPrioridad"
+                   class="btn btn-outline-secondary">
+                    <span class="bi bi-arrow-left mt-3"></span> Volver
+                </a>
+                <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
+            </div>
         </div>
     </div>
 </EditForm>

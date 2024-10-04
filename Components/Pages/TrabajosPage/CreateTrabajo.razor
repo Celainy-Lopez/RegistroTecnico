@@ -11,79 +11,80 @@
 <PageTitle>Nuevo Trabajo</PageTitle>
 <EditForm Model="Trabajo" OnValidSubmit="Crear">
     <DataAnnotationsValidator />
-    <div class="container"></div>
-    <div class="card shadow-lg">
-        <div class="card-header bg-danger text-white text-center">
-            <h2><strong>Nuevo trabajo <i class="bi bi-plus-circle-fill fs-2" /></strong></h2>
-        </div>
-        <div class="card-body">
-            @*TrabajoId*@
-            <label for="id" class="form-label"><strong>Trabajo ID</strong></label>
-            <InputNumber id="id" class="form-control" @bind-Value="Trabajo.TrabajoId" readonly></InputNumber>
-            <ValidationMessage For="@(()=> Trabajo.TrabajoId)"></ValidationMessage>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header bg-danger text-white text-center">
+                <h2><strong>Nuevo trabajo <i class="bi bi-plus-circle-fill fs-2" /></strong></h2>
+            </div>
+            <div class="card-body">
+                @*TrabajoId*@
+                <label for="id" class="form-label"><strong>Trabajo ID</strong></label>
+                <InputNumber id="id" class="form-control" @bind-Value="Trabajo.TrabajoId" readonly></InputNumber>
+                <ValidationMessage For="@(()=> Trabajo.TrabajoId)"></ValidationMessage>
 
-            @*NombreCliente*@
-            <label for="nombreCliente" class="form-label"><strong>Nombre Cliente</strong></label>
-            <InputSelect id="nombreCliente" class="form-select" @bind-Value="Trabajo.ClienteId">
-                <option value="0">Elija una opción</option>
-                @foreach (var nombresC in ListaNombresC)
+                @*NombreCliente*@
+                <label for="nombreCliente" class="form-label"><strong>Nombre Cliente</strong></label>
+                <InputSelect id="nombreCliente" class="form-select" @bind-Value="Trabajo.ClienteId">
+                    <option value="0">Elija una opción</option>
+                    @foreach (var nombresC in ListaNombresC)
+                    {
+                        <option value="@nombresC.ClienteId">@nombresC.Nombres</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(()=> Trabajo.ClienteId)"></ValidationMessage>
+
+
+                @*NombreTecnico*@
+                <label for="nombreTecnico" class="form-label"><strong>Nombre t&eacute;cnico</strong></label>
+                <InputSelect id="nombreTecnico" class="form-select" @bind-Value="Trabajo.TecnicoId">
+                    <option value="0">Elija una opción</option>
+                    @foreach (var nombresT in ListaNombresT)
+                    {
+                        <option value="@nombresT.TecnicoId">@nombresT.NombreTecnico (@nombresT.TipoTecnico?.Descripcion)</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(()=> Trabajo.TecnicoId)"></ValidationMessage>
+
+                @*DescripcionTrabajo*@
+                <label for="DescripcionTrabajo" class="form-label"><strong>Descripci&oacute;n trabajo</strong></label>
+                <InputText id="DescripcionTrabajo" class="form-control" @bind-Value="Trabajo.DescripcionTrabajo" placeholder="Mejorar la version 2.5 del programa" @onfocus="() => ErrorMessage = string.Empty"> </InputText>
+                <ValidationMessage For="@(()=> Trabajo.DescripcionTrabajo)"></ValidationMessage>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
                 {
-                    <option value="@nombresC.ClienteId">@nombresC.Nombres</option>
+                    <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
                 }
-            </InputSelect>
-            <ValidationMessage For="@(()=> Trabajo.ClienteId)"></ValidationMessage>
+
+                @*PrioridadTrabajo*@
+                <label for="prioridad" class="form-label"><strong>Prioridad</strong></label>
+                <InputSelect id="prioridad" class="form-select" @bind-Value="Trabajo.PrioridadId">
+                    <option value="0">Elija una opción</option>
+                    @foreach (var prioridadT in ListaPrioridades)
+                    {
+                        <option value="@prioridadT.PrioridadId">@prioridadT.DescripcionPrioridad</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(()=> Trabajo.PrioridadId)"></ValidationMessage>
+
+                @*Monto*@
+                <label for="Monto" class="form-label"><strong>Monto</strong></label>
+                <InputNumber id="Monto" class="form-control" @bind-Value="Trabajo.Monto" placeholder="$0.00"></InputNumber>
+                <ValidationMessage For="@(() => Trabajo.Monto)"></ValidationMessage>
 
 
-            @*NombreTecnico*@
-            <label for="nombreTecnico" class="form-label"><strong>Nombre t&eacute;cnico</strong></label>
-            <InputSelect id="nombreTecnico" class="form-select" @bind-Value="Trabajo.TecnicoId">
-                <option value="0">Elija una opción</option>
-                @foreach (var nombresT in ListaNombresT)
-                {
-                    <option value="@nombresT.TecnicoId">@nombresT.NombreTecnico (@nombresT.TipoTecnico?.Descripcion)</option>
-                }
-            </InputSelect>
-            <ValidationMessage For="@(()=> Trabajo.TecnicoId)"></ValidationMessage>
-
-            @*DescripcionTrabajo*@
-            <label for="DescripcionTrabajo" class="form-label"><strong>Descripci&oacute;n trabajo</strong></label>
-            <InputText id="DescripcionTrabajo" class="form-control" @bind-Value="Trabajo.DescripcionTrabajo" placeholder="Mejorar la version 2.5 del programa" @onfocus="() => ErrorMessage = string.Empty"> </InputText>
-            <ValidationMessage For="@(()=> Trabajo.DescripcionTrabajo)"></ValidationMessage>
-            @if (!string.IsNullOrEmpty(ErrorMessage))
-            {
-                <div class="alert-danger bi-exclamation-triangle-fill ">@ErrorMessage</div>
-            }
-
-            @*PrioridadTrabajo*@
-            <label for="prioridad" class="form-label"><strong>Prioridad</strong></label>
-            <InputSelect id="prioridad" class="form-select" @bind-Value="Trabajo.PrioridadId">
-                <option value="0">Elija una opción</option>
-                @foreach (var prioridadT in ListaPrioridades)
-                {
-                    <option value="@prioridadT.PrioridadId">@prioridadT.DescripcionPrioridad</option>
-                }
-            </InputSelect>
-            <ValidationMessage For="@(()=> Trabajo.PrioridadId)"></ValidationMessage>
-
-            @*Monto*@
-            <label for="Monto" class="form-label"><strong>Monto</strong></label>
-            <InputNumber id="Monto" class="form-control" @bind-Value="Trabajo.Monto" placeholder="$0.00"></InputNumber>
-            <ValidationMessage For="@(() => Trabajo.Monto)"></ValidationMessage>
+                @*Fecha*@
+                <label for="fecha" class="form-label"><strong>Fecha</strong></label> <br />
+                <InputDate id="fecha" @bind-Value="Trabajo.Fecha" readonly> </InputDate>
+                <ValidationMessage For="@(()=> Trabajo.Fecha)"></ValidationMessage>
 
 
-            @*Fecha*@
-            <label for="fecha" class="form-label"><strong>Fecha</strong></label> <br />
-            <InputDate id="fecha" @bind-Value="Trabajo.Fecha" readonly> </InputDate>
-            <ValidationMessage For="@(()=> Trabajo.Fecha)"></ValidationMessage>
-
-
-        </div>
-        <div class="card-footer">
-		    <a href="/Trabajos/IndexTrabajo"
-		       class="btn btn-outline-secondary">
-			    <span class="bi bi-arrow-left mt-3"></span> Volver
-		    </a>
-            <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
+            </div>
+            <div class="card-footer">
+                <a href="/Trabajos/IndexTrabajo"
+                   class="btn btn-outline-secondary">
+                    <span class="bi bi-arrow-left mt-3"></span> Volver
+                </a>
+                <button type="submit" class="btn btn-outline-success bi bi-floppy"> Guardar</button>
+            </div>
         </div>
     </div>
 </EditForm>
