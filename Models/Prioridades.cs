@@ -8,6 +8,7 @@ public class Prioridades
 	public int PrioridadId {  get; set; }	
 
 	[Required(ErrorMessage ="Ingrese una descripción valida")]
+	[RegularExpression(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$", ErrorMessage = "La descripción solo debe contener letras.")]
 	public string DescripcionPrioridad { get; set; }
 
 	[Required(ErrorMessage ="Ingrese un tiempo valido")]

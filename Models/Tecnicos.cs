@@ -10,7 +10,9 @@ public class Tecnicos
 
 
     [Required(ErrorMessage = "Por favor ingrese el nombre del técnico")]
-    public string? NombreTecnico { get; set; }
+	[RegularExpression(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$", ErrorMessage = "El nombre solo debe contener letras.")]
+
+	public string? NombreTecnico { get; set; }
 
     [Required(ErrorMessage = "Por favor ingrese el sueldo del técnico")]
     [Range(0.01, float.MaxValue, ErrorMessage = "El sueldo debe ser mayor que 0")]

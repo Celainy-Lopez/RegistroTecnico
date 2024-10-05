@@ -8,6 +8,8 @@ public class Clientes
 	public int ClienteId { get; set; }
 
 	[Required(ErrorMessage ="Ingrese un nombre valido")]
+	[RegularExpression(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$", ErrorMessage = "El nombre del cliente solo debe contener letras.")]
+
 	public string Nombres { get; set; }
 
 	[Required(ErrorMessage ="Ingrese un whatsApp valido")]

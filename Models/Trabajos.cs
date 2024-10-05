@@ -9,6 +9,8 @@ public class Trabajos
 	public int TrabajoId { get; set; }
 
 	[Required(ErrorMessage ="Ingrese una descripcion valida")]
+	[RegularExpression(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$", ErrorMessage = "La descripción solo debe contener letras.")]
+
 	public string DescripcionTrabajo {  get; set; }
 
         [Required(ErrorMessage = "Ingrese un monto valido")]
