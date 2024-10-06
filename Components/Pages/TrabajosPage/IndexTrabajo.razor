@@ -9,122 +9,124 @@
 
 <PageTitle>Trabajos</PageTitle>
 <div class="container">
-	<div class="card-header bg-danger text-white text-center">
-		<h2 class="Clientes"> <strong>Registro trabajos <i class="bi bi-journal-bookmark-fill fs-2" /></strong></h2>
-	</div>
-	<div class="row">
-		@*Filtrar*@
-		<div class="col-md-3">
-			<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel fs-6">Filtrar por:</label>
-			<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
-				<option value="Monto">Monto</option>
-				<option value="Fecha">Fecha</option>
-				<option value="Prioridad"> Prioridad</option>
-				<option value="idTrabajo">ID Trabajo</option>
-				<option value="idTecnico">ID Tecnico</option>
-				<option value="idCliente">ID Cliente</option>
-				<option value="idTipoTecnico">ID TipoTecnico</option>
-				<option value="NombreTecnico">NombreTecnico</option>
-				<option value="NombreCliente">NombreCliente</option>
-				<option value="DescripcionTipoTecnico">Descripci&oacute;n tipo tecnico</option>
-				<option value="DescripcionTrabajo">Descripci&oacute;n trabajo</option>
-
-			</InputSelect>
+	<div class="card shadow-lg">
+		<div class="card-header bg-danger text-white text-center">
+			<h2 class="Clientes"> <strong>Registro trabajos <i class="bi bi-journal-bookmark-fill fs-2" /></strong></h2>
 		</div>
+		<div class="row">
+			@*Filtrar*@
+			<div class="col-md-3">
+				<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel fs-6">Filtrar por:</label>
+				<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
+					<option value="Monto">Monto</option>
+					<option value="Fecha">Fecha</option>
+					<option value="Prioridad"> Prioridad</option>
+					<option value="idTrabajo">ID Trabajo</option>
+					<option value="idTecnico">ID Tecnico</option>
+					<option value="idCliente">ID Cliente</option>
+					<option value="idTipoTecnico">ID TipoTecnico</option>
+					<option value="NombreTecnico">NombreTecnico</option>
+					<option value="NombreCliente">NombreCliente</option>
+					<option value="DescripcionTipoTecnico">Descripci&oacute;n tipo tecnico</option>
+					<option value="DescripcionTrabajo">Descripci&oacute;n trabajo</option>
 
-		@*Buscar*@
-		<div class="col-md-6">
-			<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
-			<div class="input-group">
-				<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
-				<button @onclick="Buscar" class="btn btn-outline-danger bi bi-search" type="button"> Buscar</button>
+				</InputSelect>
+			</div>
+
+			@*Buscar*@
+			<div class="col-md-6">
+				<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
+				<div class="input-group">
+					<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
+					<button @onclick="Buscar" class="btn btn-outline-danger bi bi-search" type="button"> Buscar</button>
+				</div>
+			</div>
+
+
+			<div class="col-md-2">
+				@* Campo adicional para filtro por fecha *@
+				@if (Filtro == "Fecha")
+				{
+					<label for="FechaFiltro" class="form-label"><strong>Fecha</strong></label>
+					<InputDate id="FechaFiltro" class="form-control" @bind-Value="FechaFiltro" />
+				}
 			</div>
 		</div>
 
-
-		<div class="col-md-2">
-			@* Campo adicional para filtro por fecha *@
-			@if (Filtro == "Fecha")
-			{
-				<label for="FechaFiltro" class="form-label"><strong>Fecha</strong></label>
-				<InputDate id="FechaFiltro" class="form-control" @bind-Value="FechaFiltro" />
-			}
-		</div>
-	</div>
-
-	<div class="card-body">
-		<a href="/Trabajos/CreateTrabajo" class="btn btn-outline-danger bi bi-plus-square"> Crear</a>
-		<table class="table table-light table-bordered table-hover">
-			<thead class="table table-striped text-center bg-danger text-white">
-				<tr class="text-center">
-					@*TrabajoId*@
-					<th>Trabajo ID</th>
-					@*DescripcionTrabajo*@
-					<th>Descripcion tipo trabajo</th>
-					@*Monto*@
-					<th>Monto</th>
-					@*Fecha*@
-					<th>Fecha</th>
-					@*Prioridad*@
-					<th> Prioridad</th>
-					@*ClienteId*@
-					<th>Cliente ID</th>
-					@*NombreCliente*@
-					<th>Nombre Cliente</th>
-					@*TecnicoId*@
-					<th>T&eacute;cnico ID</th>
-					@*NombreTecnico*@
-					<th>Nombre t&eacute;cnico</th>
-					@*TipoTecnicoId*@
-					<th>Tipo t&eacute;cnico ID</th>
-					@*DescripcionTipoTecnico*@
-					<th>Descripcion tipo T&eacute;cnico</th>
-					@*Terminar trabajo*@
-					<th>Finalizar trabajo</th>
-					<th>Ver</th>
-					<th>Editar</th>
-					<th>Eliminar</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var trabajo in Trabajo)
-				{
+		<div class="card-body">
+			<a href="/Trabajos/CreateTrabajo" class="btn btn-outline-danger bi bi-plus-square"> Crear</a>
+			<table class="table table-light table-bordered table-hover">
+				<thead class="table table-striped text-center bg-danger text-white">
 					<tr class="text-center">
-						<td>@trabajo.TrabajoId</td>
-						<td>@trabajo.DescripcionTrabajo</td>
-						<td>@($"{trabajo.Monto:C}")</td>
-						<td>@trabajo.Fecha?.ToString("dd/MM/yyyy")</td>
-
-						<td> @trabajo.Prioridad.DescripcionPrioridad</td>
-						<td>@trabajo.ClienteId</td>
-						<td>@trabajo.Cliente.Nombres</td>
-						<td>@trabajo.TecnicoId</td>
-						<td>@trabajo.Tecnico.NombreTecnico</td>
-						<td>@trabajo.Tecnico.TipoTecnicoId</td>
-						<td>@trabajo.Tecnico.TipoTecnico?.Descripcion</td>
-						<td>
-							<input type="checkbox" @onclick="() => EnviarMensaje(trabajo)" />
-						</td>
-
-						<td class="text-center">
-							<a href="/Trabajos/DetailsTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-eye"></a>
-						</td>
-						<td class="text-center">
-							<a href="/Trabajos/EditTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-pencil-square"></a>
-						</td>
-						<td class="text-center">
-							<a href="/Trabajos/DeleteTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-trash"></a>
-						</td>
+						@*TrabajoId*@
+						<th>Trabajo ID</th>
+						@*DescripcionTrabajo*@
+						<th>Descripcion tipo trabajo</th>
+						@*Monto*@
+						<th>Monto</th>
+						@*Fecha*@
+						<th>Fecha</th>
+						@*Prioridad*@
+						<th> Prioridad</th>
+						@*ClienteId*@
+						<th>Cliente ID</th>
+						@*NombreCliente*@
+						<th>Nombre Cliente</th>
+						@*TecnicoId*@
+						<th>T&eacute;cnico ID</th>
+						@*NombreTecnico*@
+						<th>Nombre t&eacute;cnico</th>
+						@*TipoTecnicoId*@
+						<th>Tipo t&eacute;cnico ID</th>
+						@*DescripcionTipoTecnico*@
+						<th>Descripcion tipo T&eacute;cnico</th>
+						@*Terminar trabajo*@
+						<th>Finalizar trabajo</th>
+						<th>Ver</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
 					</tr>
+				</thead>
+				<tbody>
+					@foreach (var trabajo in Trabajo)
+					{
+						<tr class="text-center">
+							<td>@trabajo.TrabajoId</td>
+							<td>@trabajo.DescripcionTrabajo</td>
+							<td>@($"{trabajo.Monto:C}")</td>
+							<td>@trabajo.Fecha?.ToString("dd/MM/yyyy")</td>
+
+							<td> @trabajo.Prioridad.DescripcionPrioridad</td>
+							<td>@trabajo.ClienteId</td>
+							<td>@trabajo.Cliente.Nombres</td>
+							<td>@trabajo.TecnicoId</td>
+							<td>@trabajo.Tecnico.NombreTecnico</td>
+							<td>@trabajo.Tecnico.TipoTecnicoId</td>
+							<td>@trabajo.Tecnico.TipoTecnico?.Descripcion</td>
+							<td>
+								<input type="checkbox" @onclick="() => EnviarMensaje(trabajo)" />
+							</td>
+
+							<td class="text-center">
+								<a href="/Trabajos/DetailsTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-eye"></a>
+							</td>
+							<td class="text-center">
+								<a href="/Trabajos/EditTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-pencil-square"></a>
+							</td>
+							<td class="text-center">
+								<a href="/Trabajos/DeleteTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-trash"></a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+			<div class="card-footer">
+				@if (Busqueda)
+				{
+					<button type="button" class="btn btn-outline-secondary bi bi-arrow-left mt-3" @onclick="Volver"> Volver</button>
+
 				}
-			</tbody>
-		</table>
-		<div class="card-footer">
-			@if (Busqueda)
-			{
-				<button type="button" class="btn btn-outline-secondary bi bi-arrow-left mt-3" @onclick="Volver"> Volver</button>
-				 
-			}
+			</div>
 		</div>
 	</div>
 </div>
@@ -226,9 +228,8 @@
 
 	public async Task EnviarMensaje(Trabajos trabajo)
 	{
-		var mensaje = $"Hola {trabajo.Cliente.Nombres}, tenemos novedades sobre su trabajo: {trabajo.DescripcionTrabajo}. El ingeniero/a {trabajo.Tecnico.NombreTecnico} ha finalizado con exito su requirimiento\n\n. Monto:{trabajo.Monto} \n Fecha{trabajo.Fecha?.ToString("dd/MM/yyyy")}\n ID: {trabajo.TrabajoId} \n Por favor, contacte con nosotros para más información. Gracias por preferirnos";
+		var mensaje = $"Hola {trabajo.Cliente.Nombres}, tenemos novedades sobre su trabajo: {trabajo.DescripcionTrabajo}. El ingeniero/a {trabajo.Tecnico.NombreTecnico} ha finalizado con exito su requirimiento.\n\n Monto:{trabajo.Monto} \n Fecha: {trabajo.Fecha?.ToString("dd/MM/yyyy")}\n ID: {trabajo.TrabajoId} \n Por favor, contacte con nosotros para más información. Gracias por preferirnos";
 		var urlWhatsApp = $"https://wa.me/+{trabajo.Cliente.WhatsApp}?text={Uri.EscapeDataString(mensaje)}";
 		await js.InvokeVoidAsync("open", urlWhatsApp, "_blank");
 	}
-}
 }
