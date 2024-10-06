@@ -5,71 +5,73 @@
 
 <PageTitle>Lista prioridades</PageTitle>
 <div class="container">
-	<div class="card-header bg-danger text-white text-center">
-		<h2 class="Prioridades"><strong>Registro prioridades</strong> <i class="bi bi-journal-bookmark-fill fs-2" /></h2>
-	</div>
-	<div class="row">
-		@*Filtrar*@
-		<div class="col-md-3">
-			<label for="descripcionPrioridad" class="form-label btn btn-no-color text-danger bi bi-funnel fs-6">Filtrar por:</label>
-			<InputSelect id="descripcionPrioridad" class="form-select" @bind-Value="Filtro">
-				<option value="id">ID</option>
-				<option value="DescripcionPrioridad">Descripcion</option>
-			</InputSelect>
+	<div class="card shadow-lg">
+		<div class="card-header bg-danger text-white text-center">
+			<h2 class="Prioridades"><strong>Registro prioridades</strong> <i class="bi bi-journal-bookmark-fill fs-2" /></h2>
 		</div>
+		<div class="row">
+			@*Filtrar*@
+			<div class="col-md-3">
+				<label for="descripcionPrioridad" class="form-label btn btn-no-color text-danger bi bi-funnel fs-6">Filtrar por:</label>
+				<InputSelect id="descripcionPrioridad" class="form-select" @bind-Value="Filtro">
+					<option value="id">ID</option>
+					<option value="DescripcionPrioridad">Descripcion</option>
+				</InputSelect>
+			</div>
 
-		@*Buscar*@
-		<div class="col-md-6">
-			<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
-			<div class="input-group">
-				<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
-				<button @onclick="Buscar" class="btn btn-outline-danger bi bi-search" type="button"> Buscar</button>
+			@*Buscar*@
+			<div class="col-md-6">
+				<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
+				<div class="input-group">
+					<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
+					<button @onclick="Buscar" class="btn btn-outline-danger bi bi-search" type="button"> Buscar</button>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="card-body">
-		<a href="/Prioridades/CreatePrioridad" class="btn btn-outline-danger bi bi-plus-square mt-3"> Crear</a>
-		<table class="table table-light table-bordered">
-			<thead class="table table-striped text-center bg-danger text-white">
-				<tr>
-					@*Id*@
-					<th>Prioridad ID</th>
-					@*Descripcion*@
-					<th>Descripci&oacute;n prioridad</th>
-					@*Tiempo*@
-					<th>Tiempo</th>
-					<th>Ver</th>
-					<th>Editar</th>
-					<th>Eliminar</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var prioridad in Prioridad)
-				{
-					<tr class="text-center">
-						<td>@prioridad.PrioridadId</td>
-						<td>@prioridad.DescripcionPrioridad</td>
-						<td>@TimeSpan.FromMinutes((double)prioridad.Tiempo).ToString(@"hh\:mm\:ss")</td>
-						<td class="text-center">
-							<a href="/Prioridades/DetailsPrioridad/@prioridad.PrioridadId" class="btn btn-outline-danger bi bi-eye"></a>
-						</td>
-						<td class="text-center">
-							<a href="/Prioridades/EditPrioridad/@prioridad.PrioridadId" class="btn btn-outline-danger bi bi-pencil-square"></a>
-						</td>
-						<td class="text-center">
-							<a href="/Prioridades/DeletePrioridad/@prioridad.PrioridadId" class="btn btn-outline-danger bi bi-trash"></a>
-						</td>
+		<div class="card-body">
+			<a href="/Prioridades/CreatePrioridad" class="btn btn-outline-danger bi bi-plus-square mt-3"> Crear</a>
+			<table class="table table-light table-bordered">
+				<thead class="table table-striped text-center bg-danger text-white">
+					<tr>
+						@*Id*@
+						<th>Prioridad ID</th>
+						@*Descripcion*@
+						<th>Descripci&oacute;n prioridad</th>
+						@*Tiempo*@
+						<th>Tiempo</th>
+						<th>Ver</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
 					</tr>
-				}
-			</tbody>
-		</table>
-		<div class="card-footer">
-			@if (Busqueda)
-			{
-				<button type="button" class="btn btn-outline-secondary bi bi-arrow-left mt-3" @onclick="Volver"> Volver</button>
+				</thead>
+				<tbody>
+					@foreach (var prioridad in Prioridad)
+					{
+						<tr class="text-center">
+							<td>@prioridad.PrioridadId</td>
+							<td>@prioridad.DescripcionPrioridad</td>
+							<td>@TimeSpan.FromMinutes((double)prioridad.Tiempo).ToString(@"hh\:mm\:ss")</td>
+							<td class="text-center">
+								<a href="/Prioridades/DetailsPrioridad/@prioridad.PrioridadId" class="btn btn-outline-danger bi bi-eye"></a>
+							</td>
+							<td class="text-center">
+								<a href="/Prioridades/EditPrioridad/@prioridad.PrioridadId" class="btn btn-outline-danger bi bi-pencil-square"></a>
+							</td>
+							<td class="text-center">
+								<a href="/Prioridades/DeletePrioridad/@prioridad.PrioridadId" class="btn btn-outline-danger bi bi-trash"></a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+			<div class="card-footer">
+				@if (Busqueda)
+				{
+					<button type="button" class="btn btn-outline-secondary bi bi-arrow-left mt-3" @onclick="Volver"> Volver</button>
 
-			}
+				}
+			</div>
 		</div>
 	</div>
 </div>
