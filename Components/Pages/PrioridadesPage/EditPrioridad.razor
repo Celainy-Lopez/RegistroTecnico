@@ -14,7 +14,7 @@
 			<div class="card-body">
             @*DescripcionPrioridad*@
             <label for="descripcionPrioridad" class="form-label"><strong>Descripci&oacute;n prioridad</strong></label>
-            <InputText id="descripcionTrabajo" class="form-control" @bind-Value="Prioridad.DescripcionPrioridad"> </InputText>
+            <InputText id="descripcionTrabajo" class="form-control" @bind-Value="Prioridad.DescripcionPrioridad" @onfocus = "LimpiarError"> </InputText>
             <ValidationMessage For="@(() => Prioridad.DescripcionPrioridad)"></ValidationMessage>
 			@if (!string.IsNullOrEmpty(ErrorMessage))
 			{
@@ -24,11 +24,19 @@
 
 			@*Tiempo*@
 			<label for="id" class="form-label"> <strong>Tiempo</strong></label>
-			<InputNumber id="id" class="form-control" @bind-Value="Prioridad.Tiempo"></InputNumber>
+			<InputNumber id="id" class="form-control" @bind-Value="Prioridad.Tiempo" @onfocus="LimpiarMensaje"></InputNumber>
 			<ValidationMessage For="@(() =>Prioridad.Tiempo)"></ValidationMessage>
 
 			<div/>
 			<div class="card-footer">
+				@if (!string.IsNullOrEmpty(CheckMessage))
+				{
+					<div class="alert alert-success bi-check2-circle ">@CheckMessage</div>
+				}
+				@if (!string.IsNullOrEmpty(WarningMessage))
+				{
+					<div class="alert alert-warning bi-exclamation-triangle ">@WarningMessage</div>
+				}
 				<a href="/Prioridades/IndexPrioridad"
 				   class="btn btn-outline-secondary">
 					<span class="bi bi-arrow-left mt-3"></span> Volver
@@ -47,7 +55,8 @@
 	public int PrioridadId { get; set; }
 	public string ErrorMessage{ get; set; }
 	public Prioridades Prioridad { get; set; } = new Prioridades();
-	public bool Repetido { get; set; }
+	public string WarningMessage { get; set; }
+	public string CheckMessage{ get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -66,11 +75,26 @@
 		{
 			ErrorMessage = "La prioridad existe. Por favor, elija otra.";
 		}
+		else if(Prioridad.DescripcionPrioridad == prioridadOriginal.DescripcionPrioridad && Prioridad.Tiempo == prioridadOriginal.Tiempo)
+		{
+			WarningMessage = "No ha realizado ninguna modificación";
+		}
 		else
 		{
 			await prioridadService.Guardar(Prioridad);
-			Prioridad = new Prioridades();
-			navigation.NavigateTo("/Prioridades/IndexPrioridad");
+			CheckMessage = "La prioridad se ha modificado correctamente";
 		}
+	}
+
+	public void LimpiarMensaje()
+	{
+		CheckMessage = string.Empty;
+		WarningMessage = string.Empty;
+	}
+
+	public void LimpiarError()
+	{
+		ErrorMessage = string.Empty;
+		LimpiarMensaje();
 	}
 }

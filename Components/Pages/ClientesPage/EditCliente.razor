@@ -19,7 +19,7 @@
 
 				@*NombreCliente*@
 				<label for="nombreCliente" class="form-label"><strong>Nombre Cliente</strong></label>
-				<InputText id="nombreCliente" class="form-control" @bind-Value="Cliente.Nombres" @onfocus="() => ErrorMessageName = string.Empty"></InputText>
+				<InputText id="nombreCliente" class="form-control" @bind-Value="Cliente.Nombres" @onfocus="LimpiarMensajeName"></InputText>
 				<ValidationMessage For="@(()=> Cliente.Nombres)"></ValidationMessage>
 				@if (!string.IsNullOrEmpty(ErrorMessageName))
 				{
@@ -29,7 +29,7 @@
 
 				@*WhatsApp*@
 				<label for="WhatsApp" class="form-label"><strong>WhatsApp</strong></label>
-				<InputText id="WhatsApp" class="form-control" @bind-Value="Cliente.WhatsApp" @onfocus="() => ErrorMessageWhatsApp = string.Empty"></InputText>
+				<InputText id="WhatsApp" class="form-control" @bind-Value="Cliente.WhatsApp" @onfocus="LimpiarMensajeWs"></InputText>
 				<ValidationMessage For="@(()=> Cliente.WhatsApp)"></ValidationMessage>
 				@if (!string.IsNullOrEmpty(ErrorMessageWhatsApp))
 				{
@@ -39,6 +39,15 @@
 
 			</div>
 			<div class="card-footer">
+				@if (!string.IsNullOrEmpty(CheckMessage))
+				{
+					<div class="alert alert-success bi-check2-circle ">@CheckMessage</div>
+				}
+				@if (!string.IsNullOrEmpty(WarningMessage))
+				{
+					<div class="alert alert-warning bi-exclamation-triangle ">@WarningMessage</div>
+				}
+
 				<a href="/Clientes/IndexCliente"
 				   class="btn btn-outline-secondary">
 					<span class="bi bi-arrow-left mt-3"></span> Volver
@@ -58,6 +67,8 @@
 	public bool Repetido { get; set; }
 	public string ErrorMessageName { get; set; }
 	public string ErrorMessageWhatsApp{ get; set; }
+	public string WarningMessage{ get; set; }
+	public string CheckMessage{ get; set; }
 
 
 	protected override async Task OnInitializedAsync()
@@ -77,16 +88,36 @@
 		{
 			ErrorMessageName = "El nombre del cliente ya existe. Por favor, elija otro.";
 		}
-		else if (await clienteService.ValidarWhatsApp(Cliente.WhatsApp))
+		else if (Cliente.WhatsApp != clienteOriginal.WhatsApp && await clienteService.ValidarWhatsApp(Cliente.WhatsApp))
 		{
 			ErrorMessageWhatsApp = "Numero registrado, intenta de nuevo";
+		}
+		else if(Cliente.Nombres == clienteOriginal.Nombres && Cliente.WhatsApp == clienteOriginal.WhatsApp )
+		{
+			WarningMessage = "No ha realizado ninguna modificación";
 		}
 		else
 		{
 			await clienteService.Guardar(Cliente);
-			Cliente = new Clientes();
-			navigation.NavigateTo("/Clientes/IndexCliente");
+			CheckMessage = "El cliente se ha modificado correctamente";
 		}
-		
+	}
+
+	public void LimpiarMensaje()
+	{
+		CheckMessage = string.Empty;
+		WarningMessage = string.Empty;
+	}
+
+	public void LimpiarMensajeName()
+	{
+		ErrorMessageName = string.Empty;
+		LimpiarMensaje();
+	}
+
+	public void LimpiarMensajeWs()
+	{
+		ErrorMessageWhatsApp = string.Empty;
+		LimpiarMensaje();
 	}
 }

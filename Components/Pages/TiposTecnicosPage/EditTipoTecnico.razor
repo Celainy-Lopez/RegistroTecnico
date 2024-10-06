@@ -19,7 +19,7 @@
 
 				@*Descripcion*@
 				<label for="Descripcion" class="form-label"><strong>Descripcion</strong></label>
-				<InputText id="Descripcion" class="form-control" @bind-Value="TipoTecnico.Descripcion" @onfocus="() => ErrorMessage = string.Empty"></InputText>
+				<InputText id="Descripcion" class="form-control" @bind-Value="TipoTecnico.Descripcion" @onfocus="LimpiarMensaje"></InputText>
 				<ValidationMessage For="@(()=> TipoTecnico.Descripcion)"></ValidationMessage>
 				@if (!string.IsNullOrEmpty(ErrorMessage))
 				{
@@ -29,6 +29,14 @@
 
 			</div>
 			<div class="card-footer">
+				@if (!string.IsNullOrEmpty(CheckMessage))
+				{
+					<div class="alert alert-success bi bi-check2-circle ">@CheckMessage</div>
+				}
+				@if (!string.IsNullOrEmpty(WarningMessage))
+				{
+					<div class="alert alert-warning bi bi-exclamation-triangle "> @WarningMessage</div>
+				}
 				<a href="/TiposTecnicos/IndexTipoTecnico"
 					 class="btn btn-outline-secondary">
 					<span class="bi bi-arrow-left mt-3"></span> Volver
@@ -45,8 +53,9 @@
 	[Parameter]
 	public int TipoTecnicoId { get; set; }
 	public TiposTecnicos TipoTecnico { get; set; } = new TiposTecnicos();
-	public bool Repetido { get; set; }
 	public string ErrorMessage { get; set; }
+	public string CheckMessage{ get; set; }
+	public string WarningMessage{ get; set; }
 
 
 	protected override async Task OnInitializedAsync()
@@ -60,16 +69,26 @@
 
 	public async Task Modificar()
 	{
-		if (await tipoTecnicoService.ValidarTipoTecnico(TipoTecnico.Descripcion))
+		var tipoTecnicoOriginal = await tipoTecnicoService.Buscar(TipoTecnicoId);
+		if (TipoTecnico.Descripcion != tipoTecnicoOriginal.Descripcion && await tipoTecnicoService.ValidarTipoTecnico(TipoTecnico.Descripcion))
 		{
 			ErrorMessage = "Descripción registrada. Ingrese una distinta.";
+		}
+		else if (TipoTecnico.Descripcion == tipoTecnicoOriginal.Descripcion)
+		{
+			WarningMessage = "No ha realizado ninguna modificación";
 		}
 		else
 		{
 			await tipoTecnicoService.Guardar(TipoTecnico);
-			TipoTecnico = new TiposTecnicos();
-			navigation.NavigateTo("/TiposTecnicos/IndexTipoTecnico");
-
+			CheckMessage = "El tipo técnico se ha modificado correctamente";
 		}
+	}
+
+	public void LimpiarMensaje()
+	{
+		CheckMessage = string.Empty;
+		WarningMessage = string.Empty;
+		ErrorMessage = string.Empty;
 	}
 }

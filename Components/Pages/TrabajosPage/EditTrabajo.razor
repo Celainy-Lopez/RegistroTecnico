@@ -46,7 +46,7 @@
 
 				@*DescripcionTrabajo*@
 				<label for="DescripcionTrabajo" class="form-label"><strong>Descripci&oacute;n trabajo</strong></label>
-				<InputText id="DescripcionTrabajo" class="form-control" @bind-Value="Trabajo.DescripcionTrabajo" @onfocus="() => ErrorMessage = string.Empty"></InputText>
+				<InputText id="DescripcionTrabajo" class="form-control" @bind-Value="Trabajo.DescripcionTrabajo" @onfocus="LimpiarError"></InputText>
 				<ValidationMessage For="@(()=> Trabajo.DescripcionTrabajo)"></ValidationMessage>
 				@if (!string.IsNullOrEmpty(ErrorMessage))
 				{
@@ -92,7 +92,6 @@
 	[Parameter]
 	public int TrabajoId { get; set; }
 	public Trabajos Trabajo { get; set; } = new Trabajos();
-	public bool Repetido { get; set; }
 	public string ErrorMessage { get; set; }
 	public string CheckMessage{ get; set; }
 	public List<Clientes> ListaNombresC{ get; set; } = new List<Clientes>();
@@ -130,6 +129,7 @@
 	private void LimpiarError()
 	{
 		ErrorMessage = string.Empty;
+		LimpiarMensaje();
 	}
 
 	private void LimpiarMensaje()
