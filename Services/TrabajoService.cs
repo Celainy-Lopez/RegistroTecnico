@@ -39,13 +39,13 @@ public class TrabajoService(Context context)
 
 	public async Task<List<Trabajos>> Listar(Expression<Func<Trabajos, bool>> criterio)
 	{
-		return _context.Trabajos.AsNoTracking()
+		return await _context.Trabajos.AsNoTracking()
 			.Where(criterio)
 			.Include(t=>t.Tecnico)
 				.ThenInclude(t=>t.TipoTecnico)
 			.Include(t=>t.Cliente)
 			.Include(t => t.Prioridad)
-			.ToList();
+			.ToListAsync();
 	}
 
 	public async Task<Trabajos?> Buscar(int id)
