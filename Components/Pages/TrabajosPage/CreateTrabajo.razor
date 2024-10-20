@@ -162,7 +162,6 @@
 
     public async Task Crear()
     {
-        ErrorCrear = string.Empty;
         if (Trabajo.TrabajosDetalle.Count == 0)
         {
             ErrorCrear = "Debe agregar al menos un detalle antes de crear el trabajo.";
@@ -190,6 +189,7 @@
         }
         else
         {
+            ErrorCrear = string.Empty;
             var Detalle = new TrabajosDetalle
                 {
                     ArticuloId = seleccion.articulos.ArticuloId,
