@@ -1,7 +1,7 @@
 ﻿<div class="col-auto input-group align-items-center">
 
     @*Articulos*@
-    <InputSelect class="form-control form-select" @bind-Value="ArticuloId">
+    <InputSelect class="form-control form-select" @bind-Value="ArticuloId" @onfocus="LimpiarMensaje">
         <option value="0" selected disabled>-- Seleccione un articulo --</option>
         @foreach (var articulo in ListArticulos)
         {
@@ -11,18 +11,18 @@
 
     @*Cantidad*@
     <label class="col-form-label input-group-text">Cantidad </label>
-    <InputNumber class="form-control" @bind-Value="Cantidad" placeholder="0"></InputNumber>
+    <InputNumber class="form-control" @bind-Value="Cantidad" placeholder="0" @onfocus="LimpiarMensaje"></InputNumber>
 
     @*Precio*@
     <label class="col-form-label input-group-text">Precio</label>
     <InputNumber class="form-control" @bind-Value="Precio" placeholder="0.00$" readonly></InputNumber>
-    <button type="button" class="btn btn-outline-success bi bi-plus" @onclick="BuscarCantidad">Agregar detalle</button>
+    <button type="button" class="btn btn-outline-success bi bi-plus" @onclick="BuscarCantidad" @onfocus="LimpiarMensaje" >Agregar detalle</button>
 
  </div>
 
 @if (!string.IsNullOrEmpty(Mensaje))
 {
-    <div class="alert alert-danger bi-exclamation-triangle-fill ">@Mensaje</div>
+    <div class="alert alert-danger bi-exclamation-triangle-fill mt-2">@Mensaje</div>
 }
 
 @code
@@ -48,7 +48,6 @@
 
     public async Task BuscarCantidad()
     {
-        Mensaje = string.Empty;
         if (ArticuloId > 0)
         {
             var articulo = ListArticulos.Single(p => p.ArticuloId == ArticuloId);
@@ -74,5 +73,10 @@
             Mensaje = "Seleccione un articulo";
             return;
         }
+    }
+
+    public void LimpiarMensaje()
+    {
+        Mensaje = string.Empty;
     }
 }
