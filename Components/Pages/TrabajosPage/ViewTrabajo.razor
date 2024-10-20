@@ -46,6 +46,7 @@
 				@*Descripcion Tipo Tecnico*@
 				<div><strong>Descripci&oacute;n tipo t&eacute;cnico:</strong> @Trabajo.Tecnico.TipoTecnico.Descripcion</div>
 
+				@*DetallesUtilizados*@
 				<div class="border border-success p-3 mt-3">
 					@foreach (var detalle in Trabajo.TrabajosDetalle)
 					{
@@ -53,6 +54,7 @@
 						<div>Precio de Articulo: @detalle.Precio $</div>
 						<div>Cantidad de Articulos: @detalle.Cantidad</div>
 						<div>Total en Articulos: @(detalle.Precio * detalle.Cantidad) $</div>
+						<br />
 					}
 				</div>
 
