@@ -11,7 +11,7 @@ using RegistroTecnico.DAL;
 namespace RegistroTecnico.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20241003220137_Inicial")]
+    [Migration("20241020125239_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -19,6 +19,56 @@ namespace RegistroTecnico.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
+
+            modelBuilder.Entity("RegistroTecnico.Models.Articulos", b =>
+                {
+                    b.Property<int>("ArticuloId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Costo")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Existencia")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Precio")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("ArticuloId");
+
+                    b.ToTable("Articulos");
+
+                    b.HasData(
+                        new
+                        {
+                            ArticuloId = 1,
+                            Costo = 2000.0,
+                            Descripcion = "Multimetro",
+                            Existencia = 15,
+                            Precio = 5000.0
+                        },
+                        new
+                        {
+                            ArticuloId = 2,
+                            Costo = 250.0,
+                            Descripcion = "Cable de redes",
+                            Existencia = 25,
+                            Precio = 500.0
+                        },
+                        new
+                        {
+                            ArticuloId = 3,
+                            Costo = 500.0,
+                            Descripcion = "Pinzas",
+                            Existencia = 50,
+                            Precio = 750.0
+                        });
+                });
 
             modelBuilder.Entity("RegistroTecnico.Models.Clientes", b =>
                 {
@@ -134,6 +184,36 @@ namespace RegistroTecnico.Migrations
                     b.ToTable("Trabajos");
                 });
 
+            modelBuilder.Entity("RegistroTecnico.Models.TrabajosDetalle", b =>
+                {
+                    b.Property<int>("DetalleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ArticuloId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Costo")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Precio")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("TrabajoId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("DetalleId");
+
+                    b.HasIndex("ArticuloId");
+
+                    b.HasIndex("TrabajoId");
+
+                    b.ToTable("TrabajosDetalles");
+                });
+
             modelBuilder.Entity("RegistroTecnico.Models.Tecnicos", b =>
                 {
                     b.HasOne("RegistroTecnico.Models.TiposTecnicos", "TipoTecnico")
@@ -170,6 +250,30 @@ namespace RegistroTecnico.Migrations
                     b.Navigation("Prioridad");
 
                     b.Navigation("Tecnico");
+                });
+
+            modelBuilder.Entity("RegistroTecnico.Models.TrabajosDetalle", b =>
+                {
+                    b.HasOne("RegistroTecnico.Models.Articulos", "Articulo")
+                        .WithMany()
+                        .HasForeignKey("ArticuloId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RegistroTecnico.Models.Trabajos", "Trabajo")
+                        .WithMany("TrabajosDetalle")
+                        .HasForeignKey("TrabajoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Articulo");
+
+                    b.Navigation("Trabajo");
+                });
+
+            modelBuilder.Entity("RegistroTecnico.Models.Trabajos", b =>
+                {
+                    b.Navigation("TrabajosDetalle");
                 });
 #pragma warning restore 612, 618
         }

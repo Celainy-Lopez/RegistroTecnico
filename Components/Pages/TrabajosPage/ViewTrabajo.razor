@@ -12,7 +12,6 @@
 		<div class="card-header bg-danger text-white text-center">
 			<h3><strong>Detalles trabajos</strong> <i class="bi bi-person-bounding-box fs-2"/></h3>
 		</div>
-	</div>
 	@*Body*@
 	<div class="card-body">
 		@if (Trabajo != null)
@@ -46,6 +45,18 @@
 				@*Descripcion Tipo Tecnico*@
 				<div><strong>Descripci&oacute;n tipo t&eacute;cnico:</strong> @Trabajo.Tecnico.TipoTecnico.Descripcion</div>
 
+				@*DetallesUtilizados*@
+				<div class="border border-success p-3 mt-3">
+					@foreach (var detalle in Trabajo.TrabajosDetalle)
+					{
+						<div>Articulo Id: @detalle.ArticuloId</div>
+						<div>Precio de Articulo: @detalle.Precio $</div>
+						<div>Cantidad de Articulos: @detalle.Cantidad</div>
+						<div>Total en Articulos: @(detalle.Precio * detalle.Cantidad) $</div>
+						<br />
+					}
+				</div>
+
 				<div class="card-footer">
 					<a href="/Trabajos/IndexTrabajo"
 					   class="btn btn-outline-secondary">
@@ -55,6 +66,7 @@
 
 			</div>
 		}
+	</div>
 	</div>
 </div>
 
