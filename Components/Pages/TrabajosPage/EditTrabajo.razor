@@ -174,7 +174,6 @@
 	{
 		var trabajoOriginal = await trabajoService.Buscar(TrabajoId);
 
-		ErrorCrear = string.Empty;
 		if (Trabajo.TrabajosDetalle.Count == 0)
 		{
 			ErrorCrear = "Debe agregar al menos un detalle antes de crear el trabajo.";
@@ -194,6 +193,7 @@
 
 	public async Task AgregarDetalle((Articulos articulos, int cantidad) seleccion)
 	{
+		ErrorCrear = string.Empty;
 		var ArticuloExiste = Trabajo.TrabajosDetalle
 		.FirstOrDefault(a => a.ArticuloId == seleccion.articulos.ArticuloId);
 		if (ArticuloExiste != null)
