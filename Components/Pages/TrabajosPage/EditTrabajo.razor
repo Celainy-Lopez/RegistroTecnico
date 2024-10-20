@@ -70,53 +70,53 @@
 				<label for="Monto" class="form-label"><strong>Monto</strong></label>
 				<InputNumber id="Monto" class="form-control" @bind-Value="Trabajo.Monto" @onfocus="LimpiarMensaje"></InputNumber>
 				<ValidationMessage For="@(()=> Trabajo.Monto)"></ValidationMessage>
-			</div>
 
-			@*DetallesArticulosUtilizados*@
-			<div class="border border-success p-3 mt-3">
-				<h5>Detalles articulos utilizados</h5>
-				<div class="row">
-					<div class="col input-group align-items-center">
-						<h5>Detalles articulos utilizados</h5>
-						<DetallesTrabajos ListArticulos="ListArticulos"
-										  ArticuloId="DetalleSeleccionado.ArticuloId"
-										  Cantidad="DetalleSeleccionado.Cantidad"
-										  Precio="DetalleSeleccionado.Precio"
-										  ArticuloSeleccionado=" AgregarDetalle" />
+				@*DetallesArticulosUtilizados*@
+				<div class="border border-success p-3 mt-3">
+					<h5>Detalles articulos utilizados</h5>
+					<div class="row">
+						<div class="col input-group align-items-center">
+							<h5>Detalles articulos utilizados</h5>
+							<DetallesTrabajos ListArticulos="ListArticulos"
+											  ArticuloId="DetalleSeleccionado.ArticuloId"
+											  Cantidad="DetalleSeleccionado.Cantidad"
+											  Precio="DetalleSeleccionado.Precio"
+											  ArticuloSeleccionado=" AgregarDetalle" />
+						</div>
 					</div>
-				</div>
 
-				<div>
-					<table class="table table-light">
-						<thead>
-							<tr class="text-center">
-								@*ArticuloId*@
-								<th>ArticuloId</th>
-								@*CantidadRequerida*@
-								<th>Cantidad</th>
-								@*Precio*@
-								<th>Precio</th>
-								@*Total*@
-								<th>Total</th>
-
-								<th>Remover</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach (var detalle in Trabajo.TrabajosDetalle)
-							{
+					<div>
+						<table class="table table-light">
+							<thead>
 								<tr class="text-center">
-									<th>@detalle.ArticuloId</th>
-									<th>@detalle.Cantidad</th>
-									<th>@detalle.Precio</th>
-									<th>@(detalle.Precio * detalle.Cantidad)</th>
-									<th>
-										<button type="button" @onclick=" ()=> Eliminar(detalle)" class="btn btn-outline-danger bi bi-trash mt-2"> Remover</button>
-									</th>
+									@*ArticuloId*@
+									<th>ArticuloId</th>
+									@*CantidadRequerida*@
+									<th>Cantidad</th>
+									@*Precio*@
+									<th>Precio</th>
+									@*Total*@
+									<th>Total</th>
+
+									<th>Remover</th>
 								</tr>
-							}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								@foreach (var detalle in Trabajo.TrabajosDetalle)
+								{
+									<tr class="text-center">
+										<th>@detalle.ArticuloId</th>
+										<th>@detalle.Cantidad</th>
+										<th>@detalle.Precio</th>
+										<th>@(detalle.Precio * detalle.Cantidad)</th>
+										<th>
+											<button type="button" @onclick=" ()=> Eliminar(detalle)" class="btn btn-outline-danger bi bi-trash mt-2"> Remover</button>
+										</th>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 
