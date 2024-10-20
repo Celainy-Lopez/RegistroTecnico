@@ -7,6 +7,7 @@ public class Trabajos
 {
 	[Key]
 	public int TrabajoId { get; set; }
+	public ICollection<TrabajosDetalle> TrabajosDetalle { get; set; } = new List<TrabajosDetalle>();
 
 	[Required(ErrorMessage ="Ingrese una descripcion valida")]
 	[RegularExpression(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$", ErrorMessage = "La descripción solo debe contener letras.")]
