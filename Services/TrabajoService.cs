@@ -24,9 +24,17 @@ public class TrabajoService(Context context)
 
 	private async Task<bool> Modificar(Trabajos trabajo)
 	{
+		var trabajoOriginal = await _context.Trabajos
+		.Include(t => t.TrabajosDetalle)
+		.AsNoTracking()
+		.FirstOrDefaultAsync(t => t.TrabajoId == trabajo.TrabajoId);
+
+		await AfectarArticulo(trabajoOriginal.TrabajosDetalle.ToArray(), false);
+
+		await AfectarArticulo(trabajo.TrabajosDetalle.ToArray(), true);
+
 		_context.Update(trabajo);
-        await AfectarArticulo(trabajo.TrabajosDetalle.ToArray());
-        return await _context.SaveChangesAsync() > 0;
+		return await _context.SaveChangesAsync() > 0;
 	}
 
 	public async Task<bool> Eliminar(int trabajoId)
