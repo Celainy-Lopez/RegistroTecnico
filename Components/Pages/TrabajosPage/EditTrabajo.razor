@@ -4,6 +4,7 @@
 @inject ClienteService clienteService
 @inject TecnicoService tecnicoService
 @inject PrioridadService prioridadService
+@inject ArticuloService articuloService
 @inject NavigationManager navigation
 
 <PageTitle>Editar trabajo</PageTitle>
@@ -70,6 +71,54 @@
 				<InputNumber id="Monto" class="form-control" @bind-Value="Trabajo.Monto" @onfocus="LimpiarMensaje"></InputNumber>
 				<ValidationMessage For="@(()=> Trabajo.Monto)"></ValidationMessage>
 			</div>
+
+			@*DetallesArticulosUtilizados*@
+			<div class="border border-success p-3 mt-3">
+				<h5>Detalles articulos utilizados</h5>
+				<div class="row">
+					<div class="col input-group align-items-center">
+						<DetallesTrabajos ListArticulos="ListArticulos"
+										  ArticuloId="DetalleSeleccionado.ArticuloId"
+										  Cantidad="DetalleSeleccionado.Cantidad"
+										  Precio="DetalleSeleccionado.Precio"
+										  ArticuloSeleccionado=" AgregarDetalle" />
+					</div>
+				</div>
+
+				<div>
+					<table class="table table-light">
+						<thead>
+							<tr class="text-center">
+								@*ArticuloId*@
+								<th>ArticuloId</th>
+								@*CantidadRequerida*@
+								<th>Cantidad</th>
+								@*Precio*@
+								<th>Precio</th>
+								@*Total*@
+								<th>Total</th>
+
+								<th>Remover</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var detalle in Trabajo.TrabajosDetalle)
+							{
+								<tr class="text-center">
+									<th>@detalle.ArticuloId</th>
+									<th>@detalle.Cantidad</th>
+									<th>@detalle.Precio</th>
+									<th>@(detalle.Precio * detalle.Cantidad)</th>
+									<th>
+										<button type="button" @onclick=" ()=> Eliminar(detalle)" class="btn btn-outline-danger bi bi-trash mt-2"> Remover</button>
+									</th>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+
 			<div class="card-footer">
 				@if (!string.IsNullOrEmpty(CheckMessage))
 				{
@@ -97,6 +146,8 @@
 	public List<Clientes> ListaNombresC{ get; set; } = new List<Clientes>();
 	public List<Tecnicos> ListaNombresT { get; set; } = new List<Tecnicos>();
 	public List<Prioridades> ListaPrioridades { get; set; } = new List<Prioridades>();
+	public List<Articulos> ListArticulos { get; set; } = [];
+	public TrabajosDetalle DetalleSeleccionado { get; set; } = new TrabajosDetalle();
 
 
 	protected override async Task OnInitializedAsync()
@@ -108,8 +159,9 @@
 		ListaNombresC = await clienteService.Listar(nC => nC.ClienteId > 0);
 		ListaNombresT = await tecnicoService.Listar(nT => nT.TecnicoId > 0);
 		ListaPrioridades = await prioridadService.Listar(nP => nP.PrioridadId > 0);
-
+		ListArticulos = await articuloService.Listar(a => true);
 	}
+
 
 	public async Task Modificar()
 	{
@@ -124,6 +176,37 @@
 			await trabajoService.Guardar(Trabajo);
 			CheckMessage = "El trabajo se ha modificado correctamente";
 		}
+	}
+
+	public async Task AgregarDetalle((Articulos articulos, int cantidad) seleccion)
+	{
+		var ArticuloExiste = Trabajo.TrabajosDetalle
+		.FirstOrDefault(a => a.ArticuloId == seleccion.articulos.ArticuloId);
+		if (ArticuloExiste != null)
+		{
+			ArticuloExiste.Cantidad += seleccion.cantidad;
+		}
+		else
+		{
+			var Detalle = new TrabajosDetalle
+				{
+					ArticuloId = seleccion.articulos.ArticuloId,
+					Cantidad = seleccion.cantidad,
+					Precio = seleccion.articulos.Precio,
+					Costo = seleccion.articulos.Costo
+				};
+			Trabajo.TrabajosDetalle.Add(Detalle);
+			DetalleSeleccionado = new TrabajosDetalle();
+			await Task.CompletedTask;
+		}
+	}
+
+	public void Eliminar(TrabajosDetalle detalle)
+	{
+		Trabajo.TrabajosDetalle.Remove(detalle);
+		DetalleSeleccionado.Cantidad = detalle.Cantidad;
+		DetalleSeleccionado.ArticuloId = detalle.ArticuloId;
+		DetalleSeleccionado.Precio = detalle.Precio;
 	}
 
 	private void LimpiarError()
