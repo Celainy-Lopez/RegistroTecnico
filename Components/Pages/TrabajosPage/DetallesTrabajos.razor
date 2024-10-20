@@ -14,9 +14,10 @@
     <InputNumber class="form-control" @bind-Value="Cantidad" placeholder="0"></InputNumber>
 
     @*Precio*@
-    <label class="col-form-label input-group-text">Precio </label>
+    <label class="col-form-label input-group-text">Precio</label>
     <InputNumber class="form-control" @bind-Value="Precio" placeholder="0.00$" readonly></InputNumber>
-     <button type="button" class="btn btn-outline-success bi bi-plus mt-3" @onclick="BuscarCantidad">Agregar Detalle</button>
+    <button type="button" class="btn btn-outline-success bi bi-plus" @onclick="BuscarCantidad">Agregar detalle</button>
+
  </div>
 
 @if (!string.IsNullOrEmpty(Mensaje))
