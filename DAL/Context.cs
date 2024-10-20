@@ -18,6 +18,8 @@ public class Context(DbContextOptions<Context> options) : DbContext(options)
 
 	public DbSet<Articulos> Articulos { get; set; }
 
+	public DbSet<TrabajosDetalle> TrabajosDetalles { get; set; }
+
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
