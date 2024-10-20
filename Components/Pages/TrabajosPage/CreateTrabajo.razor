@@ -19,9 +19,11 @@
                 </div>
                 <div class="card-body">
                     @*TrabajoId*@
-                    <label for="id" class="form-label"><strong>Trabajo ID</strong></label>
-                    <InputNumber id="id" class="form-control" @bind-Value="Trabajo.TrabajoId" readonly></InputNumber>
-                    <ValidationMessage For="@(()=> Trabajo.TrabajoId)"></ValidationMessage>
+                        <div class="col-md-3">
+                        <label for="id" class="form-label"><strong>Trabajo ID</strong></label>
+                        <InputNumber id="id" class="form-control" @bind-Value="Trabajo.TrabajoId" readonly></InputNumber>
+                        <ValidationMessage For="@(()=> Trabajo.TrabajoId)"></ValidationMessage>
+                    </div>
 
                     @*NombreCliente*@
                     <label for="nombreCliente" class="form-label"><strong>Nombre Cliente</strong></label>
@@ -67,15 +69,17 @@
                     <ValidationMessage For="@(()=> Trabajo.PrioridadId)"></ValidationMessage>
 
                     @*Monto*@
-                    <label for="Monto" class="form-label"><strong>Monto</strong></label>
-                    <InputNumber id="Monto" class="form-control" @bind-Value="Trabajo.Monto" placeholder="$0.00"></InputNumber>
-                    <ValidationMessage For="@(() => Trabajo.Monto)"></ValidationMessage>
-
+                    <div class="col-md-3">
+                        <label for="Monto" class="form-label"><strong>Monto</strong></label>
+                        <InputNumber id="Monto" class="form-control" @bind-Value="Trabajo.Monto" placeholder="$0.00"></InputNumber>
+                        <ValidationMessage For="@(() => Trabajo.Monto)"></ValidationMessage>
+                    </div>
 
                     @*Fecha*@
-                    <label for="fecha" class="form-label"><strong>Fecha</strong></label> <br />
-                    <InputDate id="fecha" @bind-Value="Trabajo.Fecha" readonly> </InputDate>
-                    <ValidationMessage For="@(()=> Trabajo.Fecha)"></ValidationMessage>
+                <div class="col-md-3">
+                    <label for="fecha" class="form-label"><strong>Fecha</strong></label>
+                    <InputDate id="fecha" class="form-control" @bind-Value="Trabajo.Fecha" readonly></InputDate>
+                </div>
 
                     @*DetallesArticulosUtilizados*@
                     <div class="border border-success p-3 mt-3">
