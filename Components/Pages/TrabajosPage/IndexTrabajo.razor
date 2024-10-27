@@ -10,13 +10,13 @@
 <PageTitle>Trabajos</PageTitle>
 <div class="container">
 	<div class="card shadow-lg">
-		<div class="card-header bg-danger text-white text-center">
+		<div class="card-header bg-primary text-white text-center">
 			<h2 class="Clientes"> <strong>Registro trabajos <i class="bi bi-journal-bookmark-fill fs-2" /></strong></h2>
 		</div>
 		<div class="row">
 			@*Filtrar*@
 			<div class="col-md-3">
-				<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel fs-6">Filtrar por:</label>
+				<label for="filtro" class="form-label btn btn-no-color bi bi-funnel fs-6"><strong>Filtrar por:</strong></label>
 				<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
 					<option value="Monto">Monto</option>
 					<option value="Fecha">Fecha</option>
@@ -35,10 +35,10 @@
 
 			@*Buscar*@
 			<div class="col-md-6">
-				<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
+				<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search "></label>
 				<div class="input-group">
 					<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
-					<button @onclick="Buscar" class="btn btn-outline-danger bi bi-search" type="button"> Buscar</button>
+					<button @onclick="Buscar" class="btn btn-outline-primary bi bi-search" type="button"> Buscar</button>
 				</div>
 			</div>
 
@@ -54,12 +54,12 @@
 		</div>
 
 		<div class="card-body">
-			<a href="/Trabajos/CreateTrabajo" class="btn btn-outline-danger bi bi-plus-square"> Crear</a>
-			<table class="table table-light table-bordered table-hover">
-				<thead class="table table-striped text-center bg-danger text-white">
+			<a href="/Trabajos/CreateTrabajo" class="btn btn-outline-primary bi bi-plus-square"> Crear</a>
+			<table class="table table-hover table-bordered text-center mt-3">
+				<thead class="table table-striped text-black ">
 					<tr class="text-center">
 						@*TrabajoId*@
-						<th>Trabajo ID</th>
+						<th>TrabajoID</th>
 						@*DescripcionTrabajo*@
 						<th>Descripcion tipo trabajo</th>
 						@*Monto*@
@@ -69,22 +69,21 @@
 						@*Prioridad*@
 						<th> Prioridad</th>
 						@*ClienteId*@
-						<th>Cliente ID</th>
+						<th>ClienteID</th>
 						@*NombreCliente*@
 						<th>Nombre Cliente</th>
 						@*TecnicoId*@
-						<th>T&eacute;cnico ID</th>
+						<th>T&eacute;cnicoID</th>
 						@*NombreTecnico*@
 						<th>Nombre t&eacute;cnico</th>
 						@*TipoTecnicoId*@
-						<th>Tipo t&eacute;cnico ID</th>
+						<th>Tipo t&eacute;cnicoID</th>
 						@*DescripcionTipoTecnico*@
 						<th>Descripcion tipo T&eacute;cnico</th>
 						@*Terminar trabajo*@
 						<th>Finalizar trabajo</th>
-						<th>Ver</th>
-						<th>Editar</th>
-						<th>Eliminar</th>
+						@*Opciones*@
+						<th class="col-md-2">Opciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -108,19 +107,20 @@
 							</td>
 
 							<td class="text-center">
-								<a href="/Trabajos/DetailsTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-eye"></a>
-							</td>
-							<td class="text-center">
-								<a href="/Trabajos/EditTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-pencil-square"></a>
-							</td>
-							<td class="text-center">
+								<a href="/Trabajos/DetailsTrabajo/@trabajo.TrabajoId" class="btn btn-outline-primary bi bi-eye"></a>
+								<a href="/Trabajos/EditTrabajo/@trabajo.TrabajoId" class="btn btn-outline-primary bi bi-pencil-square"></a>
 								<a href="/Trabajos/DeleteTrabajo/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-trash"></a>
 							</td>
 						</tr>
 					}
 				</tbody>
 			</table>
-			<div class="card-footer">
+			<div class="card-footer space-between">
+				<label class="ms-3"><strong>Cantidad:</strong> @Trabajo.Count</label>
+				<div class="col-5">
+					<label class="ms-5"><strong>Total:</strong> @($"{Trabajo.Sum(p => p.Monto):C}")</label>
+				</div>
+
 				@if (Busqueda)
 				{
 					<button type="button" class="btn btn-outline-secondary bi bi-arrow-left mt-3" @onclick="Volver"> Volver</button>
