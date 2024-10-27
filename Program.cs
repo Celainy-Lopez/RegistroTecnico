@@ -21,8 +21,10 @@ public class Program
         builder.Services.AddScoped<TrabajoService>();
         builder.Services.AddScoped<PrioridadService>();
         builder.Services.AddScoped<ArticuloService>();
-        // Add services to the container.
-        builder.Services.AddRazorComponents()
+		builder.Services.AddScoped<CotizacionesService>();
+
+		// Add services to the container.
+		builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
 
         var app = builder.Build();
