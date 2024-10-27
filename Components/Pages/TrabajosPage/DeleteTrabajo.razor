@@ -8,10 +8,13 @@
 <PageTitle>Eliminar t&eacute;cnicos</PageTitle>
 	<div class="container">
 		<div class="card shadow-lg">
-			<div class="card-header bg-danger text-white text-center ">
+			<div class="card-header bg-primary text-white text-center ">
 				<h2 class="bi bi-journal-x"><strong>Eliminar t&eacute;cnico</strong></h2>
 			</div>
 			<div class="card-body">
+			@if (Trabajo.Monto != null && Trabajo.Monto != null)
+			{
+
 				<h6><strong>¿Seguro que deseas eliminar este t&eacute;cnico?</strong></h6>
 				@*Datos*@
 				<div class="mb-1">
@@ -50,7 +53,9 @@
 							<div>Articulo Id: @detalle.ArticuloId</div>
 							<div>Precio de Articulo: @detalle.Precio $</div>
 							<div>Cantidad de Articulos: @detalle.Cantidad</div>
-							<div>Total en Articulos: @(detalle.Precio * detalle.Cantidad) $</div><br />
+							<div>Total en Articulos: @(detalle.Precio * detalle.Cantidad) $</div>
+
+							<br />
 						}
 					</div>
 
@@ -63,11 +68,10 @@
 					</div>
 
 				</div>
+			}
 			</div>
 		</div>
 	</div>
-
-
 
 @code {
 
