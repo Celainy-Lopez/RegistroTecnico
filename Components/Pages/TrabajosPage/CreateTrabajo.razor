@@ -14,7 +14,7 @@
     <DataAnnotationsValidator />
     <div class="container">
             <div class="card shadow-lg">
-                <div class="card-header bg-danger text-white text-center">
+            <div class="card-header bg-primary text-white text-center">
                     <h2><strong>Nuevo trabajo <i class="bi bi-plus-circle-fill fs-2" /></strong></h2>
                 </div>
                 <div class="card-body">
@@ -85,7 +85,7 @@
                     <div class="border border-success p-3 mt-3">
                         <h5>Detalles articulos utilizados</h5>
                         <div class="row">
-                                <DetallesTrabajos ListArticulos="ListArticulos"
+                                <ArticulosPicker ListArticulos="ListArticulos"
                                                   ArticuloId="DetalleSeleccionado.ArticuloId"
                                                   Cantidad="DetalleSeleccionado.Cantidad"
                                                   Precio="DetalleSeleccionado.Precio"
@@ -181,11 +181,21 @@
 
     public async Task AgregarDetalle((Articulos articulos, int cantidad) seleccion)
     {
+        if (seleccion.articulos.Existencia == 0)
+        {
+            ErrorCrear = $"El artículo '{seleccion.articulos.Descripcion}' está agotado.";
+            return;
+        }
         var ArticuloExiste = Trabajo.TrabajosDetalle
         .FirstOrDefault(A => A.ArticuloId == seleccion.articulos.ArticuloId);
         if (ArticuloExiste != null)
         {
             ArticuloExiste.Cantidad += seleccion.cantidad;
+        }
+        if (seleccion.cantidad > seleccion.articulos.Existencia)
+        {
+            ErrorCrear = $"La cantidad solicitada ({seleccion.cantidad}) supera la existencia disponible ({seleccion.articulos.Existencia}).";
+            return;
         }
         else
         {
