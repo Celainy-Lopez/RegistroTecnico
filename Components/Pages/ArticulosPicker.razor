@@ -1,7 +1,7 @@
 ﻿<div class="col-auto input-group align-items-center">
 
     @*Articulos*@
-    <InputSelect class="form-control form-select" @bind-Value="ArticuloId" @onfocus="LimpiarMensaje">
+    <InputSelect class="form-control form-select" @bind-Value="ArticuloId">
         <option value="0" selected disabled>-- Seleccione un articulo --</option>
         @foreach (var articulo in ListArticulos)
         {
@@ -11,12 +11,12 @@
 
     @*Cantidad*@
     <label class="col-form-label input-group-text">Cantidad </label>
-    <InputNumber class="form-control" @bind-Value="Cantidad" placeholder="0" @onfocus="LimpiarMensaje"></InputNumber>
+    <InputNumber class="form-control" @bind-Value="Cantidad" placeholder="0"></InputNumber>
 
     @*Precio*@
     <label class="col-form-label input-group-text">Precio</label>
     <InputNumber class="form-control" @bind-Value="Precio" placeholder="0.00$" readonly></InputNumber>
-    <button type="button" class="btn btn-outline-success bi bi-plus" @onclick="BuscarCantidad" @onfocus="LimpiarMensaje" >Agregar detalle</button>
+    <button type="button" class="btn btn-outline-success bi bi-plus" @onclick="BuscarCantidad" >Agregar detalle</button>
 
  </div>
 
@@ -48,20 +48,11 @@
 
     public async Task BuscarCantidad()
     {
+        Mensaje = string.Empty;
         if (ArticuloId > 0)
         {
             var articulo = ListArticulos.Single(p => p.ArticuloId == ArticuloId);
-            if ( articulo.Existencia <= 0)
-            {
-                Mensaje = "Articulo agotado";
-                return;
-            }
-            else if (Cantidad > articulo.Existencia)
-            {
-                Mensaje = "Cantidad de articulo insuficiente";
-                return;
-            }
-            else if(Cantidad <= 0)
+            if(Cantidad <= 0)
             {
                 Mensaje = "La cantidad debe ser mayor que 0";
                 return;
@@ -73,10 +64,5 @@
             Mensaje = "Seleccione un articulo";
             return;
         }
-    }
-
-    public void LimpiarMensaje()
-    {
-        Mensaje = string.Empty;
     }
 }
