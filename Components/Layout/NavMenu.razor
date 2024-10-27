@@ -1,4 +1,4 @@
-﻿<div class="top-row ps-3 navbar navbar-dark bg-secondary">
+﻿<div class="top-row ps-3 navbar navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href=""><strong>Registro técnicos</strong> <i class="bi bi-people-fill fs-3" /></a>
     </div>
@@ -6,19 +6,11 @@
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler " />
 
-<div class="nav-scrollable bg-danger" onclick="document.querySelector('.navbar-toggler').click()">
+<div class="nav-scrollable bg-menu" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-
-        <!-- Crear Técnico -->
-        <div class="nav-item px-3">
-            <NavLink class="nav-link d-flex align-items-center" href="/Tecnicos/Create">
-                <span class=" bi bi-person-fill-add fs-4" style="line-height: 1;"></span>
-                <span class="ms-2" style="line-height: 1.2;">Crear t&eacute;cnico</span>
             </NavLink>
         </div>
 
@@ -30,28 +22,11 @@
             </NavLink>
         </div>
 
-
-        <!--Crear tipo tecnico-->
-        <div class="nav-item px-3">
-            <NavLink class="nav-link d-flex align-items-center" href="TiposTecnicos/CreateTipoTecnico">
-                <span class="bi bi-plus-lg fs-4" style="line-height: 1;"></span>
-                <span class="ms-2" style="line-height: 1.2;">Crear tipo t&eacute;cnico</span>
-            </NavLink>
-        </div>
-
         <!--Tipos tecnico lista-->
         <div class="nav-item px-3">
             <NavLink class="nav-link d-flex align-items-center" href="TiposTecnicos/IndexTipoTecnico">
                 <span class="bi bi-list-check fs-4" style="line-height: 1;"></span>
                 <span class="ms-2" style="line-height: 1.2;">Tipos t&eacute;cnicos</span>
-            </NavLink>
-        </div>
-
-        <!-- Crear cliente -->
-        <div class="nav-item px-3">
-            <NavLink class="nav-link d-flex align-items-center" href="/Clientes/CreateCliente">
-                <span class=" bi bi-person-fill-add fs-4" style="line-height: 1;"></span>
-                <span class="ms-2" style="line-height: 1.2;">Crear cliente</span>
             </NavLink>
         </div>
 
@@ -63,14 +38,6 @@
             </NavLink>
         </div>
 
-        <!-- Crear trabajo -->
-        <div class="nav-item px-3">
-            <NavLink class="nav-link d-flex align-items-center" href="/Trabajos/CreateTrabajo">
-                <span class=" bi bi-plus-lg fs-4" style="line-height: 1;"></span>
-                <span class="ms-2" style="line-height: 1.2;">Nuevo trabajo</span>
-            </NavLink>
-        </div>
-
         <!-- Trabajos lista -->
         <div class="nav-item px-3">
             <NavLink class="nav-link d-flex align-items-center" href="Trabajos/IndexTrabajo">
@@ -79,19 +46,19 @@
             </NavLink>
         </div>
 
-        <!--Crear prioridad-->
-        <div class="nav-item px-3">
-            <NavLink class="nav-link d-flex align-items-center" href="Prioridades/CreatePrioridad"> 
-                <span class="bi bi-plus-lg fs-4" style="line-height: 1;" />
-                <span class="ms-2" style="line-height: 1.2">Establecer prioridad</span>
-            </NavLink>
-        </div>
-
         <!--Prioridades lista-->
         <div class="nav-item px-3">
             <NavLink class="nav-link d-flex align-items-center" href="Prioridades/IndexPrioridad">
                 <span class="bi bi-list-check fs-4" style="line-height: 1;"></span>
-                <span class="ms-2" style="line-height:1.2"> Lista prioridades</span>
+                <span class="ms-2" style="line-height:1.2"> Prioridades</span>
+            </NavLink>
+        </div>
+
+        <!--Cotizaciones-->
+        <div class="nav-item px-3">
+            <NavLink class="nav-link d-flex align-items-center" href="Cotizaciones/Index">
+                <span class="bi bi-list-check fs-4" style="line-height: 1;"></span>
+                <span class="ms-2" style="line-height:1.2"> Cotizaciones</span>
             </NavLink>
         </div>
     </nav>
