@@ -1,0 +1,70 @@
+﻿@page "/Cotizaciones/View/{CotizacionId:int}"
+@rendermode InteractiveServer
+@inject CotizacionesService cotizacionesService
+@inject NavigationManager navigation
+
+
+<PageTitle>Detalles cotizaci&oacute;n</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		<div class="card-header text-center ">
+			<h5><strong>Detalles cotizaci&oacute;n</strong></h5>
+		</div>
+		<div class="card-body">
+			@*Datos*@
+			<div class="mb-1">
+				@*CotizacionId*@
+				<div><strong>Cotizaci&oacute;n ID:</strong> @Cotizacion.CotizacionId</div>
+				@*Fecha*@
+				<div><strong>Fecha:</strong> @Cotizacion.Fecha</div>
+				@*ClienteId*@
+				<div><strong>Cliente ID:</strong> @Cotizacion.ClienteId</div>
+				@*Observaciones*@
+				<div><strong>Observaciones:</strong> @Cotizacion.Observaciones</div>
+				@*Monto*@
+				<div><strong>Monto:</strong> @($"{Cotizacion.Monto:C}")</div>
+
+				@*DetallesUtilizados*@
+				<div class="border border-success p-3 mt-3">
+					<h5>Detalles de cotizaci&oacute;n</h5>
+					@foreach (var detalle in Cotizacion.CotizacionesDetalle)
+					{
+						<div>DetalleId: @detalle.DetalleId</div>
+						<div>CotizacionId: @detalle.CotizacionId</div>
+						<div>Articulo Id: @detalle.ArticuloId</div>
+						<div>Cantidad de Articulos: @detalle.Cantidad</div>
+						<div>Precio de Articulo: @detalle.Precio $</div>
+						<div>Total en Articulos: @(detalle.Precio * detalle.Cantidad) $</div>
+						<br />
+					}
+				</div>
+
+				<div class="card-footer text-center">
+					<a href="/Cotizaciones/Index"
+					   class="btn btn-outline-secondary">
+						<span class="bi bi-arrow-left mt-3"></span> Volver
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+@code {
+
+	[Parameter]
+	public int CotizacionId { get; set; }
+	public Cotizaciones Cotizacion { get; set; } = new Cotizaciones();
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (CotizacionId > 0)
+		{
+			Cotizacion = (await cotizacionesService.Buscar(CotizacionId));
+		}
+
+	}
+}
