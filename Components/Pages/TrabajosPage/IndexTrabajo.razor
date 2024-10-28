@@ -13,47 +13,78 @@
 		<div class="card-header bg-primary text-white text-center">
 			<h2 class="Clientes"> <strong>Registro trabajos <i class="bi bi-journal-bookmark-fill fs-2" /></strong></h2>
 		</div>
-		<div class="row">
-			@*Filtrar*@
-			<div class="col-md-3">
-				<label for="filtro" class="form-label btn btn-no-color bi bi-funnel fs-6"><strong>Filtrar por:</strong></label>
-				<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
-					<option value="Monto">Monto</option>
-					<option value="Fecha">Fecha</option>
-					<option value="Prioridad"> Prioridad</option>
-					<option value="idTrabajo">ID Trabajo</option>
-					<option value="idTecnico">ID Tecnico</option>
-					<option value="idCliente">ID Cliente</option>
-					<option value="idTipoTecnico">ID TipoTecnico</option>
-					<option value="NombreTecnico">NombreTecnico</option>
-					<option value="NombreCliente">NombreCliente</option>
-					<option value="DescripcionTipoTecnico">Descripci&oacute;n tipo tecnico</option>
-					<option value="DescripcionTrabajo">Descripci&oacute;n trabajo</option>
+		<div class="card-body">
+			@*labels*@
+			<div class="row">
 
-				</InputSelect>
+				@*Filtrar por*@
+				<div class="col-3">
+					<label for="filtro" class="col-form-label"><strong>Filtrar por</strong></label>
+				</div>
+
+				@*ValorFiltro*@
+				<div class="col-4">
+					<label for="valorFiltro" class="col-form-label"><strong>B&uacute;squeda</strong></label>
+				</div>
+
 			</div>
 
-			@*Buscar*@
-			<div class="col-md-6">
-				<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search "></label>
-				<div class="input-group">
-					<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
-					<button @onclick="Buscar" class="btn btn-outline-primary bi bi-search" type="button"> Buscar</button>
+			@*Inputs y botones*@
+			<div class="row align-items-center">
+				@*Filtrar*@
+				<div class="col-3">
+					<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
+
+						<option value="" selected disabled>Elija una opci&oacute;n</option>
+						<option value="Monto">Monto</option>
+						<option value="Fecha">Fecha</option>
+						<option value="Prioridad"> Prioridad</option>
+						<option value="idTrabajo">ID Trabajo</option>
+						<option value="idTecnico">ID Tecnico</option>
+						<option value="idCliente">ID Cliente</option>
+						<option value="idTipoTecnico">ID TipoTecnico</option>
+						<option value="NombreTecnico">NombreTecnico</option>
+						<option value="NombreCliente">NombreCliente</option>
+						<option value="DescripcionTipoTecnico">Descripci&oacute;n tipo tecnico</option>
+						<option value="DescripcionTrabajo">Descripci&oacute;n trabajo</option>
+
+					</InputSelect>
+				</div>
+
+				@*Buscar*@
+				<div class="col-md-6">
+					<div class="input-group">
+						<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
+						<button @onclick="Buscar" class="btn btn-outline-primary bi bi-search" type="button"> Buscar</button>
+					</div>
+				</div>
+
+				@*Restablecer*@
+				<div class="col-3">
+					<button type="button" class="btn btn-outline-secondary bi bi-arrow-counterclockwise"
+							@onclick="Restablecer">
+					</button>
+				</div>
+
+				@*FiltroFecha*@
+				<div class="row mt-3">
+
+					@*Desde*@
+					<div class="col-3">
+						<label for="desde" class="col-form-label"><strong>Desde</strong></label>
+						<InputDate id="desde" class="form-control" @bind-Value="Desde"></InputDate>
+					</div>
+
+					@*Hasta*@
+					<div class="col-3">
+						<label for="hasta" class="col-form-label"><strong>Hasta</strong></label>
+						<div class="input-group">
+							<InputDate id="hasta" class="form-control" @bind-Value="Hasta"></InputDate>
+						</div>
+
+					</div>
 				</div>
 			</div>
-
-
-			<div class="col-md-2">
-				@* Campo adicional para filtro por fecha *@
-				@if (Filtro == "Fecha")
-				{
-					<label for="FechaFiltro" class="form-label"><strong>Fecha</strong></label>
-					<InputDate id="FechaFiltro" class="form-control" @bind-Value="FechaFiltro" />
-				}
-			</div>
-		</div>
-
-		<div class="card-body">
 			<a href="/Trabajos/CreateTrabajo" class="btn btn-outline-primary bi bi-plus-square"> Crear</a>
 			<table class="table table-hover table-bordered text-center mt-3">
 				<thead class="table table-striped text-black ">
@@ -115,28 +146,26 @@
 					}
 				</tbody>
 			</table>
-			<div class="card-footer space-between">
-				<label class="ms-3"><strong>Cantidad:</strong> @Trabajo.Count</label>
-				<div class="col-5">
-					<label class="ms-5"><strong>Total:</strong> @($"{Trabajo.Sum(p => p.Monto):C}")</label>
-				</div>
-
-				@if (Busqueda)
-				{
-					<button type="button" class="btn btn-outline-secondary bi bi-arrow-left mt-3" @onclick="Volver"> Volver</button>
-
-				}
-			</div>
 		</div>
+
+		<div class="card-footer space-between">
+			<label class="ms-3"><strong>Cantidad:</strong> @Trabajo.Count</label>
+			<div class="col-5">
+				<label class="ms-5"><strong>Total:</strong> @($"{Trabajo.Sum(p => p.Monto):C}")</label>
+			</div>
+
+		</div>
+
 	</div>
 </div>
 
 @code {
 	public List<Trabajos> Trabajo = new List<Trabajos>();
-	public string Filtro = "idTrabajo";
+	public string Filtro = "";
 	public string ValorFiltro = "";
-	public bool Busqueda = false;
-	public DateTime? FechaFiltro { get; set; }
+	public DateTime? Desde { get; set; }
+
+	public DateTime? Hasta { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -157,10 +186,8 @@
 					break;
 
 				case "Fecha":
-					if (FechaFiltro.HasValue)
-					{
-						Trabajo = await trabajoService.Listar(c => c.Fecha.HasValue && c.Fecha.Value.Date == FechaFiltro.Value.Date);
-					}
+					Trabajo = await trabajoService
+					.Listar(f => f.Fecha >= Desde && f.Fecha <= Hasta);
 					break;
 
 				case "Prioridad" : 
@@ -212,19 +239,9 @@
 					break;
 
 			}
-			Busqueda = true;
-		}
-		else
-		{
-			Volver();
 		}
 	}
 
-	public async Task Volver()
-	{
-		Trabajo = await trabajoService.Listar(t => true);
-		Busqueda = false;
-	}
 
 	public async Task EnviarMensaje(Trabajos trabajo)
 	{
@@ -232,4 +249,14 @@
 		var urlWhatsApp = $"https://wa.me/+{trabajo.Cliente.WhatsApp}?text={Uri.EscapeDataString(mensaje)}";
 		await js.InvokeVoidAsync("open", urlWhatsApp, "_blank");
 	}
+
+	private async Task Restablecer()
+	{
+		Trabajo = await trabajoService.Listar(e => e.TrabajoId > 0);
+		Filtro = string.Empty;
+		ValorFiltro = string.Empty;
+		Desde = null;
+		Hasta = null;
+	}
+
 }

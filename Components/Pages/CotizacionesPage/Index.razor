@@ -21,12 +21,12 @@
 
                 @*Filtrar por*@
                 <div class="col-3">
-                    <label class="col-form-label"><strong>Filtrar por</strong></label>
+                    <label for="filtro" class="col-form-label"><strong>Filtrar por</strong></label>
                 </div>
 
                 @*ValorFiltro*@
                 <div class="col-4">
-                    <label class="col-form-label"><strong>B&uacute;squeda</strong></label>
+                    <label for="valorFiltro" class="col-form-label"><strong>B&uacute;squeda</strong></label>
                 </div>
 
             </div>
@@ -35,7 +35,7 @@
             <div class="row align-items-center">
                 @*filtro*@
                 <div class="col-3">
-                    <InputSelect class="form-select" @bind-Value="Filtro">
+                    <InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
                         <option value="" selected disabled>Elija una opci&oacute;n</option>
                         <option value="Cliente">Cliente</option>
                     </InputSelect>
@@ -44,7 +44,7 @@
                 @*Busqueda*@
                 <div class="col-4">
                     <div class="input-group">
-                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
+                        <input id="valorFiltro" class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
                         <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
                     </div>
                 </div>
@@ -62,15 +62,15 @@
 
                     @*Desde*@
                     <div class="col-3">
-                        <label class="col-form-label"><strong>Desde</strong></label>
-                        <InputDate class="form-control" @bind-Value="Desde"></InputDate>
+                        <label for="desde" class="col-form-label"><strong>Desde</strong></label>
+                        <InputDate id="desde" class="form-control" @bind-Value="Desde"></InputDate>
                     </div>
 
                     @*Hasta*@
                     <div class="col-3">
-                        <label class="col-form-label"><strong>Hasta</strong></label>
+                        <label for="hasta" class="col-form-label"><strong>Hasta</strong></label>
                         <div class="input-group">
-                            <InputDate class="form-control" @bind-Value="Hasta"></InputDate>
+                            <InputDate id="hasta" class="form-control" @bind-Value="Hasta"></InputDate>
                         </div>
 
                     </div>

@@ -10,29 +10,52 @@
 		<div class="card-header bg-primary text-white text-center">
 			<h2> <strong>Registro t&eacute;cnicos <i class="T&eacute;cnicos bi bi-person-rolodex fs-1" /></strong></h2>
 		</div>
-		<div class="row">
-			@*Filtrar*@
-			<div class="col-md-3">
-				<label for="filtro" class="form-label btn btn-no-color bi bi-funnel fs-6"><strong>Filtrar por:</strong></label>
-				<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
-					<option value="id">ID</option>
-					<option value="Nombre">NombreTecnico</option>
-					<option value ="Descripcion">Descripci&oacute;n</option>
-					<option value="SueldoHora">SueldoHora</option>
-				</InputSelect>
-			</div>
-
-			@*Buscar*@
-			<div class="col-md-6">
-				<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
-				<div class="input-group">
-					<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
-					<button @onclick="Buscar" class="btn btn-outline-primary bi bi-search" type="button"> Buscar</button>
-				</div>
-			</div>
-		</div>
 
 		<div class="card-body">
+			@*labels*@
+			<div class="row">
+
+				@*Filtrar por*@
+				<div class="col-3">
+					<label for="filtro" class="col-form-label"><strong>Filtrar por</strong></label>
+				</div>
+
+				@*ValorFiltro*@
+				<div class="col-4">
+					<label for="valorFiltro" class="col-form-label"><strong>B&uacute;squeda</strong></label>
+				</div>
+
+			</div>
+
+			@*Inputs y botones*@
+			<div class="row align-items-center">
+				@*Filtrar*@
+				<div class="col-md-3">
+					<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
+						<option value="" selected disabled>Elijja una opci&oacute;n</option>
+						<option value="id">ID</option>
+						<option value="Nombre">NombreTecnico</option>
+						<option value="Descripcion">Descripci&oacute;n</option>
+						<option value="SueldoHora">SueldoHora</option>
+					</InputSelect>
+				</div>
+
+				@*Buscar*@
+				<div class="col-md-6">
+					<div class="input-group">
+						<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
+						<button @onclick="Buscar" class="btn btn-outline-primary bi bi-search" type="button"> Buscar</button>
+					</div>
+				</div>
+
+				@*Restablecer*@
+				<div class="col-3">
+					<button type="button" class="btn btn-outline-secondary bi bi-arrow-counterclockwise"
+							@onclick="Restablecer">
+					</button>
+				</div>
+			</div>
+
 			<a href="/Tecnicos/Create" class="btn btn-outline-primary bi bi-plus-square mt-3"> Crear</a>
 			<table class="table table-hover text-center mt-3">
 				<thead class="table table-striped text-black ">
@@ -51,7 +74,7 @@
 				<tbody>
 					@foreach (var tecnico in Tecnico)
 					{
-						<tr class = "text-center align-middle" >
+						<tr class="text-center align-middle">
 							<td>@tecnico.TecnicoId</td>
 							<td>@tecnico.NombreTecnico</td>
 							<td>@tecnico.TipoTecnico.Descripcion</td>
@@ -66,23 +89,18 @@
 					}
 				</tbody>
 			</table>
+
+		</div>
 			<div class="card-footer">
 				<label class="ms-3"><strong>Cantidad:</strong> @Tecnico.Count</label>
-				@if (Busqueda)
-				{
-					<button type="button" class="btn btn-outline-secondary bi bi-arrow-left mt-3" @onclick="Volver"> Volver</button>
-
-				}
 			</div>
-		</div>
 	</div>
 </div>
 
 @code {
 	public List<Tecnicos> Tecnico = new List<Tecnicos>();
-	public string Filtro = "id";
+	public string Filtro = "";
 	public string ValorFiltro = "";
-	public bool Busqueda = false;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -117,17 +135,15 @@
 					break;
 
 			}
-			Busqueda = true;
-		}
-		else
-		{
-			Volver();
 		}
 	}
 
-	public async Task Volver()
+
+	private async Task Restablecer()
 	{
-		Tecnico = await tecnicoService.Listar(t => true);
-		Busqueda = false;
+		Tecnico = await tecnicoService.Listar(e => e.TecnicoId > 0);
+		Filtro = string.Empty;
+		ValorFiltro = string.Empty;
 	}
+
 }
