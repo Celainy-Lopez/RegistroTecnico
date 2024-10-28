@@ -11,9 +11,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        var ConStr = builder.Configuration.GetConnectionString("ConStr");
-        builder.Services.AddDbContext<Context>(c => c.UseSqlite(ConStr));
-
+        var ConStr = builder.Configuration.GetConnectionString("SqlConStr");
+        builder.Services.AddDbContextFactory<Context>(c => c.UseSqlServer(ConStr));
         //Inyeccion del servicio (service)
 
         builder.Services.AddScoped<TecnicoService>();
@@ -22,9 +21,10 @@ public class Program
         builder.Services.AddScoped<TrabajoService>();
         builder.Services.AddScoped<PrioridadService>();
         builder.Services.AddScoped<ArticuloService>();
+		builder.Services.AddScoped<CotizacionesService>();
 
-        // Add services to the container.
-        builder.Services.AddRazorComponents()
+		// Add services to the container.
+		builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
 
         var app = builder.Build();

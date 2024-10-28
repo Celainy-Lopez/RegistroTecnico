@@ -1,0 +1,162 @@
+﻿@page "/Cotizaciones/Index"
+
+@inject CotizacionesService cotizacionesService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Index</PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header space-between">
+            <h5 class="card-title">Registro Cotizaciones</h5>
+            <a href="/Cotizaciones/Create" class="btn btn-primary">
+                <span class="bi bi-plus-square mt-3"></span> Crear
+            </a>
+        </div>
+
+        <div class="card-body">
+
+            @*labels*@
+            <div class="row">
+
+                @*Filtrar por*@
+                <div class="col-3">
+                    <label for="filtro" class="col-form-label"><strong>Filtrar por</strong></label>
+                </div>
+
+                @*ValorFiltro*@
+                <div class="col-4">
+                    <label for="valorFiltro" class="col-form-label"><strong>B&uacute;squeda</strong></label>
+                </div>
+
+            </div>
+
+            @*Inputs y botones*@
+            <div class="row align-items-center">
+                @*filtro*@
+                <div class="col-3">
+                    <InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
+                        <option value="" selected disabled>Elija una opci&oacute;n</option>
+                        <option value="Cliente">Cliente</option>
+                    </InputSelect>
+                </div>
+
+                @*Busqueda*@
+                <div class="col-4">
+                    <div class="input-group">
+                        <input id="valorFiltro" class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
+                        <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
+                    </div>
+                </div>
+
+
+                @*Restablecer*@
+                <div class="col-3">
+                    <button type="button" class="btn btn-outline-secondary bi bi-arrow-counterclockwise"
+                            @onclick="Restablecer">
+                    </button>
+                </div>
+
+                @*FiltroFecha*@
+                <div class="row mt-3">
+
+                    @*Desde*@
+                    <div class="col-3">
+                        <label for="desde" class="col-form-label"><strong>Desde</strong></label>
+                        <InputDate id="desde" class="form-control" @bind-Value="Desde"></InputDate>
+                    </div>
+
+                    @*Hasta*@
+                    <div class="col-3">
+                        <label for="hasta" class="col-form-label"><strong>Hasta</strong></label>
+                        <div class="input-group">
+                            <InputDate id="hasta" class="form-control" @bind-Value="Hasta"></InputDate>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-hover text-center mt-3">
+                <thead class="table table-striped text-black ">
+                    <tr>
+                        <th><strong>Cotizaci&oacute;nId</strong></th>
+                        <th><strong>Fecha</strong></th>
+                        <th><strong>ClienteId</strong></th>
+                        <th><strong>Cliente</strong></th>
+                        <th><strong>Observaciones</strong></th>
+                        <th><strong>Monto</strong></th>
+                        <th><strong>Opciones</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cotizacion in ListaCotizaciones)
+                    {
+                        <tr>
+                            <td> @cotizacion.CotizacionId</td>
+                            <td> @cotizacion.Fecha.ToShortDateString()</td>
+                            <td> @cotizacion.ClienteId</td>
+                            <td> @cotizacion.Cliente.Nombres</td>
+                            <td> @cotizacion.Observaciones</td>
+                            <td> @cotizacion.Monto.ToString("N2")</td>
+
+                            <td class="text-center">
+                                <a href="/Cotizaciones/View/@cotizacion.CotizacionId" class="btn btn-outline-primary bi bi-eye"></a>
+                                <a href="/Cotizaciones/Edit/@cotizacion.CotizacionId"
+                                   class="btn btn-outline-primary bi bi-pencil-square"></a>
+                                <a href="/Cotizaciones/Delete/@cotizacion.CotizacionId" class="btn btn-outline-danger bi bi-trash"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer space-between">
+            <label class="ms-3"><strong>Cantidad:</strong> @ListaCotizaciones.Count</label>
+            <div class="col-5">
+                <label class="ms-5"><strong>Total:</strong> $@ListaCotizaciones.Sum(p => p.Monto).ToString("N2")</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public List<Cotizaciones> ListaCotizaciones { get; set; } = new List<Cotizaciones>();
+
+    public string Filtro { get; set; } = string.Empty;
+    public string ValorFiltro { get; set; } = string.Empty;
+
+    public DateTime? Desde { get; set; }
+
+    public DateTime? Hasta { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaCotizaciones = await cotizacionesService.Listar(c => c.CotizacionId > 0);
+        Desde = null;
+        Hasta = null;
+    }
+    private async Task Buscar()
+    {
+        if (Filtro == "Fecha")
+            ListaCotizaciones = await cotizacionesService
+            .Listar(f => f.Fecha >= Desde && f.Fecha <= Hasta);
+
+        else if (ValorFiltro.Trim() != "" && Filtro == "Deudor")
+        {
+            ListaCotizaciones = await cotizacionesService
+            .Listar(p => p.Cliente.Nombres.ToLower()
+            .Contains(ValorFiltro.ToLower()));
+        }
+    }
+    private async Task Restablecer()
+    {
+        ListaCotizaciones = await cotizacionesService.Listar(e => e.CotizacionId > 0);
+        Filtro = string.Empty;
+        ValorFiltro = string.Empty;
+        Desde = null;
+        Hasta = null;
+    }
+
+}

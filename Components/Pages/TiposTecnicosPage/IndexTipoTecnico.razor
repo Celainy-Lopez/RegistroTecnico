@@ -6,41 +6,61 @@
 <PageTitle>Tipos t&eacute;cnicos</PageTitle>
 <div class="container">
 	<div class="card shadow-lg">
-		<div class="card-header bg-danger text-white text-center">
+		<div class="card-header bg-primary text-white text-center">
 			<h2 class="Tipos t&eacute;cnicos"><strong>Registro tipos t&eacute;cnicos</strong> <i class="bi bi-journal-bookmark-fill fs-2" /></h2>
-		</div>
-		<div class="row">
-			@*Filtrar*@
-			<div class="col-md-3">
-				<label for="filtro" class="form-label btn btn-no-color text-danger bi bi-funnel fs-6">Filtrar por:</label>
-				<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
-					<option value="id">ID</option>
-					<option value="Descripcion">Descripcion</option>
-				</InputSelect>
-			</div>
-
-			@*Buscar*@
-			<div class="col-md-6">
-				<label for="valorFiltro" class="form-label text-white btn btn-no-color bi bi-search text-danger "></label>
-				<div class="input-group">
-					<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
-					<button @onclick="Buscar" class="btn btn-outline-danger bi bi-search" type="button"> Buscar</button>
-				</div>
-			</div>
 		</div>
 
 		<div class="card-body">
-			<a href="/TiposTecnicos/CreateTipoTecnico" class="btn btn-outline-danger bi bi-plus-square mt-3"> Crear</a>
-			<table class="table table-light table-bordered table-hover">
-				<thead class="table table-striped text-center bg-danger text-white">
+			@*labels*@
+			<div class="row">
+
+				@*Filtrar por*@
+				<div class="col-3">
+					<label for="filtro" class="col-form-label"><strong>Filtrar por</strong></label>
+				</div>
+
+				@*ValorFiltro*@
+				<div class="col-4">
+					<label for="valorFiltro" class="col-form-label"><strong>B&uacute;squeda</strong></label>
+				</div>
+
+			</div>
+
+			<div class="row align-items-center">
+				@*Filtrar*@
+				<div class="col-md-3">
+					<InputSelect id="filtro" class="form-select" @bind-Value="Filtro">
+						<option value="" selected disabled>Elija una opci&oacute;n</option>
+						<option value="id">ID</option>
+						<option value="Descripcion">Descripcion</option>
+					</InputSelect>
+				</div>
+
+				@*Buscar*@
+				<div class="col-md-6">
+					<div class="input-group">
+						<InputText id="valorFiltro" @bind-Value="ValorFiltro" class="form-control" placeholder="Buscar" />
+						<button @onclick="Buscar" class="btn btn-outline-primary bi bi-search" type="button"> Buscar</button>
+					</div>
+				</div>
+
+				@*Restablecer*@
+				<div class="col-3">
+					<button type="button" class="btn btn-outline-secondary bi bi-arrow-counterclockwise"
+							@onclick="Restablecer">
+					</button>
+				</div>
+			</div>
+
+			<a href="/TiposTecnicos/CreateTipoTecnico" class="btn btn-outline-primary bi bi-plus-square mt-3"> Crear</a>
+			<table class="table table-hover text-center mt-3">
+				<thead class="table table-striped text-black ">
 					<tr>
 						@*Id*@
 						<th>Tipo t&eacute;cnico ID</th>
 						@*Descripcion*@
 						<th>Descripci&oacute;n tipo t&eacute;cnico</th>
-						<th>Ver</th>
-						<th>Editar</th>
-						<th>Eliminar</th>
+						<th>Opciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -51,34 +71,27 @@
 							<td class="text-center">@tipoTecnico.Descripcion</td>
 
 							<td class="text-center">
-								<a href="/TiposTecnicos/DetailsTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-outline-danger bi bi-eye"></a>
-							</td>
-							<td class="text-center">
-								<a href="/TiposTecnicos/EditTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-outline-danger bi bi-pencil-square"></a>
-							</td>
-							<td class="text-center">
+								<a href="/TiposTecnicos/DetailsTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-outline-primary bi bi-eye"></a>
+								<a href="/TiposTecnicos/EditTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-outline-primary bi bi-pencil-square"></a>
 								<a href="/TiposTecnicos/DeleteTipoTecnico/@tipoTecnico.TipoTecnicoId" class="btn btn-outline-danger bi bi-trash"></a>
 							</td>
 						</tr>
 					}
 				</tbody>
 			</table>
-			<div class="card-footer">
-				@if (Busqueda)
-				{
-					<button type="button" class="btn btn-outline-secondary bi bi-arrow-left mt-3" @onclick="Volver"> Volver</button>
 
-				}
-			</div>
+		</div>
+
+		<div class="card-footer">
+			<label class="ms-3"><strong>Cantidad:</strong> @TipoTecnico.Count</label>
 		</div>
 	</div>
 </div>
 
 @code {
 	public List<TiposTecnicos> TipoTecnico = new List<TiposTecnicos>();
-	public string Filtro = "id";
+	public string Filtro = "";
 	public string ValorFiltro = "";
-	public bool Busqueda = false;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -103,17 +116,19 @@
 					break;
 
 			}
-			Busqueda = true;
-		}
-		else
-		{
-			Volver();
 		}
 	}
 
 	public async Task Volver()
 	{
 		TipoTecnico = await tipoTecnicoService.Listar(t => true);
-		Busqueda = false;
 	}
+
+	private async Task Restablecer()
+	{
+		TipoTecnico = await tipoTecnicoService.Listar(e => e.TipoTecnicoId > 0);
+		Filtro = string.Empty;
+		ValorFiltro = string.Empty;
+	}
+
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RegistroTecnico.Models;
-using SQLitePCL;
 
 namespace RegistroTecnico.DAL;
 
@@ -20,6 +19,9 @@ public class Context(DbContextOptions<Context> options) : DbContext(options)
 
 	public DbSet<TrabajosDetalle> TrabajosDetalles { get; set; }
 
+	public DbSet<Cotizaciones> Cotizaciones { get; set; }
+
+	public DbSet<CotizacionesDetalle> CotizacionesDetalle { get; set; }
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);

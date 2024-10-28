@@ -8,28 +8,31 @@
 	<DataAnnotationsValidator />
 	<div class="container">
 		<div class="card shadow-lg">
-			<div class="card-header bg-danger text-white text-center ">
+			<div class="card-header bg-primary text-white text-center ">
 				<h2><strong>Eliminar prioridad <i class="bi bi-journal-x" /></strong></h2>
 			</div>
 			<div class="card-body">
-				<h6><strong>¿Seguro que deseas eliminar esta priopiedad?</strong></h6>
-				@*PropiedadId*@
-				<p class="mb-0"><strong>Prioridad Id:</strong> @Prioridad.PrioridadId</p>
-				<div class="mb-1">
-					@*DescripcionPriopiedad*@
-					<p class="mb-0"><strong>Descripci&oacute;n prioridad:</strong> @Prioridad.DescripcionPrioridad</p>
-					@*Tiempo*@
-					<p class="mb-0"><strong>Tiempo: </strong> @TimeSpan.FromMinutes((double)Prioridad.Tiempo).ToString(@"hh\:mm\:ss")</p>
+				@if(Prioridad.Tiempo != null)
+				{
+					<h6><strong>¿Seguro que deseas eliminar esta priopiedad?</strong></h6>
+					@*PropiedadId*@
+					<p class="mb-0"><strong>Prioridad Id:</strong> @Prioridad.PrioridadId</p>
+					<div class="mb-1">
+						@*DescripcionPriopiedad*@
+						<p class="mb-0"><strong>Descripci&oacute;n prioridad:</strong> @Prioridad.DescripcionPrioridad</p>
+						@*Tiempo*@
+						<p class="mb-0"><strong>Tiempo: </strong> @TimeSpan.FromMinutes((double)Prioridad.Tiempo).ToString(@"hh\:mm\:ss")</p>
 
 
-					<div class="card-footer">
-						<a href="/Prioridades/IndexPrioridad"
-						   class="btn btn-outline-secondary">
-							<span class="bi bi-arrow-left mt-3"></span> Volver
-						</a>
-						<button type="button" class="btn btn-outline-danger bi bi-trash" @onclick=EliminarPrioridad> Eliminar</button>
+						<div class="card-footer">
+							<a href="/Prioridades/IndexPrioridad"
+							   class="btn btn-outline-secondary">
+								<span class="bi bi-arrow-left mt-3"></span> Volver
+							</a>
+							<button type="button" class="btn btn-outline-danger bi bi-trash" @onclick=EliminarPrioridad> Eliminar</button>
+						</div>
 					</div>
-				</div>
+				}
 			</div>
 		</div>
 	</div>
